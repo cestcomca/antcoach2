@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ANT COACH — Personal Training</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --r:#8B0000;--r2:#A50000;--rl:rgba(139,0,0,0.12);--rb:rgba(139,0,0,0.25);
+  --b:#00BFFF;--bl:rgba(0,191,255,0.09);--bb:rgba(0,191,255,0.28);
+  --bg:#0A0A0A;--c1:#141414;--c2:#1C1C1C;--c3:#242424;
+  --tx:#F8F8F8;--txm:#888;--txd:#444;
+  --gr:#4CAF7A;--or:#E8953A;--gold:#FFD700;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.page{display:none;}.page.on{display:block;}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;border-bottom:0.5px solid var(--rb);position:sticky;top:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);z-index:100;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--r2);}
+.nav-sub{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txm);margin-top:1px;}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;}
+.nav-btn.r{background:var(--r);color:#fff;border:none;}
+.nav-btn.r:hover{opacity:0.85;}
+.nav-btn.ghost{background:transparent;border:0.5px solid var(--bb);color:var(--b);}
+.nav-btn.ghost:hover{background:var(--bl);}
+
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 57px);}
+.hero-left{padding:50px 40px;display:flex;flex-direction:column;justify-content:center;border-right:0.5px solid var(--rb);}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--rl);border:0.5px solid var(--rb);border-radius:20px;padding:5px 12px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--r2);margin-bottom:20px;width:fit-content;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:56px;line-height:1;letter-spacing:2px;margin-bottom:16px;}
+.hero-title span{color:var(--b);}
+.hero-desc{font-size:14px;color:var(--txm);line-height:1.7;max-width:420px;margin-bottom:36px;}
+.trust-row{display:flex;align-items:center;gap:16px;font-size:11px;color:var(--txm);margin-top:24px;}
+.trust-item{display:flex;align-items:center;gap:5px;}
+
+/* ── FORMULES ── */
+.formules-section{padding:60px 40px;border-bottom:0.5px solid var(--rb);}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;margin-bottom:6px;}
+.section-sub{font-size:14px;color:var(--txm);margin-bottom:36px;}
+.formules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.fc{background:var(--c1);border:0.5px solid var(--rb);border-radius:14px;padding:22px;cursor:pointer;transition:all 0.2s;position:relative;}
+.fc:hover{border-color:var(--bb);background:rgba(0,191,255,0.03);}
+.fc.featured{border:1.5px solid var(--b);}
+.fc.new-f{border:1.5px solid var(--gold);}
+.fc-badge{position:absolute;top:-10px;left:16px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;padding:3px 10px;border-radius:20px;}
+.fc-badge.blue{background:var(--b);color:#000;}
+.fc-badge.gold{background:var(--gold);color:#000;}
+.fc-icon-wrap{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px;}
+.fc-name{font-size:15px;font-weight:500;margin-bottom:4px;}
+.fc-price-big{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:4px;}
+.fc-price-sub{font-size:11px;color:var(--txm);margin-bottom:14px;}
+.fc-items{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;}
+.fc-item{font-size:11px;color:var(--txm);display:flex;align-items:center;gap:6px;line-height:1.4;}
+.fc-item i{font-size:12px;flex-shrink:0;}
+.fc-item.lock{color:var(--txd);}
+.fc-item.lock i{color:var(--txd);}
+.fc-cta{width:100%;padding:11px;border-radius:9px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s;border:none;}
+.fc-cta.bl{background:var(--bl);border:0.5px solid var(--bb);color:var(--b);}
+.fc-cta.gold-btn{background:rgba(255,215,0,0.12);border:0.5px solid rgba(255,215,0,0.3);color:var(--gold);}
+.fc-cta.ghost{background:transparent;border:0.5px solid var(--rb);color:var(--txm);}
+.fc-cta:hover{opacity:0.85;}
+
+/* ── LOGIN BLOCK ── */
+.hero-right{padding:50px 40px;display:flex;align-items:center;justify-content:center;}
+.login-box{background:var(--c1);border:0.5px solid var(--rb);border-radius:16px;padding:28px;width:100%;max-width:360px;}
+.lb-title{font-size:18px;font-weight:500;margin-bottom:4px;}
+.lb-sub{font-size:12px;color:var(--txm);margin-bottom:22px;}
+.role-toggle{display:flex;background:var(--c2);border-radius:8px;padding:3px;margin-bottom:20px;}
+.role-btn{flex:1;padding:7px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--txm);font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.role-btn.on{background:var(--r);color:#fff;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:5px;}
+.field input{width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;}
+.field input:focus{border-color:var(--b);}
+.field input::placeholder{color:var(--txd);}
+.forgot{font-size:11px;color:var(--txm);text-align:right;margin-top:-8px;margin-bottom:18px;cursor:pointer;}
+.forgot:hover{color:var(--b);}
+.login-btn-main{width:100%;background:var(--r);color:#fff;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:14px;transition:opacity 0.2s;}
+.login-btn-main:hover{opacity:0.85;}
+.divider{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.divider::before,.divider::after{content:'';flex:1;height:0.5px;background:rgba(255,255,255,0.07);}
+.divider span{font-size:11px;color:var(--txd);}
+.new-client-btn{width:100%;background:transparent;border:0.5px solid var(--bb);border-radius:9px;padding:11px;font-size:12px;color:var(--b);font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.2s;}
+.new-client-btn:hover{background:var(--bl);}
+.quick-defi-btn{width:100%;background:rgba(255,215,0,0.08);border:0.5px solid rgba(255,215,0,0.25);border-radius:9px;padding:10px;font-size:11px;color:var(--gold);font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;margin-top:8px;}
+.quick-defi-btn:hover{background:rgba(255,215,0,0.14);}
+
+/* ── QUESTIONNAIRE ── */
+.questionnaire{display:flex;flex-direction:column;min-height:100vh;}
+.q-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:0.5px solid var(--rb);}
+.q-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:var(--r2);}
+.q-back{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txm);cursor:pointer;}
+.q-back:hover{color:var(--b);}
+.q-prog{height:3px;background:var(--c2);}
+.q-prog-fill{height:100%;background:var(--r2);transition:width 0.4s ease;}
+.q-body{flex:1;display:flex;}
+.q-left{width:250px;flex-shrink:0;border-right:0.5px solid var(--rb);padding:26px 22px;}
+.q-steps{display:flex;flex-direction:column;gap:4px;}
+.q-step{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;}
+.q-step.done{background:var(--rl);}
+.q-step.active{background:var(--bl);border:0.5px solid var(--bb);}
+.q-step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;background:var(--c3);color:var(--txm);}
+.q-step.done .q-step-num{background:var(--r);color:#fff;}
+.q-step.active .q-step-num{background:var(--b);color:#000;}
+.q-step-lbl{font-size:11px;color:var(--txm);}
+.q-step.active .q-step-lbl{color:var(--b);}
+.q-step.done .q-step-lbl{color:var(--tx);}
+.q-right{flex:1;padding:32px 36px;overflow-y:auto;}
+.qs{display:none;}.qs.on{display:block;}
+.q-title{font-size:20px;font-weight:500;margin-bottom:4px;}
+.q-sub{font-size:13px;color:var(--txm);margin-bottom:24px;}
+.qf{margin-bottom:14px;}
+.qf label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:5px;}
+.qf input,.qf select,.qf textarea{width:100%;background:var(--c1);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;}
+.qf input:focus,.qf select:focus,.qf textarea:focus{border-color:var(--b);}
+.qf input::placeholder,.qf textarea::placeholder{color:var(--txd);}
+.qf textarea{resize:none;}
+.qf select option{background:var(--c1);}
+.qrow{display:flex;gap:12px;}
+.qrow .qf{flex:1;}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.choice-card{background:var(--c1);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;}
+.choice-card:hover{border-color:var(--bb);}
+.choice-card.sel{border:1.5px solid var(--b);background:var(--bl);}
+.cc-t{font-size:12px;font-weight:500;margin-bottom:3px;}
+.cc-d{font-size:10px;color:var(--txm);}
+.scale-row{display:flex;gap:6px;margin-bottom:14px;}
+.scale-btn{flex:1;padding:10px;border-radius:8px;background:var(--c1);border:0.5px solid rgba(255,255,255,0.08);font-size:13px;font-weight:500;cursor:pointer;text-align:center;transition:all 0.2s;color:var(--tx);}
+.scale-btn:hover{border-color:var(--bb);}
+.scale-btn.sel{background:var(--r);border-color:var(--r);}
+.q-nav-btns{display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding-top:20px;border-top:0.5px solid rgba(255,255,255,0.06);}
+.q-btn-prev{background:transparent;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 20px;font-size:12px;color:var(--txm);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.q-btn-next{background:var(--r);border:none;border-radius:8px;padding:10px 24px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;}
+.q-btn-next:hover{opacity:0.85;}
+.formule-select-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.fs-card{background:var(--c1);border:0.5px solid var(--rb);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;position:relative;}
+.fs-card:hover{border-color:var(--bb);}
+.fs-card.sel{border:1.5px solid var(--b);background:rgba(0,191,255,0.04);}
+.fs-card.sel-gold{border:1.5px solid var(--gold);background:rgba(255,215,0,0.04);}
+.fs-badge{position:absolute;top:-9px;left:14px;font-size:9px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.fs-badge.blue{background:var(--b);color:#000;}
+.fs-badge.gold{background:var(--gold);color:#000;}
+.fs-name{font-size:13px;font-weight:500;margin-bottom:4px;}
+.fs-price{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+.fs-price.bl{color:var(--b);}
+.fs-price.go{color:var(--gold);}
+.fs-items{margin-top:10px;display:flex;flex-direction:column;gap:4px;}
+.fs-item{font-size:10px;color:var(--txm);display:flex;align-items:flex-start;gap:5px;}
+.fs-item i{font-size:11px;color:var(--b);margin-top:1px;flex-shrink:0;}
+.fs-item.lock i{color:var(--txd);}
+.success-box{text-align:center;padding:50px 20px;}
+.success-icon{width:72px;height:72px;border-radius:50%;background:rgba(76,175,122,0.15);border:1.5px solid rgba(76,175,122,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;}
+.modal-bg.show{display:flex;}
+.modal-box{background:var(--c1);border:0.5px solid var(--rb);border-radius:16px;padding:28px;width:90%;max-width:420px;position:relative;}
+.modal-close{position:absolute;top:12px;right:14px;width:26px;height:26px;background:var(--c2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);}
+.modal-title{font-size:16px;font-weight:500;margin-bottom:6px;}
+.modal-sub{font-size:12px;color:var(--txm);margin-bottom:18px;line-height:1.5;}
+/* Toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--c1);border:0.5px solid var(--rb);border-radius:10px;padding:10px 16px;font-size:12px;color:var(--gr);display:none;align-items:center;gap:7px;z-index:999;}
+.toast.show{display:flex;}
+/* Payment modal */
+.pay-box{background:var(--c2);border-radius:10px;padding:14px;margin-bottom:14px;}
+.pay-amount{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);letter-spacing:1px;}
+.pay-desc{font-size:11px;color:var(--txm);margin-top:2px;}
+.pay-input{width:100%;background:var(--bg);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:8px;}
+.pay-input::placeholder{color:var(--txd);}
+.pay-input:focus{border-color:var(--gold);}
+.pay-btn{width:100%;background:var(--gold);color:#000;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:6px;}
+/* notify modal */
+.notify-icon{width:56px;height:56px;border-radius:50%;background:var(--bl);border:1.5px solid var(--bb);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+
+/* SWITCHER PC/MOBILE */
+.vs{position:fixed;top:12px;right:14px;z-index:400;display:flex;gap:5px;background:var(--c1);border:0.5px solid var(--rb);border-radius:20px;padding:4px;}
+.vsb{padding:5px 13px;border-radius:16px;font-size:10px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--txm);font-family:inherit;display:flex;align-items:center;gap:4px;transition:all 0.15s;}
+.vsb.on{background:var(--r);color:#fff;}
+/* MOBILE VIEW */
+.mob-view{display:none;}
+.mob-phone{width:100%;max-width:390px;background:var(--bg);border:0.5px solid rgba(255,255,255,0.08);border-radius:40px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.7);margin:0 auto;}
+.mob-inner{display:flex;flex-direction:column;}
+.mob-scroll-area{overflow-y:auto;max-height:680px;scrollbar-width:none;}
+.mob-scroll-area::-webkit-scrollbar{display:none;}
+.mob-topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 17px 10px;border-bottom:0.5px solid var(--rb);}
+.mob-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--r2);}
+.mob-section{padding:18px 16px;border-bottom:0.5px solid var(--rb);}
+.mob-card{background:var(--c1);border:0.5px solid var(--rb);border-radius:12px;padding:16px;margin-bottom:10px;position:relative;}
+.mob-card.f{border:1.5px solid var(--b);}
+.mob-card.g{border:1.5px solid var(--gold);}
+.mob-badge{position:absolute;top:-9px;left:12px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;padding:3px 9px;border-radius:20px;}
+.mob-badge.blue{background:var(--b);color:#000;}
+.mob-badge.gold{background:var(--gold);color:#000;}
+.mob-price{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+.mob-items{display:flex;flex-direction:column;gap:4px;margin:10px 0;}
+.mob-item{font-size:11px;color:var(--txm);display:flex;align-items:flex-start;gap:5px;}
+.mob-item i{font-size:11px;flex-shrink:0;margin-top:1px;}
+.mob-item.lock{color:var(--txd);}
+.mob-item.opt{color:var(--or);}
+.mob-cta{width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;border:none;margin-top:8px;}
+.mob-cta.bl{background:var(--bl);border:0.5px solid var(--bb);color:var(--b);}
+.mob-cta.gold-c{background:rgba(255,215,0,0.12);border:0.5px solid rgba(255,215,0,0.3);color:var(--gold);}
+.mob-cta.g2{background:transparent;border:0.5px solid var(--rb);color:var(--txm);}
+.mob-login{background:var(--c1);border:0.5px solid var(--rb);border-radius:12px;padding:16px;}
+.mob-role{display:flex;background:var(--c2);border-radius:8px;padding:3px;margin-bottom:14px;}
+.mob-role-btn{flex:1;padding:7px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--txm);font-family:'DM Sans',sans-serif;}
+.mob-role-btn.on{background:var(--r);color:#fff;}
+.mob-field{margin-bottom:10px;}
+.mob-field label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:4px;}
+.mob-field input{width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 11px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;}
+.mob-field input:focus{border-color:var(--b);}
+.mob-field input::placeholder{color:var(--txd);}
+.mob-login-btn{width:100%;background:var(--r);color:#fff;border:none;border-radius:8px;padding:11px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:10px;}
+.mob-divider{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mob-divider::before,.mob-divider::after{content:'';flex:1;height:0.5px;background:rgba(255,255,255,0.07);}
+.mob-divider span{font-size:10px;color:var(--txd);}
+.mob-new-btn{width:100%;background:transparent;border:0.5px solid var(--bb);border-radius:8px;padding:10px;font-size:12px;color:var(--b);font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:7px;}
+.mob-challenger-btn{width:100%;background:rgba(255,215,0,0.08);border:0.5px solid rgba(255,215,0,0.25);border-radius:8px;padding:10px;font-size:11px;color:var(--gold);font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+</style>
+</head>
+<body>
+<div class="vs" id="view-sw">
+  <button class="vsb on" id="vs-pc" onclick="setView('pc')"><i class="ti ti-device-desktop" style="font-size:11px"></i>PC</button>
+  <button class="vsb" id="vs-mob" onclick="setView('mob')"><i class="ti ti-device-mobile" style="font-size:11px"></i>Mobile</button>
+</div>
+
+<!-- ══════════ LANDING ══════════ -->
+<div class="page on" id="page-landing">
+  <div class="nav">
+    <div>
+      <div class="nav-logo">ANT COACH</div>
+      <div class="nav-sub">Personal Training</div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="nav-btn ghost" onclick="scrollLogin()"><i class="ti ti-login" style="font-size:14px"></i>Se connecter</button>
+      <button class="nav-btn r" onclick="showPage('page-q');initQ()"><i class="ti ti-clipboard-plus" style="font-size:14px"></i>Devenir client</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag"><i class="ti ti-bolt" style="font-size:12px"></i>Coaching personnalisé</div>
+      <div class="hero-title">Transforme<br>ton corps<br><span>avec Antoine</span></div>
+      <div class="hero-desc">Programme sur mesure, suivi nutrition, accompagnement quotidien. Choisis la formule qui correspond à ton rythme de vie — et commence dès aujourd'hui.</div>
+      <div class="trust-row">
+        <div class="trust-item"><i class="ti ti-lock" style="font-size:13px;color:var(--gr)"></i>Données sécurisées</div>
+        <div class="trust-item"><i class="ti ti-star" style="font-size:13px;color:var(--b)"></i>+50 clients transformés</div>
+        <div class="trust-item"><i class="ti ti-certificate" style="font-size:13px;color:var(--or)"></i>Coach certifié</div>
+      </div>
+    </div>
+    <div class="hero-right" id="login-section">
+      <div class="login-box">
+        <div class="lb-title">Connexion</div>
+        <div class="lb-sub">Accède à ton espace de suivi personnalisé</div>
+
+        <div class="field"><label>Adresse e-mail</label><input type="email" id="login-email" placeholder="ton@email.com"></div>
+        <div class="field"><label>Mot de passe</label><input type="password" id="login-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')handleLogin()"></div>
+        <div class="forgot">Mot de passe oublié ?</div>
+        <button class="login-btn-main" id="login-main-btn" onclick="handleLogin()">Se connecter →</button>
+        <div class="divider"><span>Nouveau ici ?</span></div>
+        <button class="new-client-btn" onclick="showPage('page-q');initQ()"><i class="ti ti-clipboard-plus" style="font-size:15px"></i>Questionnaire coaching complet</button>
+        <button class="quick-defi-btn" onclick="openPayModal()"><i class="ti ti-bolt" style="font-size:14px"></i>Accès Challenger — 9,99 €</button>
+        <div style="margin-top:12px;font-size:10px;color:var(--txd);text-align:center">En continuant vous acceptez nos conditions d'utilisation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULES -->
+  <div class="formules-section">
+    <div style="text-align:center;margin-bottom:40px">
+      <div class="section-title">Nos formules</div>
+      <div class="section-sub">Chaque formule est adaptée à ton objectif et ton mode de vie</div>
+    </div>
+    <div class="formules-grid">
+
+      <!-- FORMULE DÉFIS -->
+      <div class="fc new-f" onclick="openPayModal()">
+        <div class="fc-badge gold">Accès immédiat</div>
+        <div class="fc-icon-wrap" style="background:rgba(255,215,0,0.1)"><i class="ti ti-bolt" style="color:var(--gold)"></i></div>
+        <div class="fc-name">Challenger</div>
+        <div class="fc-price-big" style="color:var(--gold)">9,99 €</div>
+        <div class="fc-price-sub">paiement unique — accès à vie</div>
+        <div class="fc-items">
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--gold)"></i>Page d'accueil & statistiques</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--gold)"></i>5 défis sportifs par jour</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--gold)"></i>Système XP & niveaux</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--gold)"></i>Suivi eau / sommeil / pas</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--gold)"></i>Galerie photos personnelle</div>
+          <div class="fc-item lock"><i class="ti ti-lock"></i>Programme musculation personnalisé</div>
+          <div class="fc-item lock"><i class="ti ti-lock" style="color:var(--txd)"></i>Diète & macros détaillées</div>
+          <div class="fc-item lock"><i class="ti ti-lock" style="color:var(--txd)"></i>Appels & notes coach</div>
+        </div>
+        <button class="fc-cta gold-btn">Commencer maintenant →</button>
+      </div>
+
+      <!-- FORMULE PRÉSENTIEL -->
+      <div class="fc" onclick="showPage('page-q');initQ();setFormule('presentiel')">
+        <div class="fc-icon-wrap" style="background:var(--rl)"><i class="ti ti-map-pin" style="color:var(--r2)"></i></div>
+        <div class="fc-name">Coaching Présentiel</div>
+        <div class="fc-price-big" style="color:var(--b)">Sur devis</div>
+        <div class="fc-price-sub">coaching sur plateau avec Antoine</div>
+        <div class="fc-items">
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Séances sur plateau</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Programme personnalisé</div>
+          <div class="fc-item" style="color:var(--or)"><i class="ti ti-circle-dot" style="color:var(--or)"></i>Suivi nutritionnel (optionnel)</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Correction technique vidéo</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Bilans mensuels</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Accès app complète</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Notes & suivi coach</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Défis & XP inclus</div>
+        </div>
+        <button class="fc-cta ghost">Remplir le questionnaire →</button>
+      </div>
+
+      <!-- FORMULE DISTANCIEL -->
+      <div class="fc featured" onclick="showPage('page-q');initQ();setFormule('distanciel')">
+        <div class="fc-badge blue">Populaire</div>
+        <div class="fc-icon-wrap" style="background:var(--bl)"><i class="ti ti-phone" style="color:var(--b)"></i></div>
+        <div class="fc-name">Coaching Distanciel</div>
+        <div class="fc-price-big" style="color:var(--b)">Sur devis</div>
+        <div class="fc-price-sub">suivi vidéo & appels réguliers</div>
+        <div class="fc-items">
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Appels vidéo de suivi</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Programme 100% sur mesure</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Suivi nutrition & macros</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Correction technique vidéo</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Accès app complète</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Disponibilité WhatsApp</div>
+          <div class="fc-item"><i class="ti ti-check" style="color:var(--b)"></i>Défis & XP inclus</div>
+        </div>
+        <button class="fc-cta bl">Remplir le questionnaire →</button>
+      </div>
+
+    </div>
+    <!-- COMPARATIF RAPIDE -->
+    <div style="margin-top:32px;background:var(--c1);border:0.5px solid var(--rb);border-radius:12px;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:0.5px solid var(--rb);">
+        <div style="padding:12px 16px;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm)">Fonctionnalité</div>
+        <div style="padding:12px 8px;text-align:center;font-size:11px;font-weight:500;color:var(--gold)"><i class="ti ti-bolt" style="font-size:11px;display:block;margin:0 auto 2px"></i>Challenger</div>
+        <div style="padding:12px 16px;text-align:center;font-size:11px;font-weight:500;color:var(--b)">Présentiel</div>
+        <div style="padding:12px 16px;text-align:center;font-size:11px;font-weight:500;color:var(--b)">Distanciel</div>
+      </div>
+      <div id="compare-rows"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ QUESTIONNAIRE ══════════ -->
+<div class="page" id="page-q">
+  <div class="questionnaire">
+    <div class="q-nav">
+      <div class="q-logo">ANT COACH</div>
+      <button class="q-back" onclick="showPage('page-landing')"><i class="ti ti-arrow-left" style="font-size:15px"></i>Retour</button>
+    </div>
+    <div class="q-prog"><div class="q-prog-fill" id="q-prog" style="width:14%"></div></div>
+    <div class="q-body">
+      <div class="q-left">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--txm);margin-bottom:14px">Étapes</div>
+        <div class="q-steps" id="q-steps"></div>
+        <div style="margin-top:22px;padding:11px;background:var(--rl);border-radius:10px;border:0.5px solid var(--rb)">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--r2);margin-bottom:5px">Besoin d'aide ?</div>
+          <div style="font-size:11px;color:var(--txm);line-height:1.5">Ces infos permettent à Antoine de créer ton programme personnalisé.</div>
+        </div>
+      </div>
+      <div class="q-right">
+        <!-- STEP 1 -->
+        <div class="qs on" id="qs-1">
+          <div class="q-title">Informations personnelles</div>
+          <div class="q-sub">Dis-moi qui tu es pour personnaliser ton suivi</div>
+          <div class="qrow"><div class="qf"><label>Prénom</label><input type="text" placeholder="Ex : Lucas"></div><div class="qf"><label>Nom</label><input type="text" placeholder="Ex : Martin"></div></div>
+          <div class="qrow"><div class="qf"><label>Email</label><input type="email" placeholder="ton@email.com"></div><div class="qf"><label>Téléphone</label><input type="tel" placeholder="06 00 00 00 00"></div></div>
+          <div class="qrow"><div class="qf"><label>Date de naissance</label><input type="date"></div><div class="qf"><label>Genre</label><select><option value="">Sélectionner</option><option>Homme</option><option>Femme</option><option>Autre</option></select></div></div>
+          <div class="qf"><label>Ville / Région</label><input type="text" placeholder="Ex : Lyon, Rhône-Alpes"></div>
+          <div class="q-nav-btns"><div></div><button class="q-btn-next" onclick="goQ(2)">Suivant <i class="ti ti-arrow-right" style="font-size:14px"></i></button></div>
+        </div>
+        <!-- STEP 2 -->
+        <div class="qs" id="qs-2">
+          <div class="q-title">Tes objectifs</div>
+          <div class="q-sub">Qu'est-ce qui t'a amené à chercher un coach ?</div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Objectif principal</div>
+          <div class="choice-grid">
+            <div class="choice-card" onclick="selChoice(this,'obj')"><i class="ti ti-trending-down" style="font-size:18px;color:var(--r2);margin-bottom:6px;display:block"></i><div class="cc-t">Perdre du poids</div><div class="cc-d">Déficit calorique contrôlé</div></div>
+            <div class="choice-card" onclick="selChoice(this,'obj')"><i class="ti ti-barbell" style="font-size:18px;color:var(--b);margin-bottom:6px;display:block"></i><div class="cc-t">Prendre du muscle</div><div class="cc-d">Hypertrophie et force</div></div>
+            <div class="choice-card" onclick="selChoice(this,'obj')"><i class="ti ti-heart-rate-monitor" style="font-size:18px;color:var(--gr);margin-bottom:6px;display:block"></i><div class="cc-t">Améliorer ma condition</div><div class="cc-d">Endurance et santé</div></div>
+            <div class="choice-card" onclick="selChoice(this,'obj')"><i class="ti ti-medal" style="font-size:18px;color:var(--or);margin-bottom:6px;display:block"></i><div class="cc-t">Performance sportive</div><div class="cc-d">Objectif compétition</div></div>
+          </div>
+          <div class="qf"><label>Délai pour atteindre ton objectif</label><select><option value="">Sélectionner</option><option>1 à 3 mois</option><option>3 à 6 mois</option><option>6 mois à 1 an</option><option>Plus d'1 an</option></select></div>
+          <div class="qf"><label>Décris ton objectif</label><textarea rows="3" placeholder="Ex : Je veux perdre 10kg avant l'été..."></textarea></div>
+          <div class="q-nav-btns"><button class="q-btn-prev" onclick="goQ(1)"><i class="ti ti-arrow-left" style="font-size:13px"></i> Précédent</button><button class="q-btn-next" onclick="goQ(3)">Suivant <i class="ti ti-arrow-right" style="font-size:14px"></i></button></div>
+        </div>
+        <!-- STEP 3 -->
+        <div class="qs" id="qs-3">
+          <div class="q-title">Physique & santé</div>
+          <div class="q-sub">Pour calibrer ton programme avec précision</div>
+          <div class="qrow"><div class="qf"><label>Taille (cm)</label><input type="number" placeholder="175"></div><div class="qf"><label>Poids actuel (kg)</label><input type="number" placeholder="83"></div><div class="qf"><label>Poids objectif (kg)</label><input type="number" placeholder="75"></div></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Blessures ou douleurs actuelles ?</div>
+          <div class="choice-grid" style="grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px">
+            <div class="choice-card" onclick="selChoice(this,'bless',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Dos / lombaires</div></div>
+            <div class="choice-card" onclick="selChoice(this,'bless',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Genou</div></div>
+            <div class="choice-card" onclick="selChoice(this,'bless',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Épaule</div></div>
+            <div class="choice-card" onclick="selChoice(this,'bless',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Aucune</div></div>
+          </div>
+          <div class="qf"><label>Contre-indications médicales</label><textarea rows="2" placeholder="Ex : hernie discale, diabète... ou aucune"></textarea></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Niveau de stress quotidien (1=faible, 5=élevé)</div>
+          <div class="scale-row"><div class="scale-btn" onclick="selScale(this)">1</div><div class="scale-btn" onclick="selScale(this)">2</div><div class="scale-btn" onclick="selScale(this)">3</div><div class="scale-btn" onclick="selScale(this)">4</div><div class="scale-btn" onclick="selScale(this)">5</div></div>
+          <div class="q-nav-btns"><button class="q-btn-prev" onclick="goQ(2)"><i class="ti ti-arrow-left" style="font-size:13px"></i> Précédent</button><button class="q-btn-next" onclick="goQ(4)">Suivant <i class="ti ti-arrow-right" style="font-size:14px"></i></button></div>
+        </div>
+        <!-- STEP 4 -->
+        <div class="qs" id="qs-4">
+          <div class="q-title">Mode de vie & alimentation</div>
+          <div class="q-sub">Pour adapter ta diète à ton quotidien</div>
+          <div class="qrow"><div class="qf"><label>Profession</label><input type="text" placeholder="Ex : Ingénieur, Étudiant..."></div><div class="qf"><label>Type de travail</label><select><option value="">Sélectionner</option><option>Sédentaire (bureau)</option><option>Debout / marche</option><option>Physique / terrain</option></select></div></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Régime alimentaire ?</div>
+          <div class="choice-grid" style="grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px">
+            <div class="choice-card" onclick="selChoice(this,'diet',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Aucun</div></div>
+            <div class="choice-card" onclick="selChoice(this,'diet',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Végétarien</div></div>
+            <div class="choice-card" onclick="selChoice(this,'diet',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Vegan</div></div>
+            <div class="choice-card" onclick="selChoice(this,'diet',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Sans gluten</div></div>
+            <div class="choice-card" onclick="selChoice(this,'diet',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Sans lactose</div></div>
+            <div class="choice-card" onclick="selChoice(this,'diet',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Autre</div></div>
+          </div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Qualité du sommeil (1=mauvaise, 5=excellente)</div>
+          <div class="scale-row"><div class="scale-btn" onclick="selScale(this)">1</div><div class="scale-btn" onclick="selScale(this)">2</div><div class="scale-btn" onclick="selScale(this)">3</div><div class="scale-btn" onclick="selScale(this)">4</div><div class="scale-btn" onclick="selScale(this)">5</div></div>
+          <div class="qrow"><div class="qf"><label>Repas par jour</label><select><option value="">Sélectionner</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div><div class="qf"><label>Budget alimentaire / semaine</label><select><option value="">Sélectionner</option><option>Moins de 50€</option><option>50€ – 100€</option><option>100€ – 150€</option><option>150€+</option></select></div></div>
+          <div class="qf"><label>Aliments non appréciés ou allergies</label><textarea rows="2" placeholder="Ex : pas de poisson, allergie fruits de mer..."></textarea></div>
+          <div class="q-nav-btns"><button class="q-btn-prev" onclick="goQ(3)"><i class="ti ti-arrow-left" style="font-size:13px"></i> Précédent</button><button class="q-btn-next" onclick="goQ(5)">Suivant <i class="ti ti-arrow-right" style="font-size:14px"></i></button></div>
+        </div>
+        <!-- STEP 5 -->
+        <div class="qs" id="qs-5">
+          <div class="q-title">Sport & expérience</div>
+          <div class="q-sub">Pour calibrer l'intensité et le type d'entraînement</div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Niveau en musculation</div>
+          <div class="choice-grid" style="grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px">
+            <div class="choice-card" onclick="selChoice(this,'lvl')" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Débutant</div><div class="cc-d">- 6 mois</div></div>
+            <div class="choice-card" onclick="selChoice(this,'lvl')" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Intermédiaire</div><div class="cc-d">6m – 2 ans</div></div>
+            <div class="choice-card" onclick="selChoice(this,'lvl')" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Avancé</div><div class="cc-d">2 – 5 ans</div></div>
+            <div class="choice-card" onclick="selChoice(this,'lvl')" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Expert</div><div class="cc-d">5 ans+</div></div>
+          </div>
+          <div class="qrow"><div class="qf"><label>Séances / semaine souhaitées</label><select><option value="">Sélectionner</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div><div class="qf"><label>Durée par séance</label><select><option value="">Sélectionner</option><option>30–45 min</option><option>45–60 min</option><option>60–90 min</option><option>90 min+</option></select></div></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Équipements disponibles</div>
+          <div class="choice-grid" style="grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px">
+            <div class="choice-card" onclick="selChoice(this,'equip',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Salle de sport</div></div>
+            <div class="choice-card" onclick="selChoice(this,'equip',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Home gym</div></div>
+            <div class="choice-card" onclick="selChoice(this,'equip',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Poids de corps</div></div>
+            <div class="choice-card" onclick="selChoice(this,'equip',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Haltères seuls</div></div>
+            <div class="choice-card" onclick="selChoice(this,'equip',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Barre + disques</div></div>
+            <div class="choice-card" onclick="selChoice(this,'equip',true)" style="padding:10px;text-align:center"><div class="cc-t" style="font-size:11px">Accès Smith</div></div>
+          </div>
+          <div class="qf"><label>Autres sports pratiqués</label><input type="text" placeholder="Ex : course à pied 2x/semaine..."></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Motivation sur 1–5</div>
+          <div class="scale-row"><div class="scale-btn" onclick="selScale(this)">1</div><div class="scale-btn" onclick="selScale(this)">2</div><div class="scale-btn" onclick="selScale(this)">3</div><div class="scale-btn" onclick="selScale(this)">4</div><div class="scale-btn" onclick="selScale(this)">5</div></div>
+          <div class="q-nav-btns"><button class="q-btn-prev" onclick="goQ(4)"><i class="ti ti-arrow-left" style="font-size:13px"></i> Précédent</button><button class="q-btn-next" onclick="goQ(6)">Suivant <i class="ti ti-arrow-right" style="font-size:14px"></i></button></div>
+        </div>
+        <!-- STEP 6 -->
+        <div class="qs" id="qs-6">
+          <div class="q-title">Choisis ta formule de coaching</div>
+          <div class="q-sub">Tu pourras en discuter avec Antoine lors du premier appel</div>
+          <div class="formule-select-grid">
+            <div class="fs-card" id="fs-presentiel" onclick="selFs('presentiel')">
+              <div style="width:36px;height:36px;border-radius:8px;background:var(--rl);display:flex;align-items:center;justify-content:center;margin-bottom:10px"><i class="ti ti-map-pin" style="font-size:18px;color:var(--r2)"></i></div>
+              <div class="fs-name">Présentiel</div>
+              <div class="fs-price bl">Sur devis</div>
+              <div class="fs-items">
+                <div class="fs-item"><i class="ti ti-check"></i>Séances sur plateau</div>
+                <div class="fs-item"><i class="ti ti-check"></i>Suivi complet</div>
+                <div class="fs-item"><i class="ti ti-check"></i>App complète</div>
+              </div>
+            </div>
+            <div class="fs-card" id="fs-distanciel" onclick="selFs('distanciel')">
+              <div class="fs-badge blue">Populaire</div>
+              <div style="width:36px;height:36px;border-radius:8px;background:var(--bl);display:flex;align-items:center;justify-content:center;margin-bottom:10px"><i class="ti ti-phone" style="font-size:18px;color:var(--b)"></i></div>
+              <div class="fs-name">Distanciel</div>
+              <div class="fs-price bl">Sur devis</div>
+              <div class="fs-items">
+                <div class="fs-item"><i class="ti ti-check"></i>Appels vidéo suivi</div>
+                <div class="fs-item"><i class="ti ti-check"></i>Correction technique</div>
+                <div class="fs-item"><i class="ti ti-check"></i>App complète</div>
+              </div>
+            </div>
+            <div class="fs-card" id="fs-defi" onclick="selFs('defi')">
+              <div class="fs-badge gold">Accès immédiat</div>
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,215,0,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:10px"><i class="ti ti-bolt" style="font-size:18px;color:var(--gold)"></i></div>
+              <div class="fs-name">Challenger</div>
+              <div class="fs-price go">9,99 €</div>
+              <div class="fs-items">
+                <div class="fs-item"><i class="ti ti-check" style="color:var(--gold)"></i>Défis quotidiens</div>
+                <div class="fs-item"><i class="ti ti-check" style="color:var(--gold)"></i>XP & niveaux</div>
+                <div class="fs-item lock"><i class="ti ti-lock"></i>Programme (non inclus)</div>
+              </div>
+            </div>
+          </div>
+          <div class="qf"><label>Disponibilités préférées</label><textarea rows="2" placeholder="Ex : en semaine après 18h, ou samedi matin..."></textarea></div>
+          <div class="qf"><label>Comment as-tu entendu parler d'Antoine ?</label><select><option value="">Sélectionner</option><option>Instagram</option><option>Recommandation d'un ami</option><option>Google</option><option>Autre</option></select></div>
+          <div class="q-nav-btns"><button class="q-btn-prev" onclick="goQ(5)"><i class="ti ti-arrow-left" style="font-size:13px"></i> Précédent</button><button class="q-btn-next" onclick="goQ(7)">Envoyer ma demande <i class="ti ti-send" style="font-size:14px"></i></button></div>
+        </div>
+        <!-- STEP 7 CONFIRMATION -->
+        <div class="qs" id="qs-7">
+          <div class="success-box">
+            <div class="success-icon"><i class="ti ti-check" style="font-size:30px;color:var(--gr)"></i></div>
+            <div style="font-size:22px;font-weight:500;margin-bottom:8px">Questionnaire envoyé !</div>
+            <div style="font-size:14px;color:var(--txm);line-height:1.6;max-width:400px;margin:0 auto 24px">Antoine a bien reçu ta demande. Il reviendra vers toi dans les 24–48h pour un premier échange.</div>
+            <button class="q-btn-next" onclick="showPage('page-landing')" style="margin:0 auto"><i class="ti ti-home" style="font-size:14px"></i>Retour à l'accueil</button>
+            <div style="margin-top:28px;background:var(--c1);border:0.5px solid var(--rb);border-radius:12px;padding:18px;max-width:400px;margin:24px auto 0">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--r2);margin-bottom:10px">Prochaines étapes</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txm)"><div style="width:22px;height:22px;border-radius:50%;background:var(--bl);border:0.5px solid var(--bb);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--b);flex-shrink:0">1</div>Antoine analyse ton questionnaire</div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txm)"><div style="width:22px;height:22px;border-radius:50%;background:var(--bl);border:0.5px solid var(--bb);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--b);flex-shrink:0">2</div>Il te contacte pour un appel découverte</div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txm)"><div style="width:22px;height:22px;border-radius:50%;background:var(--bl);border:0.5px solid var(--bb);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--b);flex-shrink:0">3</div>Ton accès à l'application est créé</div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--txm)"><div style="width:22px;height:22px;border-radius:50%;background:var(--rl);border:0.5px solid var(--rb);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--r2);flex-shrink:0">4</div>Début du programme personnalisé</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PAIEMENT DÉFIS -->
+<div class="modal-bg" id="pay-modal">
+  <div class="modal-box">
+    <div class="modal-close" onclick="closePayModal()"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="width:52px;height:52px;border-radius:50%;background:rgba(255,215,0,0.12);border:1.5px solid rgba(255,215,0,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><i class="ti ti-bolt" style="font-size:22px;color:var(--gold)"></i></div>
+      <div style="font-size:17px;font-weight:500;margin-bottom:4px">Accès Challenger</div>
+      <div style="font-size:12px;color:var(--txm)">Paiement unique — accès à vie à l'application</div>
+    </div>
+    <div class="pay-box">
+      <div class="pay-amount">9,99 € <span style="font-size:14px;font-family:'DM Sans',sans-serif;color:var(--txm)">/mois</span></div>
+      <div class="pay-desc">Accès immédiat · 5 défis / jour · XP & niveaux · Suivi eau / sommeil / pas</div>
+    </div>
+    <div style="margin-bottom:8px"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:5px">Ton prénom</label><input class="pay-input" placeholder="Ex : Lucas"></div>
+    <div style="margin-bottom:8px"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:5px">Email</label><input class="pay-input" type="email" placeholder="ton@email.com"></div>
+    <div style="margin-bottom:14px"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:5px">Numéro de carte</label><input class="pay-input" placeholder="1234 5678 9012 3456"></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <div style="flex:1"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:5px">Expiration</label><input class="pay-input" placeholder="MM/AA"></div>
+      <div style="flex:1"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:5px">CVC</label><input class="pay-input" placeholder="123"></div>
+    </div>
+    <button class="pay-btn" onclick="confirmPay()"><i class="ti ti-lock" style="font-size:14px;margin-right:6px"></i>S'abonner — 9,99 €/mois</button>
+    <div style="margin-top:10px;font-size:10px;color:var(--txd);text-align:center">Paiement sécurisé · Satisfait ou remboursé 30 jours</div>
+  </div>
+</div>
+
+<!-- MODAL NOTIF COACH (cadenas cliqué) -->
+<div class="modal-bg" id="notify-modal">
+  <div class="modal-box" style="text-align:center">
+    <div class="modal-close" onclick="closeNotifyModal()"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+    <div class="notify-icon"><i class="ti ti-lock" style="font-size:22px;color:var(--b)"></i></div>
+    <div class="modal-title" id="notify-title">Fonctionnalité non incluse</div>
+    <div class="modal-sub" id="notify-sub">Ton option actuelle ne comprend pas cette donnée.</div>
+    <div style="background:var(--c2);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--txm);line-height:1.6">
+      <strong style="color:var(--b)">Formule Coaching</strong> — Accède au programme complet, à la diète personnalisée, aux notes de ton coach et aux appels de suivi.
+    </div>
+    <button style="width:100%;background:var(--r);color:#fff;border:none;border-radius:9px;padding:11px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px" onclick="notifyCoach()"><i class="ti ti-send" style="font-size:13px;margin-right:5px"></i>Demander un coaching → Antoine sera notifié</button>
+    <button style="width:100%;background:transparent;color:var(--txm);border:0.5px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer" onclick="closeNotifyModal()">Non merci, rester sur mon accès actuel</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast-el"><i class="ti ti-check" style="font-size:14px"></i><span id="toast-txt">OK</span></div>
+
+<script>
+
+// VIEW SWITCHER
+function setView(v){
+  document.getElementById('vs-pc').classList.toggle('on',v==='pc');
+  document.getElementById('vs-mob').classList.toggle('on',v==='mob');
+  var landing=document.getElementById('page-landing');
+  var mobView=document.getElementById('mob-view');
+  if(landing)landing.style.display=v==='pc'?'block':'none';
+  if(mobView)mobView.style.display=v==='mob'?'flex':'none';
+  // ajuster le padding nav
+  var nav=document.querySelector('.nav');
+  if(nav)nav.style.padding=v==='mob'?'12px 16px':'16px 40px';
+  if(v==='mob')renderCmp('compare-rows-mob',true);
+}
+// MOB ROLE
+var mobRole='client';
+function setMobRole(r){
+  mobRole=r;
+  document.getElementById('mob-role-client').classList.toggle('on',r==='client');
+  document.getElementById('mob-role-coach').classList.toggle('on',r==='coach');
+  document.getElementById('mob-login-btn').textContent=r==='coach'?'Accéder au dashboard →':'Se connecter →';
+}
+function handleMobLogin(){
+  var email=document.getElementById('mob-email').value.trim().toLowerCase();
+  var pwd=document.getElementById('mob-pwd').value;
+  doLogin(email,pwd);
+}
+
+// PAGES
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
+function scrollLogin(){document.getElementById('login-section').scrollIntoView({behavior:'smooth'});}
+
+// CONNEXION
+// CONNEXION → redirige vers le hub Supabase
+function handleLogin(){window.location.href='ant_coach_hub.html';}
+function handleMobLogin(){window.location.href='ant_coach_hub.html';}
+function doLogin(){window.location.href='ant_coach_hub.html';}
+  document.getElementById('role-client').classList.toggle('on',r==='client');
+  document.getElementById('role-coach').classList.toggle('on',r==='coach');
+  document.getElementById('login-main-btn').textContent=r==='coach'?'Accéder au dashboard →':'Se connecter →';
+}
+
+// QUESTIONNAIRE
+var curQ=1;
+var Q_STEPS=['Informations','Objectifs','Physique & santé','Mode de vie','Sport','Formule','Confirmation'];
+function initQ(){curQ=1;goQ(1);renderSteps();}
+function goQ(n){
+  curQ=n;
+  document.querySelectorAll('.qs').forEach(s=>s.classList.remove('on'));
+  var sc=document.getElementById('qs-'+n);if(sc)sc.classList.add('on');
+  document.getElementById('q-prog').style.width=(n/7*100)+'%';
+  renderSteps();
+}
+function renderSteps(){
+  var h='';
+  Q_STEPS.forEach((l,i)=>{
+    var n=i+1;
+    var cls=n<curQ?'done':n===curQ?'active':'';
+    var num=n<curQ?'<i class="ti ti-check" style="font-size:11px"></i>':n;
+    h+=`<div class="q-step ${cls}"><div class="q-step-num">${num}</div><div class="q-step-lbl">${l}</div></div>`;
+  });
+  document.getElementById('q-steps').innerHTML=h;
+}
+
+// FORMULE SELECT
+var selectedFormule='';
+function setFormule(f){selectedFormule=f;}
+function selFs(f){
+  selectedFormule=f;
+  ['presentiel','distanciel','defi'].forEach(x=>{
+    var el=document.getElementById('fs-'+x);
+    if(el){el.classList.remove('sel','sel-gold');if(x===f)el.classList.add(f==='defi'?'sel-gold':'sel');}
+  });
+}
+
+// CHOICES
+function selChoice(el,group,multi){
+  if(!multi){el.closest('.choice-grid').querySelectorAll('.choice-card').forEach(c=>c.classList.remove('sel'));}
+  el.classList.toggle('sel');
+}
+function selScale(el){el.closest('.scale-row').querySelectorAll('.scale-btn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');}
+
+// PAY MODAL
+function openPayModal(){document.getElementById('pay-modal').classList.add('show');}
+function closePayModal(){document.getElementById('pay-modal').classList.remove('show');}
+function confirmPay(){
+  closePayModal();
+  toast2('Paiement confirmé — Accès activé ! Bienvenue dans l\'appli 🎉');
+}
+
+// NOTIFY MODAL
+function openNotify(title,sub){
+  document.getElementById('notify-title').textContent=title||'Fonctionnalité non incluse';
+  document.getElementById('notify-sub').textContent=sub||'Ton option actuelle ne comprend pas cette donnée.';
+  document.getElementById('notify-modal').classList.add('show');
+}
+function closeNotifyModal(){document.getElementById('notify-modal').classList.remove('show');}
+function notifyCoach(){
+  closeNotifyModal();
+  toast2('Antoine a été notifié — il te contactera bientôt !');
+}
+
+// TOAST
+function toast2(msg){
+  var t=document.getElementById('toast-el');
+  document.getElementById('toast-txt').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// COMPARATIF TABLE
+var CMP=[
+  {head:'Pour toutes les formules'},
+  ["Page d\'accueil & statistiques","OUI","OUI","OUI"],
+  ["Défis quotidiens & XP","OUI","OUI","OUI"],
+  ["Suivi eau / sommeil / pas / mensurations","OUI","OUI","OUI"],
+  ["Galerie photos","OUI","OUI","OUI"],
+  {head:"Inclus selon formule"},
+  ["Programme musculation personnalisé","NON","OUI","OUI"],
+  ["Notes & suivi coach","NON","OUI","OUI"],
+  ["Disponibilité conseil","NON","OUI","OUI"],
+  ["Correction technique vidéo","NON","OUI","OUI"],
+  ["Coaching plateau (séances physiques)","NON","OUI","NON"],
+  ["Appel vidéo suivi","NON","NON","OUI"],
+  {head:"En option"},
+  ["Diète & macros détaillées","NON","OPT","OPT"],
+];
+function renderCmp(id,small){
+  var rows='';var pad=small?'7px 8px':'10px 16px';var fs=small?'10px':'12px';
+  CMP.forEach(function(row){
+    if(row.head){
+      rows+='<div style="background:rgba(255,255,255,0.03);border-bottom:0.5px solid rgba(255,255,255,0.07)"><div style="padding:7px 14px;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--txm)">'+row.head+'</div></div>';
+      return;
+    }
+    function cell(v,col){
+      if(v==='OUI')return'<span style="color:'+(col==='gold'?'var(--gold)':'var(--gr)')+'">&#10003;</span>';
+      if(v==='NON')return'<span style="color:var(--txd);font-size:13px">&#128274;</span>';
+      if(v==='OPT')return'<span style="color:var(--or);font-size:10px;font-weight:500">Opt.</span>';
+      return v;
+    }
+    rows+='<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:0.5px solid rgba(255,255,255,0.04)">'+
+      '<div style="padding:'+pad+';font-size:'+fs+';color:var(--txm)">'+row[0]+'</div>'+
+      '<div style="padding:'+pad+';text-align:center">'+cell(row[1],'gold')+'</div>'+
+      '<div style="padding:'+pad+';text-align:center">'+cell(row[2],'bl')+'</div>'+
+      '<div style="padding:'+pad+';text-align:center">'+cell(row[3],'bl')+'</div>'+
+    '</div>';
+  });
+  var el=document.getElementById(id);if(el)el.innerHTML=rows;
+}
+var cmp=document.getElementById('compare-rows');
+renderCmp('compare-rows',false);
+renderCmp('compare-rows-mob',true);
+renderSteps();
+</script>
+
+<!-- ══ VUE MOBILE ══ -->
+<div class="mob-view" id="mob-view">
+  <div style="min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;">
+    <div class="mob-phone">
+      <div class="mob-inner">
+        <!-- Topbar -->
+        <div class="mob-topbar">
+          <div>
+            <div class="mob-logo">ANT COACH</div>
+            <div style="font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txm)">Personal Training</div>
+          </div>
+          <button class="nav-btn r" style="font-size:10px;padding:7px 13px" onclick="showPage('page-q');initQ()"><i class="ti ti-clipboard-plus" style="font-size:12px"></i>Devenir client</button>
+        </div>
+
+        <div class="mob-scroll-area">
+          <!-- Hero -->
+          <div class="mob-section" style="padding:22px 18px 18px">
+            <div style="display:inline-flex;align-items:center;gap:5px;background:var(--rl);border:0.5px solid var(--rb);border-radius:20px;padding:4px 10px;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--r2);margin-bottom:14px">
+              <i class="ti ti-bolt" style="font-size:10px"></i>Coaching personnalisé
+            </div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:38px;line-height:1;letter-spacing:2px;margin-bottom:10px">Transforme<br>ton corps<br><span style="color:var(--b)">avec Antoine</span></div>
+            <div style="font-size:12px;color:var(--txm);line-height:1.6;margin-bottom:14px">Programme sur mesure, suivi nutrition, accompagnement quotidien.</div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--txm)">
+              <span style="display:flex;align-items:center;gap:5px"><i class="ti ti-lock" style="font-size:12px;color:var(--gr)"></i>Données sécurisées</span>
+              <span style="display:flex;align-items:center;gap:5px"><i class="ti ti-star" style="font-size:12px;color:var(--b)"></i>+50 clients transformés</span>
+              <span style="display:flex;align-items:center;gap:5px"><i class="ti ti-certificate" style="font-size:12px;color:var(--or)"></i>Coach certifié</span>
+            </div>
+          </div>
+
+          <!-- Login -->
+          <div class="mob-section">
+            <div class="mob-login">
+              <div style="font-size:15px;font-weight:500;margin-bottom:3px">Connexion</div>
+              <div style="font-size:11px;color:var(--txm);margin-bottom:14px">Accède à ton espace de suivi</div>
+
+              <div class="mob-field"><label>Email</label><input type="email" id="mob-email" placeholder="ton@email.com"></div>
+              <div class="mob-field"><label>Mot de passe</label><input type="password" id="mob-pwd" placeholder="••••••••"></div>
+              <div style="font-size:10px;color:var(--txm);text-align:right;margin-top:-6px;margin-bottom:14px;cursor:pointer">Mot de passe oublié ?</div>
+              <button class="mob-login-btn" id="mob-login-btn" onclick="handleMobLogin()">Se connecter →</button>
+              <div class="mob-divider"><span>Nouveau ici ?</span></div>
+              <button class="mob-new-btn" onclick="showPage('page-q');initQ()"><i class="ti ti-clipboard-plus" style="font-size:13px"></i>Questionnaire coaching</button>
+              <button class="mob-challenger-btn" onclick="openPayModal()"><i class="ti ti-bolt" style="font-size:13px"></i>Accès Challenger — 9,99 €/mois</button>
+            </div>
+          </div>
+
+          <!-- Formules -->
+          <div class="mob-section">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:4px">Nos formules</div>
+            <div style="font-size:12px;color:var(--txm);margin-bottom:16px">3 niveaux d'accompagnement</div>
+
+            <!-- Challenger -->
+            <div class="mob-card g">
+              <div class="mob-badge gold"><i class="ti ti-bolt" style="font-size:9px;margin-right:3px"></i>Accès immédiat</div>
+              <div style="width:36px;height:36px;border-radius:9px;background:rgba(255,215,0,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:10px"><i class="ti ti-bolt" style="font-size:18px;color:var(--gold)"></i></div>
+              <div style="font-size:14px;font-weight:500;margin-bottom:3px">Challenger</div>
+              <div class="mob-price" style="color:var(--gold)">9,99 €</div>
+              <div style="font-size:10px;color:var(--txm);margin-bottom:2px">/mois · sans engagement</div>
+              <div class="mob-items">
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--gold)"></i>Page d'accueil & stats</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--gold)"></i>5 défis sportifs par jour</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--gold)"></i>Système XP & niveaux</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--gold)"></i>Suivi eau / sommeil / pas / mensurations</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--gold)"></i>Galerie photos personnelle</div>
+                <div class="mob-item lock"><i class="ti ti-lock"></i>Programme musculation personnalisé</div>
+                <div class="mob-item lock"><i class="ti ti-lock"></i>Notes & suivi coach</div>
+                <div class="mob-item lock"><i class="ti ti-lock"></i>Coaching plateau & suivi</div>
+                <div class="mob-item lock"><i class="ti ti-lock"></i>Diète & macros détaillées</div>
+              </div>
+              <button class="mob-cta gold-c" onclick="openPayModal()">Commencer maintenant →</button>
+            </div>
+
+            <!-- Présentiel -->
+            <div class="mob-card">
+              <div style="width:36px;height:36px;border-radius:9px;background:var(--rl);display:flex;align-items:center;justify-content:center;margin-bottom:10px"><i class="ti ti-map-pin" style="font-size:18px;color:var(--r2)"></i></div>
+              <div style="font-size:14px;font-weight:500;margin-bottom:3px">Coaching Présentiel</div>
+              <div class="mob-price" style="color:var(--b)">Sur devis</div>
+              <div style="font-size:10px;color:var(--txm);margin-bottom:2px">coaching sur plateau avec Antoine</div>
+              <div class="mob-items">
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Séances sur plateau</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Programme 100% personnalisé</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Notes & suivi coach</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Correction technique vidéo</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Bilans mensuels</div>
+                <div class="mob-item opt"><i class="ti ti-circle-dot" style="color:var(--or)"></i>Suivi nutritionnel (optionnel)</div>
+                <div class="mob-item lock"><i class="ti ti-lock"></i>Appel vidéo suivi</div>
+              </div>
+              <button class="mob-cta g2" onclick="showPage('page-q');initQ()">Remplir le questionnaire →</button>
+            </div>
+
+            <!-- Distanciel -->
+            <div class="mob-card f">
+              <div class="mob-badge blue">Populaire</div>
+              <div style="width:36px;height:36px;border-radius:9px;background:var(--bl);display:flex;align-items:center;justify-content:center;margin-bottom:10px"><i class="ti ti-phone" style="font-size:18px;color:var(--b)"></i></div>
+              <div style="font-size:14px;font-weight:500;margin-bottom:3px">Coaching Distanciel</div>
+              <div class="mob-price" style="color:var(--b)">Sur devis</div>
+              <div style="font-size:10px;color:var(--txm);margin-bottom:2px">suivi vidéo & appels réguliers</div>
+              <div class="mob-items">
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Appel vidéo suivi</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Programme 100% sur mesure</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Correction technique vidéo</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Notes & suivi coach</div>
+                <div class="mob-item"><i class="ti ti-check" style="color:var(--b)"></i>Disponibilité conseil</div>
+                <div class="mob-item opt"><i class="ti ti-circle-dot" style="color:var(--or)"></i>Suivi nutrition & macros (optionnel)</div>
+                <div class="mob-item lock"><i class="ti ti-lock"></i>Coaching plateau</div>
+              </div>
+              <button class="mob-cta bl" onclick="showPage('page-q');initQ()">Remplir le questionnaire →</button>
+            </div>
+          </div>
+
+          <!-- Comparatif mobile -->
+          <div class="mob-section">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:4px">Comparatif</div>
+            <div style="font-size:11px;color:var(--txm);margin-bottom:14px">Ce qui est inclus dans chaque formule</div>
+            <div style="border-radius:10px;overflow:hidden;border:0.5px solid rgba(255,255,255,0.07)">
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:var(--c2);border-bottom:0.5px solid rgba(255,255,255,0.08)">
+                <div style="padding:9px 8px;font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm)">Fonction</div>
+                <div style="padding:9px 4px;text-align:center;font-size:9px;color:var(--gold)"><i class="ti ti-bolt" style="font-size:10px;display:block;margin:0 auto 1px"></i>Chall.</div>
+                <div style="padding:9px 4px;text-align:center;font-size:9px;color:var(--b)"><i class="ti ti-map-pin" style="font-size:10px;display:block;margin:0 auto 1px"></i>Prés.</div>
+                <div style="padding:9px 4px;text-align:center;font-size:9px;color:var(--b)"><i class="ti ti-phone" style="font-size:10px;display:block;margin:0 auto 1px"></i>Dist.</div>
+              </div>
+              <div id="compare-rows-mob"></div>
+            </div>
+          </div>
+
+          <div style="height:20px"></div>
+        </div><!-- /mob-scroll-area -->
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
