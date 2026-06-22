@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ANT COACH — Challenger</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --r:#8B0000;--r2:#A50000;--rl:rgba(139,0,0,0.12);--rb:rgba(139,0,0,0.28);
+  --b:#00BFFF;--bl:rgba(0,191,255,0.09);--bb:rgba(0,191,255,0.28);
+  --bg:#0A0A0A;--c1:#141414;--c2:#1C1C1C;--c3:#242424;--c4:#2C2C2C;
+  --tx:#F5F5F5;--txm:#888;--txd:#444;
+  --gr:#4CAF7A;--or:#E8953A;--gold:#FFD700;
+  --succ:rgba(76,175,122,0.14);--succb:rgba(76,175,122,0.32);
+}
+html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;}
+.phone{width:390px;height:760px;background:var(--bg);border:0.5px solid rgba(255,255,255,0.08);border-radius:40px;overflow:hidden;display:flex;flex-direction:column;position:relative;box-shadow:0 24px 64px rgba(0,0,0,0.7);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 9px;border-bottom:0.5px solid var(--rb);flex-shrink:0;}
+.app-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--r2);}
+.ch-badge{font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:var(--gold);background:rgba(255,215,0,0.08);border:0.5px solid rgba(255,215,0,0.25);border-radius:20px;padding:2px 8px;}
+.av-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.12);border:1.5px solid rgba(255,215,0,0.35);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--gold);cursor:pointer;font-family:inherit;}
+.tabs{display:flex;border-bottom:0.5px solid var(--rb);overflow-x:auto;scrollbar-width:none;padding:0 11px;flex-shrink:0;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:8px 10px;font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);cursor:pointer;border-bottom:2px solid transparent;}
+.tab.on{color:var(--b);border-bottom-color:var(--b);}
+.scroll{flex:1;overflow-y:auto;padding:12px 14px 68px;scrollbar-width:none;}
+.scroll::-webkit-scrollbar{display:none;}
+.scr{display:none;}.scr.on{display:block;}
+.sec{font-size:9px;text-transform:uppercase;letter-spacing:1.1px;color:var(--txm);margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.sec::before{content:'';width:3px;height:9px;background:var(--r2);border-radius:0;display:block;}
+.card{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:11px 13px;margin-bottom:9px;}
+.pill{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:500;text-transform:uppercase;}
+.p-gr{background:var(--succ);border:0.5px solid var(--succb);color:var(--gr);}
+.p-or{background:rgba(232,149,58,0.12);border:0.5px solid rgba(232,149,58,0.3);color:var(--or);}
+.p-go{background:rgba(255,215,0,0.1);border:0.5px solid rgba(255,215,0,0.25);color:var(--gold);}
+.p-bl{background:var(--bl);border:0.5px solid var(--bb);color:var(--b);}
+/* LEVEL HERO */
+.level-hero{background:linear-gradient(160deg,#1a0000,#1e1e00);border:0.5px solid rgba(139,0,0,0.45);border-radius:14px;padding:16px;margin-bottom:10px;text-align:center;overflow:hidden;position:relative;}
+.lh-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--gold);line-height:1;text-shadow:0 0 20px rgba(255,215,0,0.3);}
+.lh-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,215,0,0.5);margin-bottom:8px;}
+.xp-bg{height:10px;background:rgba(0,0,0,0.4);border-radius:20px;overflow:hidden;margin-bottom:5px;}
+.xp-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--r),var(--gold));transition:width 0.5s;box-shadow:0 0 8px rgba(255,215,0,0.3);}
+.xp-labels{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,215,0,0.5);}
+/* KPIS */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px;}
+.kpi{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 11px;}
+.kl{font-size:9px;text-transform:uppercase;letter-spacing:0.6px;color:var(--txm);margin-bottom:3px;}
+.kv{font-size:20px;font-weight:500;line-height:1;}
+.ks{font-size:10px;margin-top:2px;}
+/* UPGRADE BANNER */
+.up-banner{background:linear-gradient(135deg,var(--rl),rgba(0,191,255,0.05));border:0.5px solid var(--rb);border-radius:12px;padding:12px 14px;margin-bottom:9px;cursor:pointer;display:flex;align-items:center;gap:10px;}
+/* PROGRAMME PLAN CARDS */
+.plan-card{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 13px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;}
+.plan-card.sel{border-color:var(--b);background:var(--bl);}
+.plan-card:hover{border-color:rgba(255,255,255,0.15);}
+/* MUSCLE SVG DIAGRAM */
+.muscle-diag-wrap{display:flex;justify-content:center;margin:10px 0;}
+.muscle-diag-wrap svg{width:200px;height:125px;}
+/* SEANCE DAY TABS */
+.day-tabs{display:flex;gap:5px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.dtab{flex-shrink:0;padding:5px 11px;border-radius:20px;font-size:10px;font-weight:500;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:var(--txm);font-family:inherit;transition:all 0.15s;}
+.dtab.on{background:var(--r);border-color:var(--r);color:#fff;}
+.day-scr{display:none;}.day-scr.on{display:block;}
+/* EXO CARD */
+.exo-card{background:var(--c2);border:0.5px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;margin-bottom:7px;cursor:pointer;transition:border-color 0.15s;}
+.exo-card.open{border-color:var(--b);}
+.exo-nm{font-size:12px;font-weight:500;}
+.exo-desc{font-size:10px;color:var(--txm);margin-top:2px;}
+.exo-detail{display:none;margin-top:10px;padding-top:9px;border-top:0.5px solid rgba(255,255,255,0.06);}
+.exo-detail.show{display:block;}
+.sinp{width:100%;background:var(--c3);border:0.5px solid rgba(255,255,255,0.08);border-radius:7px;padding:6px 8px;font-size:12px;font-weight:500;color:var(--tx);font-family:inherit;outline:none;text-align:center;}
+.sinp:focus{border-color:var(--b);}
+.sinp::placeholder{color:var(--txd);}
+.sprev{font-size:9px;color:var(--txd);text-align:center;margin-top:2px;}
+/* CHRONO */
+.chrono{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin:10px 0;}
+.ch-t{font-size:26px;font-weight:500;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:2px;margin-bottom:7px;}
+.ch-t.run{color:var(--r2);}
+.ch-row{display:flex;gap:6px;}
+.chb{flex:1;padding:7px;border-radius:7px;font-size:11px;font-weight:500;font-family:inherit;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:var(--txm);display:flex;align-items:center;justify-content:center;gap:4px;}
+.chb.go{background:var(--r);border-color:var(--r);color:#fff;}
+/* HYDRO */
+.hydro-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);}
+.hydro-row:last-child{border-bottom:none;}
+.hydro-lbl{display:flex;align-items:center;gap:7px;font-size:12px;}
+.hctrl{display:flex;align-items:center;gap:7px;}
+.hbtn{width:26px;height:26px;border-radius:50%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--tx);font-family:inherit;}
+.hval{font-size:13px;font-weight:500;min-width:30px;text-align:center;}
+/* SUIVI TABS */
+.stabs{display:flex;border-bottom:0.5px solid rgba(255,255,255,0.07);margin-bottom:12px;}
+.stab{flex:1;padding:8px;text-align:center;font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;color:var(--txm);cursor:pointer;border-bottom:2px solid transparent;flex-shrink:0;}
+.stab.on{color:var(--b);border-bottom-color:var(--b);}
+.sscr{display:none;}.sscr.on{display:block;}
+/* PHOTOS */
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.photo-slot{aspect-ratio:1/1;background:var(--c2);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;transition:border-color 0.2s;overflow:hidden;position:relative;}
+
+.ph-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.6px;color:var(--txm);}
+.ph-date{font-size:9px;color:var(--txd);}
+.comp-ph{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.comp-ph-slot{aspect-ratio:3/4;background:var(--c2);border:0.5px dashed rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+/* MENSURATIONS */
+.mens-inp-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);}
+.mens-inp-row:last-child{border-bottom:none;}
+.mens-lbl{font-size:12px;flex:1;}
+.mens-field{display:flex;align-items:center;gap:5px;}
+.mens-in{width:62px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 7px;font-size:12px;font-weight:500;color:var(--tx);font-family:inherit;outline:none;text-align:center;}
+.mens-in:focus{border-color:var(--b);}
+.mens-unit{font-size:10px;color:var(--txm);}
+/* COMP MENSURATIONS */
+.comp-mens-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.comp-mens-card{background:var(--c1);border:0.5px dashed rgba(255,255,255,0.1);border-radius:10px;padding:10px;cursor:pointer;transition:border-color 0.15s;}
+.comp-mens-card:hover{border-color:rgba(255,255,255,0.2);}
+.comp-mens-card.sel{border:1.5px solid var(--b);background:var(--bl);}
+.comp-mens-result{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-top:10px;}
+/* LOCK */
+.lock-wrap{position:relative;border-radius:12px;overflow:hidden;margin-bottom:9px;}
+.lock-over{position:absolute;inset:0;background:rgba(10,10,10,0.88);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:10;cursor:pointer;backdrop-filter:blur(3px);}
+.lo-ic{width:38px;height:38px;border-radius:50%;background:var(--rl);border:1.5px solid var(--rb);display:flex;align-items:center;justify-content:center;}
+.lo-title{font-size:12px;font-weight:500;text-align:center;padding:0 10px;}
+.lo-sub{font-size:10px;color:var(--txm);text-align:center;padding:0 12px;line-height:1.5;}
+.lo-cta{background:var(--r);color:#fff;border:none;border-radius:7px;padding:7px 14px;font-size:11px;font-weight:500;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px;}
+/* DÉFIS */
+.defi-card{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:9px;}
+.defi-card.done{background:rgba(76,175,122,0.07);border-color:var(--succb);}
+.defi-ico{font-size:17px;width:32px;text-align:center;flex-shrink:0;}
+.defi-nm{font-size:12px;font-weight:500;}
+.defi-card.done .defi-nm{color:var(--gr);text-decoration:line-through;text-decoration-color:var(--gr);}
+.defi-ds{font-size:10px;color:var(--txm);margin-top:1px;}
+.defi-xp{font-size:10px;font-weight:500;color:var(--gold);background:rgba(255,215,0,0.1);border:0.5px solid rgba(255,215,0,0.25);border-radius:20px;padding:2px 7px;flex-shrink:0;margin-left:auto;}
+.defi-chk{width:21px;height:21px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.defi-chk.ok{background:var(--succ);border-color:var(--succb);}
+/* BNAV */
+.bnav{display:flex;padding:7px 0 13px;border-top:0.5px solid var(--rb);background:rgba(10,10,10,0.97);flex-shrink:0;}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;}
+.bn i{font-size:19px;color:var(--txd);}
+.bn span{font-size:8px;text-transform:uppercase;letter-spacing:0.5px;color:var(--txd);}
+.bn.on i,.bn.on span{color:var(--b);}
+/* XP POP */
+.xp-pop{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#1a0000,#2a2000);border:1px solid var(--gold);border-radius:12px;padding:12px 20px;text-align:center;z-index:99;display:none;pointer-events:none;}
+.xp-pop.show{display:block;animation:popIn 0.3s ease;}
+@keyframes popIn{0%{transform:translate(-50%,-50%) scale(0.6);opacity:0}60%{transform:translate(-50%,-50%) scale(1.1)}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+/* MODALS */
+.modal-bg{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.75);z-index:50;align-items:flex-end;}
+.modal-bg.show{display:flex;}
+.modal-sheet{background:var(--c1);border-radius:20px 20px 0 0;padding:18px;width:100%;border-top:0.5px solid var(--rb);max-height:82%;overflow-y:auto;}
+.inp-s{width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;margin-bottom:8px;}
+.inp-s:focus{border-color:var(--b);}
+.inp-s::placeholder{color:var(--txd);}
+/* TOAST */
+.toast-el{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:var(--succ);border:0.5px solid var(--succb);border-radius:10px;padding:9px 14px;font-size:11px;color:var(--gr);display:none;align-items:center;gap:6px;z-index:200;white-space:nowrap;}
+.toast-el.show{display:flex;}
+.bar-fill-gr{height:100%;border-radius:3px;background:linear-gradient(90deg,#2d7a50,var(--gr));box-shadow:0 0 6px rgba(76,175,122,0.4);}
+.bar-fill-bl{height:100%;border-radius:3px;background:linear-gradient(90deg,#005f80,var(--b));box-shadow:0 0 6px rgba(0,191,255,0.4);}
+.bar-fill-or{height:100%;border-radius:3px;background:linear-gradient(90deg,#7a4010,var(--or));box-shadow:0 0 6px rgba(232,149,58,0.4);}
+.bar-fill-go{height:100%;border-radius:3px;background:linear-gradient(90deg,#7a6000,var(--gold));box-shadow:0 0 6px rgba(255,215,0,0.4);}
+.bar-fill-pu{height:100%;border-radius:3px;background:linear-gradient(90deg,#5a0080,#b44fff);box-shadow:0 0 6px rgba(180,79,255,0.4);}
+/* Mini XP bar défis */
+.xp-mini-bg{height:5px;background:rgba(0,0,0,0.4);border-radius:3px;margin:5px 0;overflow:hidden;}
+.xp-mini-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--r),var(--gold));box-shadow:0 0 5px rgba(255,215,0,0.3);}
+/* ── GRILLE PHOTOS ── */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px;}
+.photo-slot{
+  aspect-ratio:3/4;
+  background:var(--c2);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
+  cursor:pointer;transition:all 0.2s;
+  overflow:hidden;position:relative;
+}
+.photo-slot:active{opacity:0.85;transform:scale(0.97);}
+.photo-slot.sel{border:2px solid var(--gold);box-shadow:0 0 14px rgba(255,215,0,0.25);}
+.photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.photo-slot .ph-lbl{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(0,0,0,0.6);
+  font-size:8px;text-transform:uppercase;letter-spacing:0.5px;
+  color:rgba(255,255,255,0.9);text-align:center;padding:4px 3px;
+  backdrop-filter:blur(4px);
+}
+.photo-slot .ph-sel-badge{
+  position:absolute;top:5px;left:5px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#000;
+  box-shadow:0 0 8px rgba(255,215,0,0.25);
+}
+.photo-slot .ph-del{
+  position:absolute;top:5px;right:5px;
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(0,0,0,0.7);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:2;
+}
+/* ── COMPARATIF ── */
+.comp-section{
+  background:var(--c1);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:14px;
+  margin-top:4px;
+}
+.comp-header{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;margin-bottom:12px;
+}
+.comp-title{
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:1px;color:var(--txm);
+}
+.comp-row{display:flex;gap:10px;}
+.comp-side{flex:1;display:flex;flex-direction:column;gap:6px;}
+.comp-frame{
+  width:100%;aspect-ratio:2/3;
+  background:var(--c2);
+  border-radius:10px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  border:0.5px solid rgba(255,255,255,0.07);
+}
+.comp-frame img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+}
+.comp-tag{
+  background:rgba(255,215,0,0.08);
+  border:0.5px solid var(--gold);
+  border-radius:20px;padding:4px 10px;
+  font-size:10px;font-weight:500;
+  color:var(--gold);text-align:center;
+}
+.comp-lbl{font-size:10px;color:var(--txm);text-align:center;}
+/* ── GRAPHE SUIVI ── */
+.suivi-block{
+  background:var(--c1);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:14px;
+  margin-top:12px;
+}
+.suivi-graph-tabs{display:flex;gap:5px;margin-bottom:12px;}
+.sgt{
+  flex:1;padding:7px 4px;border-radius:8px;
+  font-size:10px;font-weight:500;cursor:pointer;
+  border:0.5px solid rgba(255,255,255,0.1);
+  background:transparent;color:var(--txm);
+  font-family:inherit;text-align:center;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.sgt.on{background:var(--r);border-color:var(--r);color:#fff;}
+.graph-bars{display:flex;align-items:flex-end;gap:3px;height:72px;}
+.gb{
+  flex:1;border-radius:3px 3px 0 0;
+  background:linear-gradient(180deg,var(--b),rgba(0,191,255,0.15));
+  min-width:0;transition:height 0.4s cubic-bezier(.4,0,.2,1);
+  position:relative;cursor:default;
+}
+.gb.gr{background:linear-gradient(180deg,var(--r2),rgba(139,0,0,0.15));}
+.gb.go{background:linear-gradient(180deg,var(--or),rgba(232,149,58,0.15));}
+.gb-line{
+  position:absolute;bottom:0;left:0;right:0;
+  height:100%;border-radius:3px 3px 0 0;
+  opacity:0.3;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,0.15) 0px,rgba(255,255,255,0.15) 1px,transparent 1px,transparent 8px);
+}
+.graph-axis{display:flex;justify-content:space-between;margin-top:4px;}
+.graph-axis span{font-size:8px;color:var(--txd);}
+.graph-empty{
+  font-size:11px;color:var(--txd);
+  text-align:center;padding:20px 0;
+  font-style:italic;
+}
+
+.app-card{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;}
+.section-label{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);font-weight:500;}
+.input-label{font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:var(--txm);margin-bottom:5px;display:block;}
+.comp-section{background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-top:10px;}
+.comp-header{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;}
+.comp-title{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);}
+.comp-row{display:flex;gap:10px;align-items:stretch;}
+.comp-side{flex:1;display:flex;flex-direction:column;gap:8px;}
+.comp-frame{width:100%;aspect-ratio:2/3;background:var(--c2);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;border:0.5px solid rgba(255,255,255,0.06);}
+.comp-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.comp-tag{text-align:center;font-size:10px;font-weight:500;padding:5px 8px;background:rgba(255,215,0,0.08);border:0.5px solid rgba(255,215,0,0.3);border-radius:20px;color:var(--gold);}
+.comp-divider{width:1px;background:rgba(255,255,255,0.07);flex-shrink:0;margin:0 2px;}
+.comp-hint{font-size:10px;color:var(--txd);text-align:center;margin-top:10px;}
+
+
+.timer-wrap{background:linear-gradient(145deg,#12100a,#1a1500);border:0.5px solid rgba(255,215,0,0.2);border-radius:16px;padding:18px 16px;text-align:center;position:relative;overflow:hidden;}
+.timer-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,215,0,0.06),transparent 70%);pointer-events:none;}
+.timer-toggle{display:flex;background:rgba(0,0,0,0.3);border-radius:20px;padding:3px;gap:2px;margin-bottom:14px;position:relative;}
+.tt-btn{flex:1;padding:6px;border-radius:16px;font-size:11px;font-weight:500;cursor:pointer;border:none;font-family:inherit;background:transparent;color:var(--txm);transition:all 0.2s;}
+.tt-btn.on{background:var(--r);color:#fff;}
+.timer-display{font-family:'Bebas Neue',sans-serif;font-size:56px;letter-spacing:5px;color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,0.8),0 0 40px rgba(255,215,0,0.3);line-height:1;margin-bottom:16px;transition:color 0.3s;}
+.timer-btns{display:flex;gap:8px;justify-content:center;}
+.timer-btn-main{display:flex;align-items:center;gap:6px;padding:10px 24px;background:var(--r);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;min-width:120px;justify-content:center;transition:all 0.2s;}
+.timer-btn-reset{display:flex;align-items:center;gap:5px;padding:10px 16px;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;font-size:12px;color:var(--txm);font-family:inherit;cursor:pointer;}
+.timer-input-row{display:flex;align-items:center;gap:6px;justify-content:center;}
+.timer-inp{width:56px;background:rgba(0,0,0,0.4);border:0.5px solid rgba(255,215,0,0.3);border-radius:8px;padding:6px;font-size:20px;font-weight:600;color:var(--gold);font-family:inherit;outline:none;text-align:center;}
+
+</style>
+</head>
+<body>
+<div class="phone" id="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="app-logo">ANT COACH</div>
+      <div class="ch-badge"><i class="ti ti-bolt" style="font-size:10px;margin-right:3px"></i>Challenger</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px">
+      <div style="font-size:10px;color:var(--txm)">Lucas M.</div>
+      <button class="av-btn" onclick="openModal('modal-profil')">LM</button>
+    </div>
+  </div>
+
+
+  <div class="scroll">
+
+    <!-- ══ ACCUEIL ══ -->
+    <div class="scr on" id="sc-home">
+      <div class="level-hero">
+        <div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:100px;height:80px;background:radial-gradient(circle,rgba(255,215,0,0.12),transparent 70%);pointer-events:none"></div>
+        <div class="lh-num" id="lh-num">4</div>
+        <div class="lh-lbl">Niveau actuel — Lucas Martin</div>
+        <div class="xp-bg"><div class="xp-fill" id="xp-fill" style="width:48%"></div></div>
+        <div class="xp-labels"><span id="xp-cur">38 XP</span><span id="xp-need">niv.5 : 45 XP</span></div>
+        <div style="margin-top:8px;font-size:11px;color:rgba(255,215,0,0.5)">XP aujourd'hui : <span style="color:var(--gold);font-weight:500" id="xp-today">0</span> pts</div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kl">Défis aujourd'hui</div><div class="kv" id="home-defis">0<span style="font-size:12px;color:var(--txm)">/5</span></div><div class="ks" style="color:var(--or)">À compléter</div></div>
+        <div class="kpi"><div class="kl">XP total</div><div class="kv" style="color:var(--gold)" id="home-xp">80</div><div class="ks" style="color:var(--gold)">Niveau 4</div></div>
+        <div class="kpi"><div class="kl">Séances ce mois</div><div class="kv">6<span style="font-size:11px;color:var(--txm)">/12</span></div><div class="ks" style="color:var(--b)">En cours</div></div>
+        <div class="kpi"><div class="kl">Streak défis</div><div class="kv" style="color:var(--r2)">🔥4</div><div class="ks" style="color:var(--txm)">jours consécutifs</div></div>
+      </div>
+      <div class="card" style="padding:10px 12px;margin-bottom:9px">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:8px">Récap semaine</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px">Défis complétés</span><span class="pill p-or">12/35</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px">Objectif eau atteint</span><span class="pill p-gr">4/7 jours</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px">Sommeil 7h+</span><span class="pill p-or">3/7 jours</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px">10k pas / jour</span><span class="pill p-gr">5/7 jours</span></div>
+        </div>
+      </div>
+      <div class="up-banner" onclick="openModal('modal-upgrade')">
+        <div style="width:34px;height:34px;border-radius:50%;background:var(--rl);border:1px solid var(--rb);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-trending-up" style="font-size:18px;color:var(--r2)"></i></div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:500">Passer au coaching complet</div><div style="font-size:11px;color:var(--txm);margin-top:2px">Programme & diète sur mesure avec Antoine.</div></div>
+        <i class="ti ti-chevron-right" style="font-size:16px;color:var(--txm)"></i>
+      </div>
+    </div>
+
+    <!-- ══ PROGRAMME ══ -->
+    <div class="scr" id="sc-prog">
+      <div class="sec" style="margin-bottom:10px">Choisis ton programme</div>
+
+      <!-- Sélection -->
+      <div id="plan-sel-view">
+        <!-- Full Body -->
+        <div class="plan-card" id="pcard-fb" onclick="selectPlan('fb')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div><div style="font-size:13px;font-weight:500">Full Body</div><div style="font-size:10px;color:var(--txm);margin-top:2px">1–2 séances / semaine · Débutant</div></div>
+            <span class="pill p-gr" id="pbadge-fb">Inclus</span>
+          </div>
+          <!-- Silhouette full body : tout en doré -->
+          <div class="muscle-diag-wrap">
+            <svg viewBox="0 0 100 120">
+              <ellipse cx="50" cy="14" rx="12" ry="12" fill="rgba(255,215,0,0.55)" stroke="rgba(255,215,0,0.8)" stroke-width="0.8"/>
+              <rect x="32" y="28" width="36" height="34" rx="7" fill="rgba(255,215,0,0.55)" stroke="rgba(255,215,0,0.8)" stroke-width="0.8"/>
+              <rect x="13" y="30" width="17" height="28" rx="6" fill="rgba(255,215,0,0.5)" stroke="rgba(255,215,0,0.7)" stroke-width="0.8"/>
+              <rect x="70" y="30" width="17" height="28" rx="6" fill="rgba(255,215,0,0.5)" stroke="rgba(255,215,0,0.7)" stroke-width="0.8"/>
+              <rect x="14" y="59" width="14" height="20" rx="5" fill="rgba(255,215,0,0.35)"/>
+              <rect x="72" y="59" width="14" height="20" rx="5" fill="rgba(255,215,0,0.35)"/>
+              <rect x="34" y="64" width="14" height="36" rx="6" fill="rgba(255,215,0,0.5)" stroke="rgba(255,215,0,0.7)" stroke-width="0.8"/>
+              <rect x="52" y="64" width="14" height="36" rx="6" fill="rgba(255,215,0,0.5)" stroke="rgba(255,215,0,0.7)" stroke-width="0.8"/>
+              <text x="50" y="115" text-anchor="middle" font-size="9" fill="rgba(255,215,0,0.7)" font-family="DM Sans,sans-serif">Corps entier</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Push Pull Leg -->
+        <div class="plan-card" id="pcard-ppl" onclick="selectPlan('ppl')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div><div style="font-size:13px;font-weight:500">Push · Pull · Leg</div><div style="font-size:10px;color:var(--txm);margin-top:2px">3 séances / semaine · Intermédiaire</div></div>
+            <span class="pill p-gr" id="pbadge-ppl">Inclus</span>
+          </div>
+          <div class="muscle-diag-wrap" style="gap:10px">
+            <!-- 3 silhouettes côte à côte : push=bleu, pull=orange, leg=rouge -->
+            <svg viewBox="0 0 300 110" style="width:280px;height:90px">
+              <!-- PUSH -->
+              <ellipse cx="50" cy="13" rx="11" ry="11" fill="rgba(255,255,255,0.1)"/>
+              <rect x="33" y="26" width="34" height="32" rx="6" fill="rgba(0,191,255,0.6)" stroke="rgba(0,191,255,0.9)" stroke-width="0.7"/>
+              <rect x="14" y="28" width="17" height="26" rx="5" fill="rgba(0,191,255,0.5)"/>
+              <rect x="69" y="28" width="17" height="26" rx="5" fill="rgba(0,191,255,0.45)"/>
+              <rect x="35" y="60" width="12" height="34" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="53" y="60" width="12" height="34" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <text x="50" y="103" text-anchor="middle" font-size="9" fill="rgba(0,191,255,0.8)" font-family="DM Sans,sans-serif">Push</text>
+              <!-- PULL -->
+              <ellipse cx="150" cy="13" rx="11" ry="11" fill="rgba(255,255,255,0.1)"/>
+              <rect x="133" y="26" width="34" height="32" rx="6" fill="rgba(255,140,0,0.6)" stroke="rgba(255,140,0,0.9)" stroke-width="0.7"/>
+              <rect x="114" y="28" width="17" height="26" rx="5" fill="rgba(255,140,0,0.55)"/>
+              <rect x="169" y="28" width="17" height="26" rx="5" fill="rgba(255,140,0,0.55)"/>
+              <rect x="135" y="60" width="12" height="34" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="153" y="60" width="12" height="34" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <text x="150" y="103" text-anchor="middle" font-size="9" fill="rgba(255,140,0,0.9)" font-family="DM Sans,sans-serif">Pull</text>
+              <!-- LEG -->
+              <ellipse cx="250" cy="13" rx="11" ry="11" fill="rgba(255,255,255,0.1)"/>
+              <rect x="233" y="26" width="34" height="32" rx="6" fill="rgba(255,255,255,0.07)"/>
+              <rect x="214" y="28" width="17" height="26" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="269" y="28" width="17" height="26" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="235" y="60" width="12" height="34" rx="5" fill="rgba(76,175,122,0.6)" stroke="rgba(76,175,122,0.9)" stroke-width="0.7"/>
+              <rect x="253" y="60" width="12" height="34" rx="5" fill="rgba(76,175,122,0.6)" stroke="rgba(76,175,122,0.9)" stroke-width="0.7"/>
+              <text x="250" y="103" text-anchor="middle" font-size="9" fill="rgba(76,175,122,0.9)" font-family="DM Sans,sans-serif">Leg</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Upper Lower -->
+        <div class="plan-card sel" id="pcard-ul" onclick="selectPlan('ul')">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div><div style="font-size:13px;font-weight:500">Upper / Lower</div><div style="font-size:10px;color:var(--txm);margin-top:2px">4 séances / semaine · 2× Upper + 2× Lower</div></div>
+            <span class="pill p-go" id="pbadge-ul">Actif</span>
+          </div>
+          <div class="muscle-diag-wrap" style="gap:16px">
+            <svg viewBox="0 0 200 110" style="width:200px;height:90px">
+              <!-- UPPER = bleu haut -->
+              <ellipse cx="50" cy="13" rx="11" ry="11" fill="rgba(255,255,255,0.15)"/>
+              <rect x="33" y="26" width="34" height="32" rx="6" fill="rgba(0,191,255,0.6)" stroke="rgba(0,191,255,0.9)" stroke-width="0.7"/>
+              <rect x="14" y="28" width="17" height="26" rx="5" fill="rgba(0,191,255,0.5)"/>
+              <rect x="69" y="28" width="17" height="26" rx="5" fill="rgba(0,191,255,0.5)"/>
+              <rect x="16" y="55" width="13" height="20" rx="4" fill="rgba(0,191,255,0.3)"/>
+              <rect x="71" y="55" width="13" height="20" rx="4" fill="rgba(0,191,255,0.3)"/>
+              <rect x="35" y="60" width="12" height="34" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="53" y="60" width="12" height="34" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <text x="50" y="103" text-anchor="middle" font-size="9" fill="rgba(0,191,255,0.9)" font-family="DM Sans,sans-serif">Upper</text>
+              <!-- LOWER = rouge bas -->
+              <ellipse cx="150" cy="13" rx="11" ry="11" fill="rgba(255,255,255,0.07)"/>
+              <rect x="133" y="26" width="34" height="32" rx="6" fill="rgba(255,255,255,0.07)"/>
+              <rect x="114" y="28" width="17" height="26" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="169" y="28" width="17" height="26" rx="5" fill="rgba(255,255,255,0.07)"/>
+              <rect x="135" y="58" width="12" height="38" rx="5" fill="rgba(139,0,0,0.65)" stroke="rgba(200,0,0,0.8)" stroke-width="0.7"/>
+              <rect x="153" y="58" width="12" height="38" rx="5" fill="rgba(139,0,0,0.65)" stroke="rgba(200,0,0,0.8)" stroke-width="0.7"/>
+              <rect x="135" y="55" width="30" height="10" rx="4" fill="rgba(139,0,0,0.4)"/>
+              <text x="150" y="103" text-anchor="middle" font-size="9" fill="rgba(200,50,50,0.9)" font-family="DM Sans,sans-serif">Lower</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ PROGRAMME SÉANCE ══ -->
+    <div class="scr" id="sc-prog-seances">
+      <!-- Retour + titre -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <button onclick="goTab(null,'sc-prog')" style="width:32px;height:32px;border-radius:50%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><i class="ti ti-arrow-left" style="font-size:14px;color:var(--txm)"></i></button>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px" id="seance-title">Séance</div>
+      </div>
+      <!-- Chrono en haut -->
+      <div class="timer-wrap" style="margin-bottom:12px">
+        <div class="timer-toggle">
+          <button class="tt-btn on" id="tt-up" onclick="setTimerMode('up')">⏱ Chrono</button>
+          <button class="tt-btn" id="tt-down" onclick="setTimerMode('down')">⏳ Timer</button>
+        </div>
+        <div id="timer-input-row" style="display:none;margin-bottom:12px;">
+          <div class="timer-input-row">
+            <input type="number" id="timer-min" placeholder="3" min="0" max="99" class="timer-inp">
+            <span style="font-size:22px;font-weight:600;color:var(--txm)">:</span>
+            <input type="number" id="timer-sec" placeholder="00" min="0" max="59" class="timer-inp">
+            <button onclick="setTimerFromInput()" style="padding:7px 14px;background:rgba(255,215,0,0.1);border:0.5px solid rgba(255,215,0,0.3);border-radius:8px;font-size:11px;color:var(--gold);font-family:inherit;cursor:pointer;font-weight:500;">OK</button>
+          </div>
+        </div>
+        <div id="ch-t" class="timer-display" style="color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,0.8),0 0 40px rgba(255,215,0,0.3);">00:00</div>
+        <div class="timer-btns">
+          <button id="ch-btn" class="timer-btn-main" onclick="chToggle()">
+            <i class="ti ti-player-play" style="font-size:15px" id="ch-icon"></i>
+            <span id="ch-label">Démarrer</span>
+          </button>
+          <button class="timer-btn-reset" onclick="chReset()">
+            <i class="ti ti-refresh" style="font-size:13px"></i>Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Diagramme muscle -->
+      <div id="seance-diag" style="display:flex;flex-direction:column;align-items:center;margin-bottom:10px"></div>
+      <!-- Onglets jours -->
+      <div class="day-tabs" id="day-tabs-seance"></div>
+      <!-- Contenu séance -->
+      <div id="seance-exos"></div>
+      <!-- Bouton valider -->
+      <button style="width:100%;background:var(--r);color:#fff;border:none;border-radius:9px;padding:11px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px" onclick="validSeanceCh()"><i class="ti ti-device-floppy" style="font-size:14px"></i>Enregistrer la séance</button>
+    </div>
+
+    <!-- ══ DIET ══ -->
+    <div class="scr" id="sc-alim">
+      <div class="sec" style="margin-bottom:8px">Suivi quotidien</div>
+      <div class="card">
+        <div class="hydro-row"><div class="hydro-lbl"><i class="ti ti-droplet" style="font-size:14px;color:var(--b)"></i>Eau (verres 25cl)</div><div class="hctrl"><button class="hbtn" onclick="adjH('w',-1)">−</button><span class="hval" id="hv-w">6</span><button class="hbtn" onclick="adjH('w',1)">+</button><span style="font-size:10px;color:var(--txm)">/<span style="color:var(--b)"> 8</span></span></div></div>
+        <div class="hydro-row"><div class="hydro-lbl"><i class="ti ti-moon" style="font-size:14px;color:var(--r2)"></i>Sommeil (h)</div><div class="hctrl"><button class="hbtn" onclick="adjH('s',-1)">−</button><span class="hval" id="hv-s">7</span><button class="hbtn" onclick="adjH('s',1)">+</button><span style="font-size:10px;color:var(--txm)">/<span style="color:var(--r2)"> 8</span></span></div></div>
+        <div class="hydro-row"><div class="hydro-lbl"><i class="ti ti-shoe" style="font-size:14px;color:var(--gr)"></i>Pas</div><div class="hctrl"><button class="hbtn" onclick="adjH('p',-500)">−</button><span class="hval" id="hv-p" style="min-width:46px;font-size:11px">8 500</span><button class="hbtn" onclick="adjH('p',500)">+</button><span style="font-size:10px;color:var(--txm)">/<span style="color:var(--gr)"> 10k</span></span></div></div>
+      </div>
+      <div class="sec" style="margin-bottom:8px">Diète & nutrition</div>
+            <div class="suivi-block">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div>
+            <div style="font-size:13px;font-weight:500">Régularité</div>
+            <div style="font-size:10px;color:var(--txm);margin-top:1px">Suivi sur les derniers jours</div>
+          </div>
+          <i class="ti ti-chart-bar" style="font-size:18px;color:var(--txm)"></i>
+        </div>
+        <div class="suivi-graph-tabs">
+          <button class="sgt on" id="sgt-eau" onclick="setSuiviGraphMode('eau')"><i class="ti ti-droplet" style="font-size:11px"></i> Eau</button>
+          <button class="sgt" id="sgt-sommeil" onclick="setSuiviGraphMode('sommeil')"><i class="ti ti-moon" style="font-size:11px"></i> Sommeil</button>
+          <button class="sgt" id="sgt-pas" onclick="setSuiviGraphMode('pas')"><i class="ti ti-shoe" style="font-size:11px"></i> Pas</button>
+        </div>
+        <div id="suivi-graph-cont"></div>
+      </div>
+<div class="lock-wrap">
+        <div style="background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 13px;filter:blur(4px);pointer-events:none;user-select:none">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px"><span style="font-size:13px;font-weight:500">Plan nutritionnel personnalisé</span><span style="font-size:12px;color:var(--b)">2 450 kcal/j</span></div>
+          <div style="padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between"><span style="font-size:12px">Protéines</span><span style="font-size:13px;font-weight:500;color:var(--b)">200 g</span></div>
+          <div style="padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between"><span style="font-size:12px">Glucides</span><span style="font-size:13px;font-weight:500;color:var(--r2)">260 g</span></div>
+          <div style="padding:7px 0;display:flex;justify-content:space-between"><span style="font-size:12px">Lipides</span><span style="font-size:13px;font-weight:500;color:var(--or)">75 g</span></div>
+        </div>
+        <div class="lock-over" onclick="openModal('modal-upgrade')">
+          <div class="lo-ic"><i class="ti ti-lock" style="font-size:17px;color:var(--r2)"></i></div>
+          <div class="lo-title">Diète personnalisée par Antoine</div>
+          <div class="lo-sub">Votre option ne comprend pas cette fonctionnalité</div>
+          <button class="lo-cta"><i class="ti ti-arrow-up" style="font-size:11px"></i>Passer au coaching</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SUIVI ══ -->
+    <div class="scr" id="sc-suivi">
+      <div class="stabs">
+        <div class="stab on" onclick="goStab(this,'st-photos')">Photos</div>
+        <div class="stab" onclick="goStab(this,'st-mens')">Mensurations</div>
+        <div class="stab" onclick="goStab(this,'st-tech')">Technique</div>
+        <div class="stab" onclick="goStab(this,'st-msgs')">Messages</div>
+      </div>
+
+      <!-- PHOTOS -->
+      <div class="sscr on" id="st-photos">
+        <div class="section-label" style="margin-bottom:8px">Mes photos</div>
+        <div class="photo-grid" id="photo-grid-cont"></div>
+        <div class="comp-section">
+          <div class="comp-header">
+            <i class="ti ti-arrows-diff" style="font-size:13px;color:var(--txm)"></i>
+            <span class="comp-title">Comparatif avant / après</span>
+            <i class="ti ti-arrows-diff" style="font-size:13px;color:var(--txm)"></i>
+          </div>
+          <div class="comp-row">
+            <div class="comp-side">
+              <div class="comp-frame">
+                <i class="ti ti-user" style="font-size:28px;color:var(--txd)" id="comp-icon-a"></i>
+                <img id="comp-img-a" style="display:none">
+              </div>
+              <div class="comp-tag" id="ca-lbl">Avant</div>
+            </div>
+            <div class="comp-divider"></div>
+            <div class="comp-side">
+              <div class="comp-frame">
+                <i class="ti ti-user" style="font-size:28px;color:var(--txd)" id="comp-icon-b"></i>
+                <img id="comp-img-b" style="display:none">
+              </div>
+              <div class="comp-tag" id="cb-lbl">Après</div>
+            </div>
+          </div>
+          <div class="comp-hint">Sélectionne 2 photos pour les comparer</div>
+        </div>
+      </div>
+
+      <!-- MENSURATIONS -->
+      <div class="sscr" id="st-mens">
+        <div class="app-card" style="margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div>
+              <div class="section-label" style="margin-bottom:2px">Poids actuel</div>
+              <div style="font-size:26px;font-weight:600;line-height:1" id="ch-poids">—<span style="font-size:13px;font-weight:400;color:var(--txm);margin-left:2px">kg</span></div>
+            </div>
+            <div style="background:rgba(76,175,122,0.1);border:0.5px solid rgba(76,175,122,0.3);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--gr)">—</div>
+          </div>
+          <div class="section-label" style="margin-bottom:6px">Ajouter une pesée</div>
+          <div style="display:flex;gap:6px">
+            <input type="date" id="pesee-date" style="flex:1;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;">
+            <input type="number" id="pesee-val" placeholder="kg" step="0.1" style="width:68px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:8px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;text-align:center;">
+            <button onclick="addPeseeChall()" style="padding:8px 14px;background:var(--r);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;">+</button>
+          </div>
+          <div id="pesees-list" style="margin-top:10px"></div>
+        </div>
+        <div class="app-card">
+          <div class="section-label" style="margin-bottom:10px">Mensurations</div>
+          <div id="mens-inputs-chall"></div>
+          <button onclick="saveMensChall()" style="width:100%;margin-top:10px;background:var(--r);color:#fff;border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="ti ti-check" style="font-size:14px"></i>Enregistrer</button>
+        </div>
+        <div class="section-label" style="margin:14px 0 8px">Historique</div>
+        <div id="mens-hist-chall" class="app-card" style="min-height:60px"><div style="font-size:11px;color:var(--txd)">Aucune mesure</div></div>
+      </div>
+
+      <!-- TECHNIQUE -->
+      <div class="sscr" id="st-tech">
+        <div style="background:var(--bl);border:0.5px solid var(--bb);border-radius:14px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:13px;font-weight:500;color:var(--b);margin-bottom:4px;display:flex;align-items:center;gap:6px;"><i class="ti ti-video" style="font-size:15px"></i>Correction technique</div>
+          <div style="font-size:11px;color:var(--txm);line-height:1.5;">Décris un exercice sur lequel tu veux une correction.</div>
+        </div>
+        <div class="app-card">
+          <div style="margin-bottom:10px">
+            <div class="input-label">Exercice concerné</div>
+            <input id="correction-exo-c" placeholder="Ex : Squat barre" style="width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;">
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="input-label">Message</div>
+            <textarea id="correction-note-c" rows="3" placeholder="Décris ce qui te pose problème..." style="width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;resize:none;line-height:1.5;"></textarea>
+          </div>
+          <button onclick="demanderCorrectionC()" style="width:100%;background:var(--r);border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:600;color:#fff;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;"><i class="ti ti-send" style="font-size:15px"></i>Envoyer</button>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="sscr" id="st-msgs">
+        <div style="height:calc(100vh - 220px);min-height:300px;display:flex;flex-direction:column;background:var(--c1);border:0.5px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden">
+          <div id="msg-thread-c" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;">
+            <div style="text-align:center;font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txd);margin:4px 0">Aujourd'hui</div>
+            <div class="bubble coach">Bienvenue dans le Challenger !<div class="bubble-time">9h00</div></div>
+          </div>
+          <div style="padding:10px 12px;border-top:0.5px solid rgba(255,255,255,0.07);display:flex;gap:8px;align-items:center;background:var(--c1);">
+            <input id="msg-input-c" placeholder="Message..." style="flex:1;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:20px;padding:9px 14px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;" onkeydown="if(event.key==='Enter')envoyerMsgC()">
+            <button onclick="envoyerMsgC()" style="width:38px;height:38px;border-radius:50%;background:var(--r);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><i class="ti ti-send" style="font-size:15px;color:#fff"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scr" id="sc-defis">
+      <div style="font-size:10px;color:var(--txm);text-align:center;margin-bottom:10px" id="defi-date"></div>
+      <div style="background:var(--c1);border:0.5px solid rgba(255,215,0,0.2);border-radius:10px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:10px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);line-height:1" id="mini-lvl">4</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,215,0,0.5);margin-bottom:4px"><span id="mini-xp-cur">38 XP</span><span id="mini-xp-need">niv.5 : 45 XP</span></div>
+          <div style="height:7px;background:rgba(0,0,0,0.4);border-radius:20px;overflow:hidden"><div id="mini-bar" style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--r),var(--gold));width:48%;transition:width 0.5s"></div></div>
+        </div>
+        <div style="font-size:11px;color:var(--gold);font-weight:500">+<span id="xp-count">0</span> XP</div>
+      </div>
+      <div class="sec" style="margin-bottom:8px">Défis du jour — <span style="font-weight:500;color:var(--gold)" id="defis-done-count">0</span>/5</div>
+      <div id="defis-cont"></div>
+      <div class="sec" style="margin-top:4px;margin-bottom:8px">Bonus automatiques</div>
+      <div class="card" style="padding:10px 12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-barbell" style="font-size:14px;color:var(--txm)"></i>Séance validée</div><span id="b-seance" style="font-size:12px;font-weight:500;color:var(--txd)">0 XP</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-moon" style="font-size:14px;color:var(--r2)"></i>Sommeil <span id="b-sleep-d" style="font-size:10px;color:var(--txm);margin-left:3px">7h</span></div><span id="b-sleep" style="font-size:12px;font-weight:500;color:var(--gold)">+1 XP</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-shoe" style="font-size:14px;color:var(--gr)"></i>Pas <span id="b-steps-d" style="font-size:10px;color:var(--txm);margin-left:3px">8 500</span></div><span id="b-steps" style="font-size:12px;font-weight:500;color:var(--gold)">+2 XP</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0"><div style="display:flex;align-items:center;gap:7px;font-size:12px"><i class="ti ti-droplet" style="font-size:14px;color:var(--b)"></i>Eau <span id="b-water-d" style="font-size:10px;color:var(--txm);margin-left:3px">6 verres</span></div><span id="b-water" style="font-size:12px;font-weight:500;color:var(--txd)">0 XP</span></div>
+      </div>
+    </div>
+
+  </div><!-- /scroll -->
+
+  <!-- BNAV -->
+  <div class="bnav">
+    <div class="bn on" id="bn-home" onclick="goBn(this,'sc-home')"><i class="ti ti-home"></i><span>Accueil</span></div>
+    <div class="bn" id="bn-prog" onclick="goBn(this,'sc-prog')"><i class="ti ti-barbell"></i><span>Programme</span></div>
+    <div class="bn" id="bn-alim" onclick="goBn(this,'sc-alim')"><i class="ti ti-apple"></i><span>Diet</span></div>
+    <div class="bn" id="bn-suivi" onclick="goBn(this,'sc-suivi')"><i class="ti ti-photo"></i><span>Suivi</span></div>
+    <div class="bn" id="bn-defis" onclick="goBn(this,'sc-defis')"><i class="ti ti-bolt"></i><span>Défis</span></div>
+  </div>
+
+  <!-- XP POP -->
+  <div class="xp-pop" id="xp-pop"><div style="font-size:28px;font-weight:600;color:var(--gold)" id="xp-pop-val">+2</div><div style="font-size:10px;color:rgba(255,215,0,0.6);text-transform:uppercase;letter-spacing:1px">XP gagné !</div></div>
+
+  <!-- TOAST -->
+  <div class="toast-el" id="toast-el"><i class="ti ti-check" style="font-size:14px"></i><span id="toast-txt"></span></div>
+
+  <!-- ════ MODAL PROFIL ════ -->
+  <div class="modal-bg" id="modal-profil">
+    <div class="modal-sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:15px;font-weight:500">Mon profil</div>
+        <div style="width:26px;height:26px;background:var(--c2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="closeModal('modal-profil')"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:13px;margin-bottom:18px">
+        <div style="position:relative">
+          <div style="width:54px;height:54px;border-radius:50%;background:rgba(255,215,0,0.12);border:2px solid rgba(255,215,0,0.35);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--gold)">LM</div>
+          <div style="position:absolute;bottom:0;right:0;width:18px;height:18px;border-radius:50%;background:var(--b);display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-camera" style="font-size:10px;color:#000"></i></div>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:500">Lucas Martin</div>
+          <div style="font-size:10px;color:var(--gold);display:flex;align-items:center;gap:4px;margin-top:2px"><i class="ti ti-bolt" style="font-size:11px"></i>Challenger · Niv. 4</div>
+          <div style="font-size:10px;color:var(--txm);margin-top:2px">Membre depuis mars 2025</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px">
+        <div><label style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Prénom</label><input class="inp-s" style="margin:0" value="Lucas"></div>
+        <div><label style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Nom</label><input class="inp-s" style="margin:0" value="Martin"></div>
+        <div><label style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Email</label><input class="inp-s" style="margin:0" type="email" value="lucas@test.fr"></div>
+        <div><label style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Date de naissance</label><input class="inp-s" style="margin:0" type="date" value="1995-08-12"></div>
+        <div><label style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Téléphone</label><input class="inp-s" style="margin:0" value="06 12 34 56 78"></div>
+        <div><label style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Ville</label><input class="inp-s" style="margin:0" value="Lyon"></div>
+      </div>
+      <button style="width:100%;background:var(--r);color:#fff;border:none;border-radius:9px;padding:11px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px" onclick="closeModal('modal-profil');toast('Profil mis à jour')"><i class="ti ti-device-floppy" style="font-size:14px"></i>Enregistrer</button>
+      <div style="height:0.5px;background:rgba(255,255,255,0.07);margin:4px 0 12px"></div>
+
+      <!-- PARAMÈTRES dans modal profil -->
+      <div style="height:0.5px;background:rgba(255,255,255,0.07);margin:10px 0 14px"></div>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:10px">Apparence</div>
+
+      <!-- Thème -->
+      <div style="background:var(--c2);border-radius:10px;padding:11px 13px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:8px">Thème</div>
+        <div style="display:flex;gap:6px">
+          <button id="theme-dark-btn" onclick="applyTheme(true)" style="flex:1;padding:8px;border-radius:8px;font-size:11px;font-weight:500;font-family:inherit;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);background:var(--r);color:#fff;display:flex;align-items:center;justify-content:center;gap:5px">
+            <i class="ti ti-moon" style="font-size:13px"></i>Sombre
+          </button>
+          <button id="theme-light-btn" onclick="applyTheme(false)" style="flex:1;padding:8px;border-radius:8px;font-size:11px;font-weight:500;font-family:inherit;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:var(--txm);display:flex;align-items:center;justify-content:center;gap:5px">
+            <i class="ti ti-sun" style="font-size:13px"></i>Clair
+          </button>
+        </div>
+      </div>
+
+      <!-- Taille police -->
+      <div style="background:var(--c2);border-radius:10px;padding:11px 13px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:12px;font-weight:500">Taille du texte</div>
+          <div style="font-size:12px;font-weight:500;color:var(--b)" id="font-size-display">14px</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="changeFontSize(-1)" style="width:32px;height:32px;border-radius:50%;background:var(--c3);border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--tx);font-family:inherit">−</button>
+          <div style="flex:1;height:4px;background:var(--c3);border-radius:2px;position:relative">
+            <div id="font-bar" style="height:100%;border-radius:2px;background:var(--b);width:40%"></div>
+          </div>
+          <button onclick="changeFontSize(1)" style="width:32px;height:32px;border-radius:50%;background:var(--c3);border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--tx);font-family:inherit">+</button>
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:10px">Sécurité</div>
+      <div style="background:var(--c2);border-radius:10px;padding:11px 13px;margin-bottom:14px">
+        <div style="font-size:12px;font-weight:500;margin-bottom:8px">Modifier le mot de passe</div>
+        <input type="password" id="pwd-actuel" placeholder="Mot de passe actuel" style="width:100%;background:var(--c1);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;margin-bottom:6px;">
+        <input type="password" id="pwd-nouveau" placeholder="Nouveau mot de passe" style="width:100%;background:var(--c1);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;margin-bottom:8px;">
+        <button onclick="changerMdp()" style="width:100%;background:var(--bl);border:0.5px solid var(--bb);border-radius:8px;padding:9px;font-size:11px;font-weight:500;color:var(--b);font-family:inherit;cursor:pointer">Mettre à jour</button>
+      </div>
+
+      <button onclick="logout()" style="width:100%;background:transparent;border:0.5px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px;font-size:12px;font-weight:500;color:var(--txm);font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px"><i class="ti ti-logout" style="font-size:14px"></i>Se déconnecter</button>
+
+      <!-- PARAMÈTRES dans modal profil -->
+      <button onclick="logout()" style="width:100%;background:transparent;border:0.5px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px;font-size:12px;font-weight:500;color:var(--txm);font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px"><i class="ti ti-logout" style="font-size:14px"></i>Se déconnecter</button>
+      <button onclick="openModal('modal-resil');closeModal('modal-profil')" style="width:100%;background:transparent;border:0.5px solid rgba(255,100,100,0.3);border-radius:9px;padding:10px;font-size:12px;font-weight:500;color:#FF6B6B;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><i class="ti ti-circle-minus" style="font-size:14px"></i>Résilier mon abonnement Challenger</button>
+    </div>
+  </div>
+
+  <!-- ════ MODAL RÉSILIATION ════ -->
+  <div class="modal-bg" id="modal-resil">
+    <div class="modal-sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:15px;font-weight:500">Résilier l'abonnement</div>
+        <div style="width:26px;height:26px;background:var(--c2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="closeModal('modal-resil')"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+      </div>
+      <div style="background:var(--rl);border:0.5px solid var(--rb);border-radius:10px;padding:11px 13px;font-size:12px;color:var(--txm);margin-bottom:14px;line-height:1.6"><i class="ti ti-alert-triangle" style="font-size:14px;color:var(--r2);margin-right:5px"></i>Tu perdras l'accès à l'appli Challenger à la fin de ta période en cours.</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin-bottom:10px">Pourquoi veux-tu résilier ?</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px" id="resil-opts">
+        <div class="resil-opt" onclick="selResil(this)" style="padding:10px 12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;font-size:12px;cursor:pointer">💸 Le prix est trop élevé</div>
+        <div class="resil-opt" onclick="selResil(this)" style="padding:10px 12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;font-size:12px;cursor:pointer">🎯 Je vais prendre un coaching complet</div>
+        <div class="resil-opt" onclick="selResil(this)" style="padding:10px 12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;font-size:12px;cursor:pointer">⏱️ Je n'ai plus le temps</div>
+        <div class="resil-opt" onclick="selResil(this)" style="padding:10px 12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;font-size:12px;cursor:pointer">😕 L'app ne correspond pas à mes besoins</div>
+        <div class="resil-opt" onclick="selResil(this);document.getElementById('resil-autre').style.display='block'" style="padding:10px 12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;font-size:12px;cursor:pointer">✏️ Autre raison</div>
+      </div>
+      <div id="resil-autre" style="display:none;margin-bottom:12px"><textarea class="inp-s" rows="3" placeholder="Décris ta raison..." style="resize:none;line-height:1.5;margin:0"></textarea></div>
+      <button onclick="confirmResil()" style="width:100%;background:rgba(255,100,100,0.1);border:0.5px solid rgba(255,100,100,0.3);border-radius:9px;padding:12px;font-size:12px;font-weight:500;color:#FF6B6B;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><i class="ti ti-circle-minus" style="font-size:14px"></i>Résilier quand même</button>
+      <div style="margin-top:8px;font-size:10px;color:var(--txd);text-align:center">Accès maintenu jusqu'au 26 juin 2025</div>
+    </div>
+  </div>
+
+  <!-- ════ MODAL UPGRADE ════ -->
+  <div class="modal-bg" id="modal-upgrade">
+    <div class="modal-sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:15px;font-weight:500">Passer au coaching complet</div>
+        <div style="width:26px;height:26px;background:var(--c2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="closeModal('modal-upgrade')"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+      </div>
+      <div style="font-size:12px;color:var(--txm);margin-bottom:14px;line-height:1.5">Accède à un suivi personnalisé complet avec Antoine.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <div style="background:var(--c2);border-radius:10px;padding:11px 13px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-size:13px;font-weight:500">Coaching Présentiel</div><div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--b)">Sur devis</div></div><div style="font-size:11px;color:var(--txm)">Séances plateau · Programme · Nutrition · Bilan mensuel</div></div>
+        <div style="background:var(--bl);border:0.5px solid var(--bb);border-radius:10px;padding:11px 13px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-size:13px;font-weight:500;color:var(--b)">Coaching Distanciel</div><span class="pill" style="background:var(--b);color:#000;font-size:9px;font-weight:600">Populaire</span></div><div style="font-size:11px;color:var(--txm)">Appels vidéo · Programme sur mesure · Nutrition · Technique</div></div>
+      </div>
+      <button style="width:100%;background:var(--r);color:#fff;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px" onclick="closeModal('modal-upgrade');toast('Demande envoyée — Antoine vous répond sous 24h')"><i class="ti ti-send" style="font-size:14px"></i>Demander un coaching</button>
+    </div>
+  </div>
+
+  <!-- MODAL COMP MENS (date + muscle) -->
+  <div class="modal-bg" id="modal-comp-mens">
+    <div class="modal-sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:500" id="modal-comp-title">Sélectionner une date</div>
+        <div style="width:26px;height:26px;background:var(--c2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="closeModal('modal-comp-mens')"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+      </div>
+      <div id="modal-comp-body"></div>
+      <button style="width:100%;margin-top:12px;background:var(--r);color:#fff;border:none;border-radius:8px;padding:10px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer" onclick="confirmCompMens()">Confirmer</button>
+    </div>
+  </div>
+
+
+  <!-- MODAL AJOUT PHOTO -->
+  <div id="modal-photo" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.75);z-index:60;align-items:flex-end;justify-content:center;">
+    <div style="background:var(--c1);border-radius:20px 20px 0 0;padding:20px;width:100%;border-top:0.5px solid var(--rb);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:14px;font-weight:500">Ajouter une photo</div>
+        <div onclick="closePhotoModal()" style="width:26px;height:26px;background:var(--c2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-x" style="font-size:13px;color:var(--txm)"></i></div>
+      </div>
+      <button onclick="takePhoto()" style="width:100%;display:flex;align-items:center;gap:12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;font-family:inherit;">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--rl);border:1.5px solid var(--rb);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-camera" style="font-size:18px;color:var(--r2)"></i></div>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:500;color:var(--tx)">Prendre une photo</div><div style="font-size:11px;color:var(--txm);margin-top:2px">Utilise l'appareil photo</div></div>
+        <i class="ti ti-chevron-right" style="font-size:14px;color:var(--txd);margin-left:auto"></i>
+      </button>
+      <button onclick="importPhoto()" style="width:100%;display:flex;align-items:center;gap:12px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;cursor:pointer;font-family:inherit;">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--bl);border:1.5px solid var(--bb);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-photo-up" style="font-size:18px;color:var(--b)"></i></div>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:500;color:var(--tx)">Importer depuis la galerie</div><div style="font-size:11px;color:var(--txm);margin-top:2px">Choisir une photo existante</div></div>
+        <i class="ti ti-chevron-right" style="font-size:14px;color:var(--txd);margin-left:auto"></i>
+      </button>
+      <input type="file" id="photo-camera-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoFile(event)">
+      <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handlePhotoFile(event)">
+    </div>
+  </div>
+</div><!-- /phone -->
+
+<script>
+// ══ NAVIGATION ══
+function goTab(el,id){
+  document.querySelectorAll('.bnav .bn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.scroll .scr').forEach(s=>s.classList.remove('on'));
+  var sc=document.getElementById(id);if(sc)sc.classList.add('on');
+  var m={'sc-home':'bn-home','sc-prog':'bn-prog','sc-alim':'bn-alim','sc-suivi':'bn-suivi','sc-defis':'bn-defis','sc-prog-seances':'bn-prog'};
+  var bn=m[id];if(bn)document.getElementById(bn).classList.add('on');
+  updateAll();
+}
+function goBn(el,id){
+  document.querySelectorAll('.bnav .bn').forEach(b=>b.classList.remove('on'));
+  if(el)el.classList.add('on');
+  document.querySelectorAll('.scroll .scr').forEach(s=>s.classList.remove('on'));
+  var sc=document.getElementById(id);if(sc)sc.classList.add('on');
+  updateAll();
+}
+function goStab(el,id){
+  document.querySelectorAll('.stabs .stab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('.sscr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');
+}
+
+// ══ MODALS ══
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+['modal-profil','modal-resil','modal-upgrade','modal-comp-mens'].forEach(id=>{
+  var el=document.getElementById(id);
+  if(el)el.addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+
+// ══ TOAST ══
+function toast(msg){var t=document.getElementById('toast-el');document.getElementById('toast-txt').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ══ PROGRAMME ══
+var currentPlan='ul';
+var PLAN_DAYS={
+  ul:[
+    {id:'ua',lbl:'Jour A · Upper',diag:'upper',muscles:'Pecs · Épaules · Dos · Bras',col:'var(--b)',
+     exos:[{n:'Développé couché',d:'4 séries · 8–10 reps · Tempo 3-1-1',sets:4,pr:[9,8,8,7],pk:[72,72,70,68]},{n:'Tirage vertical prise large',d:'4 séries · 8–10 reps',sets:4,pr:[10,9,9,8],pk:[60,60,58,55]},{n:'Développé épaules haltères',d:'3 séries · 10–12 reps',sets:3,pr:[12,11,10],pk:[22,22,20]},{n:'Curl biceps barre',d:'3 séries · 12 reps',sets:3,pr:[12,12,10],pk:[30,30,28]},{n:'Extension triceps câble',d:'3 séries · 12 reps',sets:3,pr:[12,12,10],pk:[25,25,22]}]},
+    {id:'la',lbl:'Jour B · Lower',diag:'lower',muscles:'Quadriceps · Ischio · Fessiers · Mollets',col:'var(--r2)',
+     exos:[{n:'Squat barre',d:'4 séries · 8 reps · Tempo 3-1-1',sets:4,pr:[8,8,7,6],pk:[80,80,78,75]},{n:'Leg press',d:'3 séries · 12 reps',sets:3,pr:[12,12,10],pk:[120,120,110]},{n:'Leg curl couché',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[40,40,38]},{n:'Hip thrust haltère',d:'3 séries · 15 reps',sets:3,pr:[15,14,12],pk:[30,30,28]},{n:'Mollets debout',d:'4 séries · 20 reps',sets:4,pr:[20,18,18,15],pk:[50,50,48,45]}]},
+    {id:'ub',lbl:'Jour C · Upper',diag:'upper',muscles:'Dos · Biceps · Épaules',col:'var(--b)',
+     exos:[{n:'Développé incliné haltères',d:'4 séries · 10 reps',sets:4,pr:[10,10,9,8],pk:[28,28,26,24]},{n:'Rowing haltère',d:'4 séries · 10 reps',sets:4,pr:[10,10,9,8],pk:[36,36,34,32]},{n:'Élévations latérales',d:'3 séries · 15 reps',sets:3,pr:[15,14,12],pk:[10,10,8]},{n:'Curl marteau',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[18,18,16]},{n:'Dips corps',d:'3 séries · max reps',sets:3,pr:[12,10,8],pk:[0,0,0]}]},
+    {id:'lb',lbl:'Jour D · Lower',diag:'lower',muscles:'Ischio · Fessiers · Mollets · Abdos',col:'var(--r2)',
+     exos:[{n:'Soulevé de terre roumain',d:'4 séries · 10 reps',sets:4,pr:[10,10,9,8],pk:[75,75,72,70]},{n:'Fentes bulgares',d:'3 séries · 12 reps/jambe',sets:3,pr:[12,11,10],pk:[20,20,18]},{n:'Abducteurs',d:'3 séries · 20 reps',sets:3,pr:[20,18,15],pk:[35,35,30]},{n:'Crunch câble',d:'3 séries · 15 reps',sets:3,pr:[15,14,12],pk:[20,20,18]},{n:'Planche',d:'3 × 1 min',sets:3,pr:[60,55,50],pk:[0,0,0]}]}
+  ],
+  ppl:[
+    {id:'push',lbl:'Push',diag:'push',muscles:'Pectoraux · Épaules · Triceps',col:'var(--b)',
+     exos:[{n:'Développé couché',d:'4 séries · 8–10 reps',sets:4,pr:[9,8,8,7],pk:[72,72,70,68]},{n:'Développé incliné haltères',d:'3 séries · 12 reps',sets:3,pr:[11,10,9],pk:[26,26,24]},{n:'Développé militaire',d:'3 séries · 10 reps',sets:3,pr:[10,10,8],pk:[40,40,38]},{n:'Extension triceps câble',d:'3 séries · 15 reps',sets:3,pr:[15,14,12],pk:[25,25,22]}]},
+    {id:'pull',lbl:'Pull',diag:'pull',muscles:'Dos · Biceps',col:'rgba(255,140,0,0.9)',
+     exos:[{n:'Tractions',d:'4 séries · max reps',sets:4,pr:[10,8,8,6],pk:[0,0,0,0]},{n:'Rowing barre',d:'4 séries · 8 reps',sets:4,pr:[8,8,7,6],pk:[60,60,58,55]},{n:'Tirage serré',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[55,55,52]},{n:'Curl haltères',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[14,14,12]}]},
+    {id:'leg',lbl:'Leg',diag:'leg',muscles:'Quadriceps · Ischio · Fessiers',col:'var(--gr)',
+     exos:[{n:'Squat barre',d:'4 séries · 8 reps',sets:4,pr:[8,8,7,6],pk:[80,80,78,75]},{n:'Leg press',d:'3 séries · 12 reps',sets:3,pr:[12,12,10],pk:[120,120,110]},{n:'Leg curl',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[40,40,38]},{n:'Hip thrust',d:'3 séries · 15 reps',sets:3,pr:[15,14,12],pk:[30,30,28]}]}
+  ],
+  fb:[
+    {id:'fba',lbl:'Full Body A',diag:'fb',muscles:'Corps entier',col:'var(--gold)',
+     exos:[{n:'Squat barre',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[60,60,58]},{n:'Développé couché',d:'3 séries · 12 reps',sets:3,pr:[12,10,9],pk:[60,60,58]},{n:'Tirage vertical',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[55,55,52]},{n:'Fentes haltères',d:'3 séries · 12 reps',sets:3,pr:[12,10,10],pk:[18,18,16]},{n:'Planche',d:'3 × 45 sec',sets:3,pr:[45,40,35],pk:[0,0,0]}]},
+    {id:'fbb',lbl:'Full Body B',diag:'fb',muscles:'Corps entier',col:'var(--gold)',
+     exos:[{n:'Soulevé de terre roumain',d:'3 séries · 10 reps',sets:3,pr:[10,9,8],pk:[60,60,58]},{n:'Développé haltères',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[22,22,20]},{n:'Rowing haltère',d:'3 séries · 12 reps',sets:3,pr:[12,11,10],pk:[24,24,22]},{n:'Squat gobelet',d:'3 séries · 15 reps',sets:3,pr:[15,14,12],pk:[20,20,18]},{n:'Gainage latéral',d:'3 × 30 sec',sets:3,pr:[30,25,20],pk:[0,0,0]}]}
+  ]
+};
+var SVG_DIAG={
+  upper:`<svg viewBox="0 0 100 100" style="width:160px;height:120px"><ellipse cx="50" cy="12" rx="11" ry="11" fill="rgba(255,255,255,0.12)"/><rect x="32" y="25" width="36" height="32" rx="7" fill="rgba(0,191,255,0.55)" stroke="rgba(0,191,255,0.8)" stroke-width="0.7"/><rect x="13" y="27" width="17" height="28" rx="6" fill="rgba(0,191,255,0.5)"/><rect x="70" y="27" width="17" height="28" rx="6" fill="rgba(0,191,255,0.5)"/><rect x="15" y="56" width="13" height="18" rx="4" fill="rgba(0,191,255,0.3)"/><rect x="72" y="56" width="13" height="18" rx="4" fill="rgba(0,191,255,0.3)"/><rect x="34" y="59" width="13" height="32" rx="5" fill="rgba(255,255,255,0.06)"/><rect x="53" y="59" width="13" height="32" rx="5" fill="rgba(255,255,255,0.06)"/></svg>`,
+  lower:`<svg viewBox="0 0 100 100" style="width:160px;height:120px"><ellipse cx="50" cy="12" rx="11" ry="11" fill="rgba(255,255,255,0.07)"/><rect x="32" y="25" width="36" height="32" rx="7" fill="rgba(255,255,255,0.06)"/><rect x="13" y="27" width="17" height="28" rx="6" fill="rgba(255,255,255,0.06)"/><rect x="70" y="27" width="17" height="28" rx="6" fill="rgba(255,255,255,0.06)"/><rect x="34" y="57" width="30" height="9" rx="4" fill="rgba(139,0,0,0.4)"/><rect x="34" y="64" width="13" height="30" rx="5" fill="rgba(139,0,0,0.65)" stroke="rgba(200,0,0,0.8)" stroke-width="0.7"/><rect x="53" y="64" width="13" height="30" rx="5" fill="rgba(139,0,0,0.65)" stroke="rgba(200,0,0,0.8)" stroke-width="0.7"/></svg>`,
+  push:`<svg viewBox="0 0 100 100" style="width:160px;height:120px"><ellipse cx="50" cy="12" rx="11" ry="11" fill="rgba(255,255,255,0.1)"/><rect x="32" y="25" width="36" height="32" rx="7" fill="rgba(0,191,255,0.55)" stroke="rgba(0,191,255,0.8)" stroke-width="0.7"/><rect x="13" y="27" width="17" height="28" rx="6" fill="rgba(0,191,255,0.45)"/><rect x="70" y="27" width="17" height="28" rx="6" fill="rgba(0,191,255,0.45)"/><rect x="34" y="59" width="13" height="32" rx="5" fill="rgba(255,255,255,0.06)"/><rect x="53" y="59" width="13" height="32" rx="5" fill="rgba(255,255,255,0.06)"/></svg>`,
+  pull:`<svg viewBox="0 0 100 100" style="width:160px;height:120px"><ellipse cx="50" cy="12" rx="11" ry="11" fill="rgba(255,255,255,0.1)"/><rect x="32" y="25" width="36" height="32" rx="7" fill="rgba(255,140,0,0.55)" stroke="rgba(255,140,0,0.8)" stroke-width="0.7"/><rect x="13" y="27" width="17" height="28" rx="6" fill="rgba(255,140,0,0.5)"/><rect x="70" y="27" width="17" height="28" rx="6" fill="rgba(255,140,0,0.5)"/><rect x="34" y="59" width="13" height="32" rx="5" fill="rgba(255,255,255,0.06)"/><rect x="53" y="59" width="13" height="32" rx="5" fill="rgba(255,255,255,0.06)"/></svg>`,
+  leg:`<svg viewBox="0 0 100 100" style="width:160px;height:120px"><ellipse cx="50" cy="12" rx="11" ry="11" fill="rgba(255,255,255,0.06)"/><rect x="32" y="25" width="36" height="32" rx="7" fill="rgba(255,255,255,0.06)"/><rect x="13" y="27" width="17" height="28" rx="6" fill="rgba(255,255,255,0.06)"/><rect x="70" y="27" width="17" height="28" rx="6" fill="rgba(255,255,255,0.06)"/><rect x="34" y="59" width="13" height="32" rx="5" fill="rgba(76,175,122,0.6)" stroke="rgba(76,175,122,0.8)" stroke-width="0.7"/><rect x="53" y="59" width="13" height="32" rx="5" fill="rgba(76,175,122,0.6)" stroke="rgba(76,175,122,0.8)" stroke-width="0.7"/></svg>`,
+  fb:`<svg viewBox="0 0 100 100" style="width:160px;height:120px"><ellipse cx="50" cy="12" rx="11" ry="11" fill="rgba(255,215,0,0.5)"/><rect x="32" y="25" width="36" height="32" rx="7" fill="rgba(255,215,0,0.5)" stroke="rgba(255,215,0,0.8)" stroke-width="0.7"/><rect x="13" y="27" width="17" height="28" rx="6" fill="rgba(255,215,0,0.45)"/><rect x="70" y="27" width="17" height="28" rx="6" fill="rgba(255,215,0,0.45)"/><rect x="34" y="59" width="13" height="32" rx="5" fill="rgba(255,215,0,0.45)"/><rect x="53" y="59" width="13" height="32" rx="5" fill="rgba(255,215,0,0.45)"/></svg>`
+};
+
+var seriesDone={};
+function selectPlan(p){
+  currentPlan=p;
+  var all=['fb','ppl','ul'];
+  all.forEach(k=>{
+    document.getElementById('pcard-'+k).classList.toggle('sel',k===p);
+    var badge=document.getElementById('pbadge-'+k);
+    badge.className='pill '+(k===p?'p-go':'p-gr');
+    badge.textContent=k===p?'Actif':'Inclus';
+  });
+  buildDayTabs();toast('Programme '+(p==='fb'?'Full Body':p==='ppl'?'Push Pull Leg':'Upper/Lower')+' sélectionné');
+}
+
+function buildDayTabs(){
+  var days=PLAN_DAYS[currentPlan];
+  var tc=document.getElementById('day-tabs-cont');
+  tc.innerHTML=days.map((d,i)=>`<button class="dtab${i===0?' on':''}" onclick="selDay(this,'day-${d.id}')">${d.lbl}</button>`).join('');
+  // show/hide day screens
+  document.querySelectorAll('.day-scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById('day-'+days[0].id).classList.add('on');
+  // build each day
+  days.forEach(d=>{
+    var dc=document.getElementById('diag-'+d.id);
+    if(dc)dc.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;margin:10px 0 6px">${SVG_DIAG[d.diag]||''}<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:${d.col};margin-top:4px">${d.muscles}</div></div>`;
+    var ec=document.getElementById('exos-'+d.id);
+    if(ec)ec.innerHTML=d.exos.map((e,i)=>buildExoCard(d.id,i,e)).join('');
+  });
+}
+
+function selDay(el,dayId){
+  el.closest('.day-tabs').querySelectorAll('.dtab').forEach(b=>{b.classList.remove('on');b.style.background='transparent';b.style.borderColor='rgba(255,255,255,0.1)';b.style.color='var(--txm)';});
+  el.classList.add('on');el.style.background='var(--r)';el.style.borderColor='var(--r)';el.style.color='#fff';
+  document.querySelectorAll('.day-scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(dayId).classList.add('on');
+}
+
+function buildExoCard(dayId,i,e){
+  var uid=dayId+'-'+i;
+  var done=0;for(var s=0;s<e.sets;s++)if(seriesDone[uid+'-'+s])done++;
+  var done_all=done===e.sets;
+  return`<div class="exo-card${done_all?' open':''}" id="ec-${uid}">
+    <div onclick="toggleExo('${uid}')" style="display:flex;align-items:center;justify-content:space-between">
+      <div><div class="exo-nm">${e.n}</div><div class="exo-desc">${e.d}</div></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span id="badge-${uid}" class="pill" style="background:${done_all?'var(--succ)':'var(--c3)'};border:0.5px solid ${done_all?'var(--succb)':'var(--c4)'};color:${done_all?'var(--gr)':'var(--txm)'}">${done}/${e.sets}</span>
+        <i class="ti ti-chevron-down" style="font-size:13px;color:var(--txm);transition:transform 0.2s" id="chev-${uid}"></i>
+      </div>
+    </div>
+    <div class="exo-detail${done_all?' show':''}" id="det-${uid}">
+      <div style="display:grid;grid-template-columns:22px 1fr 1fr 22px;gap:5px;margin-bottom:3px">
+        <div></div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:var(--txm);text-align:center">Reps</div>
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:var(--txm);text-align:center">Kg</div><div></div>
+      </div>
+      ${Array.from({length:e.sets},(_,s)=>{
+        var ck=seriesDone[uid+'-'+s];
+        return`<div style="display:grid;grid-template-columns:22px 1fr 1fr 22px;gap:5px;align-items:start;padding:6px 0;border-top:0.5px solid rgba(255,255,255,0.05)">
+          <div style="width:20px;height:20px;border-radius:50%;background:${ck?'var(--succ)':'var(--c2)'};border:0.5px solid ${ck?'var(--succb)':'var(--c3)'};display:flex;align-items:center;justify-content:center;font-size:9px;color:${ck?'var(--gr)':'var(--txm)'};margin-top:3px">${s+1}</div>
+          <div><input class="sinp" type="number" placeholder="—" id="r-${uid}-${s}" value="${ck?ck.r:''}" oninput="autoV('${uid}',${s})" style="${ck?'border-color:var(--succb)':''}"><div class="sprev">préc. ${e.pr[s]}</div></div>
+          <div><input class="sinp" type="number" placeholder="—" id="k-${uid}-${s}" value="${ck?ck.k:''}" oninput="autoV('${uid}',${s})" style="${ck?'border-color:var(--succb)':''}"><div class="sprev">préc. ${e.pk[s]} kg</div></div>
+          <div onclick="togV('${uid}',${s},${i},'${dayId}')" style="width:22px;height:22px;border-radius:50%;border:0.5px solid ${ck?'var(--succb)':'rgba(255,255,255,0.15)'};background:${ck?'var(--succ)':'transparent'};display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:3px"><i class="ti ti-check" style="font-size:10px;color:${ck?'var(--gr)':'var(--txd)'}"></i></div>
+        </div>`;
+      }).join('')}
+      <textarea style="width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.07);border-radius:7px;padding:7px 9px;font-size:11px;color:var(--tx);font-family:inherit;outline:none;resize:none;margin-top:8px;" rows="2" placeholder="Note : sensation, douleur..."></textarea>
+    </div>
+  </div>`;
+}
+
+function toggleExo(uid){
+  var det=document.getElementById('det-'+uid);var chev=document.getElementById('chev-'+uid);
+  if(!det)return;det.classList.toggle('show');
+  if(chev)chev.style.transform=det.classList.contains('show')?'rotate(180deg)':'';
+}
+function autoV(uid,s){
+  var r=document.getElementById('r-'+uid+'-'+s);var k=document.getElementById('k-'+uid+'-'+s);
+  if(r&&k&&r.value&&k.value)setV(uid,s,true);
+}
+function togV(uid,s,ei,dayId){setV(uid,s,!seriesDone[uid+'-'+s],ei,dayId);}
+function setV(uid,s,v,ei,dayId){
+  var key=uid+'-'+s;
+  var r=document.getElementById('r-'+uid+'-'+s);var k=document.getElementById('k-'+uid+'-'+s);
+  if(v)seriesDone[key]={r:r?r.value:'',k:k?k.value:''};else delete seriesDone[key];
+  if(r)r.style.borderColor=v?'var(--succb)':'';
+  if(k)k.style.borderColor=v?'var(--succb)':'';
+  // update badge
+  if(dayId===undefined){var p=uid.split('-');dayId=p.slice(0,-2).join('-');ei=parseInt(p[p.length-2]);}
+  var days=PLAN_DAYS[currentPlan];var day=days.find(d=>d.id===dayId);if(!day)return;
+  var e=day.exos[ei];if(!e)return;
+  var done=0;for(var i=0;i<e.sets;i++)if(seriesDone[uid+'-'+i])done++;
+  var b=document.getElementById('badge-'+uid);
+  if(b){b.textContent=done+'/'+e.sets;b.style.background=done===e.sets?'var(--succ)':'var(--c3)';b.style.borderColor=done===e.sets?'var(--succb)':'var(--c4)';b.style.color=done===e.sets?'var(--gr)':'var(--txm)';}
+}
+function validSeance(){totalXP+=2;updateAll();toast('Séance enregistrée ! +2 XP');}
+
+// ══ CHRONO ══
+var chSec=0,chRun=false,chInt=null;
+function pad(n){return n<10?'0'+n:''+n;}
+
+var timerMode='up',timerTarget=0;
+
+function setTimerMode(mode){
+  timerMode=mode;
+  var bu=document.getElementById('tt-up');
+  var bd=document.getElementById('tt-down');
+  if(bu)bu.classList.toggle('on',mode==='up');
+  if(bd)bd.classList.toggle('on',mode==='down');
+  var row=document.getElementById('timer-input-row');
+  if(row)row.style.display=mode==='down'?'block':'none';
+  chReset();
+}
+
+function setTimerFromInput(){
+  var m=parseInt(document.getElementById('timer-min')?.value)||0;
+  var s=parseInt(document.getElementById('timer-sec')?.value)||0;
+  timerTarget=m*60+s;chSec=timerTarget;
+  var el=document.getElementById('ch-t');
+  if(el)el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+
+function chToggle(){if(chRun)chPause();else chStart();}
+function chStart(){
+  if(timerMode==='down'&&chSec===0&&timerTarget>0)chSec=timerTarget;
+  chRun=true;
+  var btn=document.getElementById('ch-btn');
+  var ic=document.getElementById('ch-icon');
+  var lb=document.getElementById('ch-label');
+  if(ic)ic.className='ti ti-player-pause';
+  if(lb)lb.textContent='Pause';
+  if(btn)btn.style.background='var(--r2)';
+  document.getElementById('ch-t').style.color=timerMode==='down'?'#FFD700':'var(--gold)';
+  chInt=setInterval(function(){
+    if(timerMode==='up'){chSec++;}
+    else{chSec--;if(chSec<=0){chSec=0;chPause();if(navigator.vibrate)navigator.vibrate([300,100,300]);toast('⏰ Timer terminé !');}}
+    var el=document.getElementById('ch-t');
+    if(el){
+      el.textContent=pad(Math.floor(Math.abs(chSec)/60))+':'+pad(Math.abs(chSec)%60);
+      if(timerMode==='down')el.style.color=chSec<=10?'#FF4444':'var(--gold)';
+    }
+  },1000);
+}
+function chPause(){
+  chRun=false;clearInterval(chInt);
+  var btn=document.getElementById('ch-btn');
+  var ic=document.getElementById('ch-icon');
+  var lb=document.getElementById('ch-label');
+  if(ic)ic.className='ti ti-player-play';
+  if(lb)lb.textContent='Démarrer';
+  if(btn)btn.style.background='var(--r)';
+}
+function chReset(){
+  chPause();
+  if(timerMode==='down'&&timerTarget>0){chSec=timerTarget;var m=Math.floor(timerTarget/60);var s=timerTarget%60;document.getElementById('ch-t').textContent=pad(m)+':'+pad(s);}
+  else{chSec=0;document.getElementById('ch-t').textContent='00:00';}
+  document.getElementById('ch-t').style.color='var(--gold)';
+}
+
+// ══ HYDRO / XP ══
+var water=6,sleep=7,steps=8500,totalXP=80;
+var defisChk={};var seanceDone=false;
+function adjH(t,n){
+  if(t==='w'){water=Math.max(0,Math.min(20,water+n));document.getElementById('hv-w').textContent=water;}
+  else if(t==='s'){sleep=Math.max(0,Math.min(12,sleep+n));document.getElementById('hv-s').textContent=sleep;}
+  else if(t==='p'){steps=Math.max(0,steps+n);document.getElementById('hv-p').textContent=steps.toLocaleString('fr');}
+  applySuiviXP();
+  updateAll();
+}
+var _suiviXpPrev=0;
+function applySuiviXP(){
+  var newSuivi=xpS(sleep)+xpP(steps)+xpE(water);
+  var diff=newSuivi-_suiviXpPrev;
+  if(diff!==0){totalXP=Math.max(0,totalXP+diff);_suiviXpPrev=newSuivi;}
+}
+function xpS(h){return h<7?0:h<=8?1:2;}
+function xpP(s){return s<7500?0:s<10000?2:s<12000?3:s<20000?4:s<30000?5:6;}
+function xpE(v){return v<=6?0:v<=11?1:3;}
+function getLvl(xp){var l=1,c=0;while(true){var n=l*5+5;if(c+n>xp)return{lvl:l,xpIn:xp-c,need:n};c+=n;l++;}}
+function showPop(txt){var p=document.getElementById('xp-pop');document.getElementById('xp-pop-val').textContent=txt;p.classList.add('show');setTimeout(()=>p.classList.remove('show'),1200);}
+function setXpV(id,v){var el=document.getElementById(id);if(!el)return;el.textContent=(v>0?'+':'')+v+' XP';el.style.color=v>0?'var(--gold)':'var(--txd)';}
+function showLevelUpChallenger(newLvl){
+  var phone=document.querySelector('.phone');
+  if(!phone) return;
+  var pw=phone.offsetWidth||390, ph=phone.offsetHeight||720;
+  var overlay=document.createElement('div');
+  overlay.style.cssText='position:absolute;inset:0;z-index:300;pointer-events:none;overflow:hidden;';
+  var bg=document.createElement('div');
+  bg.style.cssText='position:absolute;inset:0;background:rgba(0,0,0,0.82);';
+  overlay.appendChild(bg);
+  var canvas=document.createElement('canvas');
+  canvas.width=pw;canvas.height=ph;
+  canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;';
+  overlay.appendChild(canvas);
+  var txt=document.createElement('div');
+  txt.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;';
+  txt.innerHTML='<div style="font-size:18px;letter-spacing:4px;color:rgba(255,215,0,0.7);margin-bottom:8px;text-shadow:0 0 20px rgba(255,215,0,0.5);font-family:\'Bebas Neue\',sans-serif">NIVEAU ATTEINT</div>'
+    +'<div style="font-size:80px;letter-spacing:2px;color:#FFD700;text-shadow:0 0 30px rgba(255,215,0,1),0 0 60px rgba(255,215,0,0.6);line-height:1;font-family:\'Bebas Neue\',sans-serif">'+newLvl+'</div>'
+    +'<div style="font-size:16px;letter-spacing:3px;color:rgba(255,215,0,0.8);margin-top:6px;text-shadow:0 0 15px rgba(255,215,0,0.6);font-family:\'Bebas Neue\',sans-serif">FÉLICITATIONS !</div>';
+  overlay.appendChild(txt);
+  phone.appendChild(overlay);
+
+  var ctx=canvas.getContext('2d');
+  var particles=[];
+  var colors=['#FFD700','#00BFFF','#4CAF7A','#FF4444','#FF9500','#FF00FF','#00FFFF','#ffffff'];
+  var cx=pw/2, cy=ph/2;
+  for(var i=0;i<120;i++){
+    var angle=Math.random()*Math.PI*2;
+    var speed=2+Math.random()*6;
+    particles.push({
+      x:cx,y:cy,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed-2,
+      size:2+Math.random()*5,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      alpha:1, gravity:0.15, decay:0.012+Math.random()*0.008
+    });
+  }
+  var startTime=Date.now();
+  var animId;
+  function animate(){
+    var elapsed=Date.now()-startTime;
+    if(elapsed>2800){
+      cancelAnimationFrame(animId);
+      if(overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      return;
+    }
+    ctx.clearRect(0,0,pw,ph);
+    for(var j=0;j<particles.length;j++){
+      var p=particles[j];
+      if(p.alpha<=0) continue;
+      p.x+=p.vx; p.y+=p.vy; p.vy+=p.gravity; p.vx*=0.99; p.alpha-=p.decay;
+      ctx.save();
+      ctx.globalAlpha=Math.max(0,p.alpha);
+      ctx.shadowBlur=p.size*3; ctx.shadowColor=p.color; ctx.fillStyle=p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+    animId=requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+var lastLvl=null;
+function updateAll(){
+  var bs=xpS(sleep),bp=xpP(steps),bw=xpE(water);
+  var done=Object.keys(defisChk).filter(k=>defisChk[k]).length;
+  var todayXP=done*2+(done===5?10:0)+bs+bp+bw;
+  var info=getLvl(totalXP);var pct=Math.round(info.xpIn/info.need*100);
+  if(lastLvl!==null && info.lvl>lastLvl){ showLevelUpChallenger(info.lvl); }
+  lastLvl=info.lvl;
+  document.getElementById('lh-num').textContent=info.lvl;
+  document.getElementById('xp-fill').style.width=pct+'%';
+  document.getElementById('xp-cur').textContent=info.xpIn+' XP';
+  document.getElementById('xp-need').textContent='niv.'+(info.lvl+1)+' : '+info.need+' XP';
+  document.getElementById('xp-today').textContent=todayXP;
+  document.getElementById('home-xp').textContent=totalXP;
+  document.getElementById('mini-lvl').textContent=info.lvl;
+  document.getElementById('mini-xp-cur').textContent=info.xpIn+' XP';
+  document.getElementById('mini-xp-need').textContent='niv.'+(info.lvl+1)+' : '+info.need+' XP';
+  document.getElementById('mini-bar').style.width=pct+'%';
+  document.getElementById('xp-count').textContent=todayXP;
+  document.getElementById('home-defis').innerHTML=done+'<span style="font-size:12px;color:var(--txm)">/5</span>';
+  document.getElementById('defis-done-count').textContent=done;
+  document.getElementById('b-sleep-d').textContent=sleep+'h';
+  document.getElementById('b-steps-d').textContent=steps.toLocaleString('fr');
+  document.getElementById('b-water-d').textContent=water+' verres';
+  setXpV('b-seance',seanceDone?2:0);setXpV('b-sleep',bs);setXpV('b-steps',bp);setXpV('b-water',bw);
+}
+
+// ══ DÉFIS ══
+var DEFIS=[{id:1,i:'🔥',nm:'20 burpees',ds:"D'une traite"},{id:2,i:'🏃',nm:'1 km de course',ds:'Extérieur ou tapis'},{id:3,i:'💪',nm:'100 pompes',ds:'En plusieurs fois'},{id:4,i:'🦵',nm:'50 squats',ds:'Sans charge'},{id:5,i:'🧱',nm:'5 min de gainage',ds:'Planche ou variantes'},{id:6,i:'🙌',nm:'30 tractions',ds:'En plusieurs séries'},{id:7,i:'👟',nm:'2 km marche rapide',ds:'Marche active'},{id:8,i:'⚡',nm:'200 sauts corde',ds:'Jumping jacks'},{id:9,i:'🔄',nm:'Mobilité 10 min',ds:'Hanches, épaules'},{id:10,i:'🚀',nm:'Sprint 10×50m',ds:'1 min récup'},{id:11,i:'💺',nm:'3 séries dips max',ds:'2 min repos'},{id:12,i:'🎯',nm:'Circuit abdos 15 min',ds:'Crunch, relevé, gainage'}];
+var todayDefis=[];var lastDate='';
+function pickDefis(){var d=new Date();var ds=d.toDateString();if(ds===lastDate)return;lastDate=ds;var seed=d.getFullYear()*10000+d.getMonth()*100+d.getDate();var arr=DEFIS.slice();for(var i=arr.length-1;i>0;i--){seed=(seed*1664525+1013904223)&0xffffffff;var j=Math.abs(seed)%(i+1);[arr[i],arr[j]]=[arr[j],arr[i]];}todayDefis=arr.slice(0,5);defisChk={};}
+function renderDefis(){
+  pickDefis();
+  var cont=document.getElementById('defis-cont');if(!cont)return;
+  cont.innerHTML=todayDefis.map(d=>{var ck=defisChk[d.id];return`<div class="defi-card${ck?' done':''}" onclick="togDefi(${d.id})"><span class="defi-ico">${d.i}</span><div style="flex:1"><div class="defi-nm">${d.nm}</div><div class="defi-ds">${d.ds}</div></div><span class="defi-xp">+2 XP</span><div class="defi-chk${ck?' ok':''}"><i class="ti ti-check" style="font-size:10px;color:${ck?'var(--gr)':'var(--txd)'}"></i></div></div>`;}).join('');
+  var n=new Date();var jrs=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];var el=document.getElementById('defi-date');if(el)el.textContent=jrs[n.getDay()]+' '+n.getDate()+' '+mois[n.getMonth()]+' '+n.getFullYear();
+}
+function togDefi(id){var was=defisChk[id];defisChk[id]=!was;totalXP=Math.max(0,totalXP+(was?-2:2));if(!was)showPop('+2');var done=Object.keys(defisChk).filter(k=>defisChk[k]).length;if(!was&&done===5){totalXP+=10;showPop('+10 BONUS');}else if(was&&done===4)totalXP=Math.max(0,totalXP-10);renderDefis();updateAll();}
+
+// ══ PHOTOS ══
+
+// ── PHOTOS ──
+var photosData = [
+  {id:1, lbl:'Début', date:'01 mars 2025', src:null},
+  {id:2, lbl:'Mois 2', date:'01 avril 2025', src:null},
+  {id:3, lbl:'Mois 3', date:'01 mai 2025', src:null},
+];
+var photoSel = [];
+
+function renderPhotoGrid(){
+  var grid = document.getElementById('photo-grid-cont');
+  if(!grid) return;
+  var html = photosData.map(function(p){
+    var sel = photoSel.indexOf(p.id) > -1;
+    return '<div class="photo-slot'+(sel?' sel':'')+'" id="ph-'+p.id+'" onclick="selPhoto('+p.id+')" style="position:relative">'
+      + (p.src
+        ? '<img src="'+p.src+'" style="width:100%;height:100%;object-fit:cover;border-radius:9px">'
+        : '<i class="ti ti-user" style="font-size:20px;color:var(--txd)"></i>')
+      + '<div class="photo-lbl">'+p.lbl+'</div>'
+      + '<div class="photo-date">'+p.date+'</div>'
+      + (p.src ? '<button onclick="event.stopPropagation();deletePhoto('+p.id+')" style="position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-x" style="font-size:10px;color:#fff"></i></button>' : '')
+      + '</div>';
+  }).join('');
+  // Bouton ajouter
+  html += '<div class="photo-slot" onclick="openPhotoModal()" style="border:0.5px dashed rgba(255,255,255,0.15)">'
+    + '<i class="ti ti-plus" style="font-size:20px;color:var(--txd)"></i>'
+    + '<div class="photo-lbl">Ajouter</div>'
+    + '</div>';
+  grid.innerHTML = html;
+}
+
+function selPhoto(n){
+  var idx = photoSel.indexOf(n);
+  if(idx > -1){ photoSel.splice(idx, 1); }
+  else {
+    if(photoSel.length >= 2){ photoSel.shift(); }
+    photoSel.push(n);
+  }
+  renderPhotoGrid();
+  updateComparatif();
+}
+
+function deletePhoto(id){
+  var p = photosData.find(function(x){return x.id===id;});
+  if(p){ p.src = null; }
+  photoSel = photoSel.filter(function(x){return x!==id;});
+  renderPhotoGrid();
+  updateComparatif();
+}
+
+function openPhotoModal(){
+  var m = document.getElementById('modal-photo');
+  if(m) m.style.display = 'flex';
+}
+function closePhotoModal(){
+  var m = document.getElementById('modal-photo');
+  if(m) m.style.display = 'none';
+}
+
+function takePhoto(){
+  var input = document.getElementById('photo-camera-input');
+  if(input){ input.click(); }
+  closePhotoModal();
+}
+function importPhoto(){
+  var input = document.getElementById('photo-file-input');
+  if(input){ input.click(); }
+  closePhotoModal();
+}
+
+function handlePhotoFile(e){
+  var file = e.target.files && e.target.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    // Trouver le premier slot vide ou ajouter un nouveau
+    var empty = photosData.find(function(p){return !p.src;});
+    var mois = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+    var now = new Date();
+    var dateStr = now.getDate()+' '+mois[now.getMonth()]+' '+now.getFullYear();
+    if(empty){
+      empty.src = ev.target.result;
+      empty.date = dateStr;
+    } else {
+      photosData.push({id: photosData.length+1, lbl:'Photo '+(photosData.length+1), date:dateStr, src:ev.target.result});
+    }
+    renderPhotoGrid();
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function updateComparatif(){
+  var ca = document.getElementById('ca-lbl');
+  var cb = document.getElementById('cb-lbl');
+  var compA = document.getElementById('comp-img-a');
+  var compB = document.getElementById('comp-img-b');
+  if(!ca) return;
+  if(photoSel[0]){
+    var p = photosData.find(function(x){return x.id===photoSel[0];});
+    if(p && ca) ca.textContent = p.lbl;
+    if(p && p.src && compA){ compA.src=p.src; compA.style.display='block'; compA.previousElementSibling && (compA.previousElementSibling.style.display='none'); }
+  }
+  if(photoSel[1]){
+    var p2 = photosData.find(function(x){return x.id===photoSel[1];});
+    if(p2 && cb) cb.textContent = p2.lbl;
+    if(p2 && p2.src && compB){ compB.src=p2.src; compB.style.display='block'; compB.previousElementSibling && (compB.previousElementSibling.style.display='none'); }
+  }
+}
+
+// Init photos au chargement
+(function(){ renderPhotoGrid(); })();
+
+
+// ══ MENSURATIONS ══
+var MUSCLES_LIST=[{id:'tour_bras',lbl:'Tour de bras'},{id:'tour_epaules',lbl:'Tour d\'épaules'},{id:'tour_pecs',lbl:'Tour de poitrine'},{id:'tour_taille',lbl:'Tour de taille'},{id:'tour_hanches',lbl:'Tour de hanches'},{id:'tour_cuisse',lbl:'Tour de cuisse'},{id:'tour_mollet',lbl:'Tour de mollet'}];
+var mensData=[
+  {date:'2025-03-01',v:{tour_bras:34,tour_epaules:110,tour_pecs:95,tour_taille:82,tour_hanches:98,tour_cuisse:56,tour_mollet:36}},
+  {date:'2025-04-01',v:{tour_bras:35,tour_epaules:112,tour_pecs:96,tour_taille:80,tour_hanches:97,tour_cuisse:57,tour_mollet:36.5}},
+  {date:'2025-05-01',v:{tour_bras:36,tour_epaules:113,tour_pecs:97,tour_taille:78,tour_hanches:96,tour_cuisse:58,tour_mollet:37}},
+];
+var mensDateToday=(function(){var d=new Date();return d.toISOString().split('T')[0];})();
+document.getElementById('mens-date').value=mensDateToday;
+
+function renderMensInputs(){
+  var el=document.getElementById('mens-inputs-list');if(!el)return;
+  el.innerHTML=MUSCLES_LIST.map(m=>`<div class="mens-inp-row"><span class="mens-lbl">${m.lbl}</span><div class="mens-field"><input type="number" class="mens-in" id="mi-${m.id}" placeholder="—"><span class="mens-unit">cm</span></div></div>`).join('');
+}
+function saveMens(){
+  var date=document.getElementById('mens-date').value||mensDateToday;
+  var v={};MUSCLES_LIST.forEach(m=>{var inp=document.getElementById('mi-'+m.id);if(inp&&inp.value)v[m.id]=parseFloat(inp.value);});
+  if(Object.keys(v).length===0){toast('Remplis au moins une mesure');return;}
+  mensData.push({date,v});mensData.sort((a,b)=>a.date.localeCompare(b.date));
+  MUSCLES_LIST.forEach(m=>{var inp=document.getElementById('mi-'+m.id);if(inp)inp.value='';});
+  renderMensHistory();renderCmMuscleButtons();toast('Mensurations enregistrées');
+}
+function renderMensHistory(){
+  var el=document.getElementById('mens-hist');if(!el)return;
+  if(mensData.length===0){el.innerHTML='<div style="font-size:12px;color:var(--txm)">Aucune mesure enregistrée</div>';return;}
+  el.innerHTML=[...mensData].reverse().slice(0,5).map(e=>{
+    var d=new Date(e.date);var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+    var ds=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();
+    var preview=MUSCLES_LIST.filter(m=>e.v[m.id]).slice(0,3).map(m=>`<span style="font-size:10px;color:var(--txm)">${m.lbl.split(' ').pop()} : <span style="color:var(--tx)">${e.v[m.id]} cm</span></span>`).join(' · ');
+    return`<div style="padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)"><div style="font-size:11px;font-weight:500;margin-bottom:3px">${ds}</div><div style="display:flex;flex-wrap:wrap;gap:5px">${preview}</div></div>`;
+  }).join('')+'<div style="font-size:10px;color:var(--txd);text-align:center;margin-top:4px">${mensData.length} mesure(s) enregistrée(s)</div>';
+  el.innerHTML=[...mensData].reverse().slice(0,5).map(e=>{var d=new Date(e.date);var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];var ds=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();var preview=MUSCLES_LIST.filter(m=>e.v[m.id]).slice(0,3).map(m=>`<span style="font-size:10px;color:var(--txm)">${m.lbl.replace('Tour de ','')}: <b style="color:var(--tx)">${e.v[m.id]}</b></span>`).join(' · ');return`<div style="padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05);last-child:border-none"><div style="font-size:11px;font-weight:500;margin-bottom:3px">${ds}</div><div style="line-height:1.7">${preview}</div></div>`;}).join('')+`<div style="font-size:10px;color:var(--txd);text-align:center;padding-top:6px">${mensData.length} entrée(s) au total</div>`;
+}
+// COMP MENS
+var cmAvDate=null,cmApDate=null,cmWhich=null,cmMuscle=null;
+function openCompMens(which){
+  cmWhich=which;
+  document.getElementById('modal-comp-title').textContent=which==='av'?'Sélectionner la date Avant':'Sélectionner la date Après';
+  var body=document.getElementById('modal-comp-body');
+  body.innerHTML='<div style="display:flex;flex-direction:column;gap:5px">'+mensData.map(e=>{var d=new Date(e.date);var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];var ds=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();var sel=(which==='av'?cmAvDate:cmApDate)===e.date;return`<div onclick="pickCmDate('${e.date}',this)" style="padding:10px 12px;background:${sel?'var(--bl)':'var(--c2)'};border:0.5px solid ${sel?'var(--bb)':'rgba(255,255,255,0.07)'};border-radius:8px;cursor:pointer;font-size:12px;font-weight:${sel?'500':'400'}">${ds}</div>`;}).join('')+'</div>';
+  openModal('modal-comp-mens');
+}
+function pickCmDate(date,el){document.querySelectorAll('#modal-comp-body div div').forEach(d=>{d.style.background='var(--c2)';d.style.borderColor='rgba(255,255,255,0.07)';});if(el){el.style.background='var(--bl)';el.style.borderColor='var(--bb)';}if(cmWhich==='av')cmAvDate=date;else cmApDate=date;}
+function confirmCompMens(){
+  closeModal('modal-comp-mens');
+  var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  if(cmWhich==='av'&&cmAvDate){var d=new Date(cmAvDate);document.getElementById('cmav-lbl').textContent=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();document.getElementById('cmav').classList.add('sel');}
+  if(cmWhich==='ap'&&cmApDate){var d=new Date(cmApDate);document.getElementById('cmap-lbl').textContent=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();document.getElementById('cmap').classList.add('sel');}
+  if(cmAvDate&&cmApDate){document.getElementById('cm-muscle-sel').style.display='block';renderCmMuscleButtons();}
+}
+function renderCmMuscleButtons(){
+  var el=document.getElementById('cm-muscle-btns');if(!el)return;
+  el.innerHTML=MUSCLES_LIST.map(m=>`<button onclick="selectCmMuscle('${m.id}')" style="padding:4px 10px;border-radius:20px;font-size:10px;cursor:pointer;font-family:inherit;border:0.5px solid rgba(255,255,255,0.12);background:${cmMuscle===m.id?'var(--r)':'transparent'};color:${cmMuscle===m.id?'#fff':'var(--txm)'}">${m.lbl}</button>`).join('');
+}
+function selectCmMuscle(id){
+  cmMuscle=id;renderCmMuscleButtons();
+  var av=mensData.find(e=>e.date===cmAvDate);var ap=mensData.find(e=>e.date===cmApDate);
+  if(!av||!ap){document.getElementById('cm-result').style.display='none';return;}
+  var vAv=av.v[id]||0;var vAp=ap.v[id]||0;var delta=vAp-vAv;
+  var muscle=MUSCLES_LIST.find(m=>m.id===id);
+  var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  var dAv=new Date(cmAvDate);var dAp=new Date(cmApDate);
+  var color=delta>0?'var(--b)':delta<0?'var(--gr)':'var(--txm)';
+  var icon=delta>0?'ti-arrow-up':delta<0?'ti-arrow-down':'ti-minus';
+  // Petite silhouette musclée
+  var muscleSvgMap={tour_bras:'upper',tour_epaules:'upper',tour_pecs:'push',tour_taille:'fb',tour_hanches:'leg',tour_cuisse:'leg',tour_mollet:'leg'};
+  var svgKey=muscleSvgMap[id]||'fb';
+  var res=document.getElementById('cm-result');res.style.display='block';
+  res.innerHTML=`<div class="comp-mens-result">
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:10px">${muscle?muscle.lbl:id}</div>
+    <div style="display:flex;justify-content:center;margin-bottom:12px">${SVG_DIAG[svgKey]||''}</div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:12px">
+      <div style="text-align:center;background:var(--c2);border-radius:9px;padding:10px 8px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:var(--txm);margin-bottom:4px">${dAv.getDate()} ${mois[dAv.getMonth()]}</div><div style="font-size:22px;font-weight:500">${vAv}<span style="font-size:11px;color:var(--txm)"> cm</span></div></div>
+      <div style="text-align:center"><i class="ti ${icon}" style="font-size:20px;color:${color}"></i><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${color}">${delta>0?'+':''}${delta.toFixed(1)}</div><div style="font-size:10px;color:${color}">cm</div></div>
+      <div style="text-align:center;background:var(--c2);border-radius:9px;padding:10px 8px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:var(--txm);margin-bottom:4px">${dAp.getDate()} ${mois[dAp.getMonth()]}</div><div style="font-size:22px;font-weight:500">${vAp}<span style="font-size:11px;color:var(--txm)"> cm</span></div></div>
+    </div>
+    <div style="background:${delta>0?'var(--bl)':delta<0?'var(--succ)':'rgba(255,255,255,0.04)'};border:0.5px solid ${delta>0?'var(--bb)':delta<0?'var(--succb)':'rgba(255,255,255,0.1)'};border-radius:9px;padding:9px 12px;font-size:12px;text-align:center;color:${color}">${delta>0?'📈 +'+delta.toFixed(1)+' cm pris sur cette période':delta<0?'📉 '+Math.abs(delta).toFixed(1)+' cm perdu — belle progression !':'Aucune variation enregistrée'}</div>
+  </div>`;
+}
+
+// ══ PESÉES ══
+(function(){var d=new Date();var el=document.getElementById('pesee-date');if(el)el.value=d.toISOString().split('T')[0];})();
+function addPesee(){
+  var date=document.getElementById('pesee-date').value;var val=document.getElementById('pesee-val').value;
+  if(!date||!val){toast('Remplis la date et le poids');return;}
+  var d=new Date(date);var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  var ds=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();
+  var list=document.getElementById('pesees-list');
+  var row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)';
+  row.innerHTML='<span style="font-size:12px">'+ds+'</span><span style="font-size:13px;font-weight:500">'+parseFloat(val).toFixed(1)+' kg</span>';
+  list.insertBefore(row,list.firstChild);
+  document.getElementById('pesee-val').value='';
+  toast('Pesée enregistrée');
+}
+
+// ══ DÉCONNEXION ══
+function logout(){closeModal('modal-profil');window.location.href='ant_coach_hub.html';}
+
+
+// ── ÉCRAN SÉANCE CHALLENGER ──
+window.renderSeanceScreen = function(plan, dayId){
+  var days = PLAN_DAYS[plan];
+  var day = days.find(function(d){return d.id===dayId;}) || days[0];
+
+  // Titre
+  var titleEl = document.getElementById('seance-title');
+  if(titleEl) titleEl.textContent = day.lbl + ' — ' + day.muscles;
+
+  // Diagramme
+  var diagEl = document.getElementById('seance-diag');
+  if(diagEl){
+    diagEl.innerHTML = (SVG_DIAG[day.diag]||'') + '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.7px;color:'+day.col+';margin-top:4px">'+day.muscles+'</div>';
+  }
+
+  // Tabs jours
+  var tc = document.getElementById('day-tabs-seance');
+  if(tc){
+    tc.innerHTML = days.map(function(d){
+      var act = d.id===dayId;
+      return '<button class="dtab'+(act?' on':'')+'" data-plan="'+plan+'" data-day="'+d.id+'" style="'+(act?'background:var(--r);border-color:var(--r);color:#fff':'')+'">'+d.lbl+'</button>';
+    }).join('');
+    Array.from(tc.querySelectorAll('.dtab')).forEach(function(btn){
+      btn.addEventListener('click', function(){
+        renderSeanceScreen(this.getAttribute('data-plan'), this.getAttribute('data-day'));
+      });
+    });
+  }
+
+  // Exercices
+  var ec = document.getElementById('seance-exos');
+  if(ec){
+    ec.innerHTML = buildSeanceDayHTML(plan, dayId);
+    bindSeanceEvents();
+  }
+};
+
+function buildSeanceDayHTML(plan, dayId){
+  var days=PLAN_DAYS[plan];
+  var day=days.find(function(d){return d.id===dayId;});
+  if(!day)return '';
+  var html='';
+  day.exos.forEach(function(e,i){
+    var uid=dayId+'-'+i;
+    var done=0;for(var s2=0;s2<e.sets;s2++)if(seriesDone[uid+'-'+s2])done++;
+    var allDone=done===e.sets;
+    html+='<div class="exo-card'+(allDone?' open':'')+'" id="ec-'+uid+'">';
+    html+='<div class="exo-toggle" data-uid="'+uid+'" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">';
+    html+='<div><div class="exo-nm">'+e.n+'</div><div class="exo-desc">'+e.d+'</div></div>';
+    html+='<div style="display:flex;align-items:center;gap:6px">';
+    html+='<span id="badge-'+uid+'" class="pill" style="background:'+(allDone?'var(--succ)':'var(--c3)')+';border:0.5px solid '+(allDone?'var(--succb)':'var(--c4)')+';color:'+(allDone?'var(--gr)':'var(--txm)')+'">'+done+'/'+e.sets+'</span>';
+    html+='<i class="ti ti-chevron-down" style="font-size:13px;color:var(--txm)" id="chev-'+uid+'"></i>';
+    html+='</div></div>';
+    html+='<div class="exo-detail'+(allDone?' show':'')+'" id="det-'+uid+'">';
+    html+='<div style="display:grid;grid-template-columns:22px 1fr 1fr 22px;gap:5px;margin-bottom:3px">';
+    html+='<div></div><div style="font-size:9px;text-transform:uppercase;color:var(--txm);text-align:center">Reps</div>';
+    html+='<div style="font-size:9px;text-transform:uppercase;color:var(--txm);text-align:center">Kg</div><div></div></div>';
+    for(var s=0;s<e.sets;s++){
+      var ck=seriesDone[uid+'-'+s];
+      html+='<div style="display:grid;grid-template-columns:22px 1fr 1fr 22px;gap:5px;align-items:start;padding:6px 0;border-top:0.5px solid rgba(255,255,255,0.05)">';
+      html+='<div style="width:20px;height:20px;border-radius:50%;background:'+(ck?'var(--succ)':'var(--c2)')+';border:0.5px solid '+(ck?'var(--succb)':'var(--c3)')+';display:flex;align-items:center;justify-content:center;font-size:9px;color:'+(ck?'var(--gr)':'var(--txm)')+';margin-top:3px">'+(s+1)+'</div>';
+      html+='<div><input class="sinp" type="number" placeholder="\u2014" id="r-'+uid+'-'+s+'" value="'+(ck?ck.r:'')+'" data-uid="'+uid+'" data-s="'+s+'"><div class="sprev">pr\u00e9c. '+e.pr[s]+'</div></div>';
+      html+='<div><input class="sinp" type="number" placeholder="\u2014" id="k-'+uid+'-'+s+'" value="'+(ck?ck.k:'')+'" data-uid="'+uid+'" data-s="'+s+'"><div class="sprev">pr\u00e9c. '+e.pk[s]+' kg</div></div>';
+      html+='<div class="scheck-btn" data-uid="'+uid+'" data-s="'+s+'" data-i="'+i+'" data-day="'+dayId+'" style="width:22px;height:22px;border-radius:50%;border:0.5px solid '+(ck?'var(--succb)':'rgba(255,255,255,0.15)')+';background:'+(ck?'var(--succ)':'transparent')+';display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:3px"><i class="ti ti-check" style="font-size:10px;color:'+(ck?'var(--gr)':'var(--txd)')+'"></i></div>';
+      html+='</div>';
+    }
+    html+='</div></div>';
+  });
+  return html;
+}
+
+function bindSeanceEvents(){
+  var ec = document.getElementById('seance-exos');
+  if(!ec) return;
+  ec.querySelectorAll('.exo-toggle').forEach(function(el){
+    el.addEventListener('click', function(){ toggleExo(this.getAttribute('data-uid')); });
+  });
+  ec.querySelectorAll('.sinp').forEach(function(inp){
+    inp.addEventListener('input', function(){ autoV(this.getAttribute('data-uid'), parseInt(this.getAttribute('data-s'))); });
+  });
+  ec.querySelectorAll('.scheck-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      togV(this.getAttribute('data-uid'), parseInt(this.getAttribute('data-s')), parseInt(this.getAttribute('data-i')), this.getAttribute('data-day'));
+    });
+  });
+}
+
+window.validSeanceCh = function(){
+  totalXP+=2; updateAll(); toast('Séance enregistrée ! +2 XP');
+};
+
+// Modifier selectPlan pour ouvrir directement la séance
+window.selectPlan = function(p){
+  currentPlan=p;
+  renderSeanceScreen(p, PLAN_DAYS[p][0].id);
+  goTab(null,'sc-prog-seances');
+};
+
+
+// ══ THÈME + TAILLE POLICE ══
+var darkTheme = true;
+var fontSize = 14;
+
+function applyTheme(dark){
+  darkTheme = dark;
+  var r = document.documentElement.style;
+  if(dark){
+    r.setProperty('--bg','#0A0A0A');
+    r.setProperty('--c1','#141414');
+    r.setProperty('--c2','#1C1C1C');
+    r.setProperty('--c3','#242424');
+    r.setProperty('--tx','#F5F5F5');
+    r.setProperty('--txm','#888');
+    r.setProperty('--txd','#444');
+    r.setProperty('--r','#8B0000');
+    r.setProperty('--r2','#A50000');
+    r.setProperty('--rl','rgba(139,0,0,0.12)');
+    r.setProperty('--rb','rgba(139,0,0,0.28)');
+    r.setProperty('--b','#00BFFF');
+    r.setProperty('--bl','rgba(0,191,255,0.09)');
+    r.setProperty('--bb','rgba(0,191,255,0.28)');
+    r.setProperty('--gold','#FFD700');
+    r.setProperty('--gr','#4CAF7A');
+    r.setProperty('--or','#E8953A');
+    document.body.style.background = '#0A0A0A';
+  } else {
+    // MODE CLAIR — contrastes forts, accessible
+    r.setProperty('--bg','#F2F3F5');
+    r.setProperty('--c1','#FFFFFF');
+    r.setProperty('--c2','#E8EAED');
+    r.setProperty('--c3','#D8DADD');
+    r.setProperty('--tx','#111111');
+    r.setProperty('--txm','#444444');
+    r.setProperty('--txd','#888888');
+    r.setProperty('--r','#B00020');
+    r.setProperty('--r2','#C0002A');
+    r.setProperty('--rl','rgba(176,0,32,0.08)');
+    r.setProperty('--rb','rgba(176,0,32,0.25)');
+    r.setProperty('--b','#0077CC');
+    r.setProperty('--bl','rgba(0,119,204,0.08)');
+    r.setProperty('--bb','rgba(0,119,204,0.3)');
+    r.setProperty('--gold','#B8860B');
+    r.setProperty('--gr','#2E7D4F');
+    r.setProperty('--or','#C0620A');
+    document.body.style.background = '#F2F3F5';
+  }
+  // Update boutons thème
+  var btnD = document.getElementById('theme-dark-btn');
+  var btnL = document.getElementById('theme-light-btn');
+  if(btnD){ btnD.style.background=dark?'var(--r)':'transparent'; btnD.style.color=dark?'#fff':'var(--txm)'; btnD.style.border=dark?'none':'0.5px solid rgba(0,0,0,0.1)'; }
+  if(btnL){ btnL.style.background=!dark?'var(--r)':'transparent'; btnL.style.color=!dark?'#fff':'var(--txm)'; btnL.style.border=!dark?'none':'0.5px solid rgba(0,0,0,0.1)'; }
+}
+
+function applyFontSize(size){
+  fontSize = Math.min(20, Math.max(10, size));
+  // Appliquer font-size sur le phone entier via CSS custom property
+  var phone = document.querySelector('.phone') || document.body;
+  phone.style.setProperty('font-size', fontSize+'px', 'important');
+  // Forcer tous les éléments à hériter
+  var style = document.getElementById('dynamic-font-style');
+  if(!style){ style = document.createElement('style'); style.id='dynamic-font-style'; document.head.appendChild(style); }
+  style.textContent = '.scroll, .scroll * { font-size: inherit !important; }';
+  phone.style.fontSize = fontSize+'px';
+  // Update UI
+  var el = document.getElementById('font-size-display');
+  if(el) el.textContent = fontSize+'px';
+  var bar = document.getElementById('font-bar');
+  if(bar) bar.style.width = ((fontSize-10)/10*100)+'%';
+}
+
+function changeFontSize(delta){
+  var newSize = Math.min(20, Math.max(10, fontSize + delta));
+  applyFontSize(newSize);
+}
+
+function changerMdp(){
+  var actuel = document.getElementById('pwd-actuel')?.value?.trim();
+  var nouveau = document.getElementById('pwd-nouveau')?.value?.trim();
+  if(!actuel || !nouveau){
+    toast('Remplis les deux champs');
+    return;
+  }
+  if(nouveau.length < 6){
+    toast('Mot de passe trop court (min. 6 caractères)');
+    return;
+  }
+  // Appel Supabase updateUser
+  if(typeof supabase !== 'undefined'){
+    supabase.auth.updateUser({password: nouveau}).then(function(res){
+      if(res.error){ toast('Erreur : ' + res.error.message); }
+      else {
+        document.getElementById('pwd-actuel').value = '';
+        document.getElementById('pwd-nouveau').value = '';
+        toast('Mot de passe mis à jour ✓');
+      }
+    });
+  } else {
+    document.getElementById('pwd-actuel').value = '';
+    document.getElementById('pwd-nouveau').value = '';
+    toast('Mot de passe mis à jour ✓');
+  }
+}
+
+// Init params visuels
+(function(){
+  var bar = document.getElementById('font-bar');
+  if(bar) bar.style.width = ((fontSize-10)/10*100)+'%';
+  var el = document.getElementById('font-size-display');
+  if(el) el.textContent = fontSize+'px';
+})();
+
+
+// ══ PHOTOS ══
+var photosData=[
+  {id:1,lbl:'Face',src:null,date:null},
+  {id:2,lbl:'Profil',src:null,date:null},
+  {id:3,lbl:'Dos',src:null,date:null}
+];
+var photoSel=[];
+var photoCounter=3;
+
+function renderPhotoGrid(){
+  var grid=document.getElementById('photo-grid-cont');if(!grid)return;
+  var html='';
+  photosData.forEach(function(p){
+    var sel=photoSel.indexOf(p.id)>-1;
+    var selIdx=photoSel.indexOf(p.id);
+    html+='<div class="photo-slot'+(sel?' sel':'')+'" id="ph-'+p.id+'" onclick="selPhoto('+p.id+')">';
+    if(p.src){
+      html+='<img src="'+p.src+'">';
+      if(sel) html+='<div class="ph-sel-badge">'+(selIdx+1)+'</div>';
+      html+='<button class="ph-del" onclick="event.stopPropagation();deletePhoto('+p.id+')"><i class="ti ti-x" style="font-size:9px;color:#fff"></i></button>';
+    } else {
+      html+='<i class="ti ti-camera" style="font-size:18px;color:var(--txd)"></i>';
+    }
+    html+='<div class="ph-lbl">'+p.lbl+(p.date?' · '+p.date:'')+'</div></div>';
+  });
+  html+='<div class="photo-slot" onclick="openPhotoModalC()" style="border:0.5px dashed rgba(255,255,255,0.15)"><i class="ti ti-plus" style="font-size:20px;color:var(--txd)"></i><div class="ph-lbl">Ajouter</div></div>';
+  grid.innerHTML=html;
+  updateComparatif();
+}
+
+function selPhoto(id){
+  var idx=photoSel.indexOf(id);
+  if(idx>-1){photoSel.splice(idx,1);}
+  else{if(photoSel.length>=2)photoSel.shift();photoSel.push(id);}
+  renderPhotoGrid();
+  updateComparatif();
+}
+
+function deletePhoto(id){
+  var p=photosData.find(function(x){return x.id===id;});
+  if(p){p.src=null;p.date=null;}
+  photoSel=photoSel.filter(function(x){return x!==id;});
+  renderPhotoGrid();
+  updateComparatif();
+}
+
+function updateComparatif(){
+  function setComp(sel,imgId,iconId,lblId,fallback){
+    var imgEl=document.getElementById(imgId);
+    var iconEl=document.getElementById(iconId);
+    var lblEl=document.getElementById(lblId);
+    if(!sel){if(imgEl)imgEl.style.display='none';if(iconEl)iconEl.style.display='block';if(lblEl)lblEl.textContent=fallback;return;}
+    var p=photosData.find(function(x){return x.id===sel;});
+    if(!p)return;
+    if(lblEl)lblEl.textContent=p.lbl+(p.date?' · '+p.date:'');
+    if(p.src){if(imgEl){imgEl.src=p.src;imgEl.style.display='block';}if(iconEl)iconEl.style.display='none';}
+    else{if(imgEl)imgEl.style.display='none';if(iconEl)iconEl.style.display='block';}
+  }
+  setComp(photoSel[0],'comp-img-a','comp-icon-a','ca-lbl','Avant');
+  setComp(photoSel[1],'comp-img-b','comp-icon-b','cb-lbl','Après');
+}
+
+function openPhotoModalC(){var m=document.getElementById('modal-photo');if(m){m.style.display='flex';}else{document.getElementById('photo-file-input-c').click();}}
+function handlePhotoFileC(e){
+  var file=e.target.files&&e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var mois=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+    var now=new Date();
+    var dateStr=now.getDate()+' '+mois[now.getMonth()]+' '+now.getFullYear();
+    var empty=photosData.find(function(p){return !p.src;});
+    if(empty){empty.src=ev.target.result;empty.date=dateStr;}
+    else{photoCounter++;photosData.push({id:photoCounter,lbl:'Photo '+photoCounter,src:ev.target.result,date:dateStr});}
+    renderPhotoGrid();
+  };
+  reader.readAsDataURL(file);e.target.value='';
+}
+
+
+// ══ SUIVI QUOTIDIEN CHALLENGER — reset minuit + historique ══
+var SUIVI_HISTO=[];
+var suiviGraphMode='eau';
+
+function initSuiviChallenger(){
+  var today=new Date().toISOString().split('T')[0];
+  var savedDate=localStorage.getItem('chall_suivi_date');
+  if(savedDate && savedDate!==today){
+    var pEau=water||0;
+    var pSomm=sleep||0;
+    var pPas=steps||0;
+    if(pEau>0||pSomm>0||pPas>0){
+      try{var h=JSON.parse(localStorage.getItem('chall_suivi_histo')||'[]');h.unshift({date:savedDate,eau:pEau,sommeil:pSomm,pas:pPas});if(h.length>30)h.pop();localStorage.setItem('chall_suivi_histo',JSON.stringify(h));SUIVI_HISTO=h;}catch(e){}
+    }
+    water=0;sleep=0;steps=0;
+    document.getElementById('hv-w').textContent='0';
+    document.getElementById('hv-s').textContent='0';
+    document.getElementById('hv-p').textContent='0';
+    _suiviXpPrev=0;
+  }
+  localStorage.setItem('chall_suivi_date',today);
+  try{SUIVI_HISTO=JSON.parse(localStorage.getItem('chall_suivi_histo')||'[]');}catch(e){}
+  renderSuiviGraph();
+}
+
+function renderSuiviGraph(){
+  var cont=document.getElementById('suivi-graph-cont');if(!cont)return;
+  var data=SUIVI_HISTO.slice(0,14).reverse();
+  if(!data.length){
+    cont.innerHTML='<div class="graph-empty">Le graphe se remplira jour après jour 📈</div>';
+    return;
+  }
+  var key=suiviGraphMode;
+  var maxObj={eau:8,sommeil:8,pas:10000}[key]||10;
+  var colorCls={eau:'',sommeil:'gr',pas:'go'}[key]||'';
+  var unit={eau:'verres',sommeil:'h',pas:'pas'}[key]||'';
+  var icon={eau:'💧',sommeil:'😴',pas:'👟'}[key]||'';
+  var vals=data.map(function(d){return d[key]||0;});
+  var maxData=Math.max.apply(null,vals.concat([maxObj]))||1;
+  var avg=Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length*10)/10;
+  var pctAvg=Math.min(100,Math.round(avg/maxObj*100));
+  var bars=vals.map(function(v,i){
+    var h=Math.max(3,Math.round(v/maxData*68));
+    var atGoal=v>=maxObj;
+    var dd=new Date(data[i].date);
+    var tip=(dd.getDate())+'/'+(dd.getMonth()+1)+' : '+v+' '+unit;
+    return'<div class="gb'+(colorCls?' '+colorCls:'')+'" style="height:'+h+'px'+(atGoal?';opacity:1':';opacity:0.6')+'" title="'+tip+'"><div class="gb-line"></div></div>';
+  }).join('');
+  var n=data.length;
+  var idxs=[0,Math.floor(n/2),n-1].filter(function(x,i,a){return a.indexOf(x)===i;});
+  var lbls=idxs.map(function(i){var dd=new Date(data[i].date);return'<span>'+(dd.getDate())+'/'+(dd.getMonth()+1)+'</span>';}).join('');
+  cont.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+    +'<div style="font-size:11px;color:var(--txm)">Moy. <b style="color:var(--tx)">'+avg+' '+unit+'</b> / jour</div>'
+    +'<div style="font-size:11px;color:var(--txm)">Objectif <b style="color:var(--tx)">'+maxObj+' '+unit+'</b></div>'
+    +'</div>'
+    +'<div style="background:rgba(255,255,255,0.05);border-radius:4px;height:3px;margin-bottom:10px;overflow:hidden">'
+    +'<div style="height:100%;width:'+pctAvg+'%;background:var(--gr);border-radius:4px;transition:width 0.5s"></div>'
+    +'</div>'
+    +'<div class="graph-bars">'+bars+'</div>'
+    +'<div class="graph-axis">'+lbls+'</div>'
+    +'<div style="font-size:9px;color:var(--txd);text-align:center;margin-top:6px">'+icon+' '+n+' derniers jours enregistrés</div>';
+}
+
+function setSuiviGraphMode(mode){
+  suiviGraphMode=mode;
+  ['eau','sommeil','pas'].forEach(function(m){
+    var btn=document.getElementById('sgt-'+m);
+    if(btn)btn.classList.toggle('on',m===mode);
+  });
+  renderSuiviGraph();
+}
+
+
+function addPeseeChall(){
+  var date=document.getElementById('pesee-date')?.value;
+  var val=document.getElementById('pesee-val')?.value;
+  if(!date||!val){toast('Remplis date et poids');return;}
+  var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  var d=new Date(date);var ds=d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();
+  var list=document.getElementById('pesees-list');
+  if(list){var row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)';row.innerHTML='<span style="font-size:12px">'+ds+'</span><span style="font-size:13px;font-weight:600;color:var(--gr)">'+parseFloat(val).toFixed(1)+' kg</span>';list.insertBefore(row,list.firstChild);}
+  document.getElementById('pesee-val').value='';
+  toast('Pesée enregistrée ✓');
+}
+
+var MUSCLES_CHALL=[{id:'bras',lbl:'Bras'},{id:'taille',lbl:'Taille'},{id:'hanches',lbl:'Hanches'},{id:'cuisse',lbl:'Cuisse'}];
+function renderMensInputsChall(){
+  var el=document.getElementById('mens-inputs-chall');if(!el)return;
+  el.innerHTML=MUSCLES_CHALL.map(function(m){
+    return'<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">'
+      +'<span style="font-size:12px">'+m.lbl+'</span>'
+      +'<div style="display:flex;align-items:center;gap:5px"><input type="number" id="mc-'+m.id+'" style="width:62px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 7px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;text-align:center;" placeholder="—"><span style="font-size:10px;color:var(--txm)">cm</span></div></div>';
+  }).join('');
+}
+
+function saveMensChall(){
+  var vals={};MUSCLES_CHALL.forEach(function(m){var i=document.getElementById('mc-'+m.id);if(i&&i.value)vals[m.lbl]=parseFloat(i.value);});
+  if(!Object.keys(vals).length){toast('Remplis au moins une mesure');return;}
+  MUSCLES_CHALL.forEach(function(m){var i=document.getElementById('mc-'+m.id);if(i)i.value='';});
+  var hist=document.getElementById('mens-hist-chall');
+  if(hist){
+    var mois=['jan','fév','mar','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+    var now=new Date();var ds=now.getDate()+' '+mois[now.getMonth()]+' '+now.getFullYear();
+    var preview=Object.keys(vals).slice(0,3).map(function(k){return'<span style="font-size:10px;color:var(--txm)">'+k+':<b style="color:var(--tx)"> '+vals[k]+'</b></span>';}).join(' · ');
+    hist.innerHTML='<div style="padding:7px 0"><div style="font-size:11px;font-weight:500;margin-bottom:2px">'+ds+'</div><div>'+preview+'</div></div>'+hist.innerHTML;
+  }
+  toast('Mensurations enregistrées ✓');
+}
+
+function demanderCorrectionC(){
+  var exo=document.getElementById('correction-exo-c')?.value?.trim()||'';
+  if(!exo){toast('Indique un exercice');return;}
+  var ei=document.getElementById('correction-exo-c');var ni=document.getElementById('correction-note-c');
+  if(ei)ei.value='';if(ni)ni.value='';
+  toast('Demande envoyée ✓');
+}
+
+function envoyerMsgC(){
+  var inp=document.getElementById('msg-input-c');if(!inp||!inp.value.trim())return;
+  var thread=document.getElementById('msg-thread-c');if(!thread)return;
+  var msg=document.createElement('div');
+  var now=new Date();var h=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  msg.className='bubble me';msg.innerHTML=inp.value+'<div class="bubble-time">'+h+'</div>';
+  thread.appendChild(msg);thread.scrollTop=thread.scrollHeight;
+  inp.value='';
+}
+
+// ══ RÉSILIATION ══
+function selResil(el){document.querySelectorAll('.resil-opt').forEach(o=>{o.style.borderColor='rgba(255,255,255,0.08)';o.style.background='var(--c2)';});el.style.borderColor='var(--rb)';el.style.background='var(--rl)';}
+function confirmResil(){closeModal('modal-resil');toast('Résiliation confirmée — accès maintenu jusqu\'au 26 juin 2025');}
+
+// ══ INIT ══
+_suiviXpPrev=xpS(sleep)+xpP(steps)+xpE(water);
+initSuiviChallenger();
+renderPhotoGrid();
+renderDefis();renderMensInputs();renderMensHistory();renderMensInputsChall();buildDayTabs();updateAll();
+</script>
+</body>
+</html>
