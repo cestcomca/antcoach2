@@ -155,17 +155,119 @@ textarea.rem::placeholder{color:var(--txd);}
 .stab.on{color:var(--b);border-bottom-color:var(--b);}
 .sscr{display:none;}
 .sscr.on{display:block;}
-.photo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
-.photo-slot{aspect-ratio:1/1;background:var(--c2);border:0.5px solid rgba(255,255,255,0.07);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;transition:border-color 0.2s;overflow:hidden;position:relative;}
-.photo-slot.sel{border:2px solid var(--b);box-shadow:0 0 12px rgba(0,191,255,0.2);}
+/* ── GRILLE PHOTOS ── */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px;}
+.photo-slot{
+  aspect-ratio:3/4;
+  background:var(--c2);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
+  cursor:pointer;transition:all 0.2s;
+  overflow:hidden;position:relative;
+}
+.photo-slot:active{opacity:0.85;transform:scale(0.97);}
+.photo-slot.sel{border:2px solid var(--b);box-shadow:0 0 14px rgba(0,191,255,0.2);}
 .photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.photo-slot .ph-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);font-size:9px;text-transform:uppercase;letter-spacing:0.6px;color:#fff;text-align:center;padding:3px 4px;}
-.photo-slot .ph-sel-badge{position:absolute;top:4px;left:4px;width:18px;height:18px;border-radius:50%;background:var(--b);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
-.photo-slot .ph-del{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;}
-.comp-wrap{display:flex;gap:8px;margin-top:12px;}
-.comp-side{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.comp-frame{width:100%;aspect-ratio:3/4;background:var(--c2);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;}
-.comp-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px;}
+.photo-slot .ph-lbl{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(0,0,0,0.6);
+  font-size:8px;text-transform:uppercase;letter-spacing:0.5px;
+  color:rgba(255,255,255,0.9);text-align:center;padding:4px 3px;
+  backdrop-filter:blur(4px);
+}
+.photo-slot .ph-sel-badge{
+  position:absolute;top:5px;left:5px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#000;
+  box-shadow:0 0 8px rgba(0,191,255,0.2);
+}
+.photo-slot .ph-del{
+  position:absolute;top:5px;right:5px;
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(0,0,0,0.7);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:2;
+}
+/* ── COMPARATIF ── */
+.comp-section{
+  background:var(--c1);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:14px;
+  margin-top:4px;
+}
+.comp-header{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;margin-bottom:12px;
+}
+.comp-title{
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:1px;color:var(--txm);
+}
+.comp-row{display:flex;gap:10px;}
+.comp-side{flex:1;display:flex;flex-direction:column;gap:6px;}
+.comp-frame{
+  width:100%;aspect-ratio:2/3;
+  background:var(--c2);
+  border-radius:10px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  border:0.5px solid rgba(255,255,255,0.07);
+}
+.comp-frame img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+}
+.comp-tag{
+  background:rgba(0,191,255,0.08);
+  border:0.5px solid var(--b);
+  border-radius:20px;padding:4px 10px;
+  font-size:10px;font-weight:500;
+  color:var(--b);text-align:center;
+}
+.comp-lbl{font-size:10px;color:var(--txm);text-align:center;}
+/* ── GRAPHE SUIVI ── */
+.suivi-block{
+  background:var(--c1);
+  border:0.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:14px;
+  margin-top:12px;
+}
+.suivi-graph-tabs{display:flex;gap:5px;margin-bottom:12px;}
+.sgt{
+  flex:1;padding:7px 4px;border-radius:8px;
+  font-size:10px;font-weight:500;cursor:pointer;
+  border:0.5px solid rgba(255,255,255,0.1);
+  background:transparent;color:var(--txm);
+  font-family:inherit;text-align:center;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.sgt.on{background:var(--r);border-color:var(--r);color:#fff;}
+.graph-bars{display:flex;align-items:flex-end;gap:3px;height:72px;}
+.gb{
+  flex:1;border-radius:3px 3px 0 0;
+  background:linear-gradient(180deg,var(--b),rgba(0,191,255,0.15));
+  min-width:0;transition:height 0.4s cubic-bezier(.4,0,.2,1);
+  position:relative;cursor:default;
+}
+.gb.gr{background:linear-gradient(180deg,var(--r2),rgba(139,0,0,0.15));}
+.gb.go{background:linear-gradient(180deg,var(--or),rgba(232,149,58,0.15));}
+.gb-line{
+  position:absolute;bottom:0;left:0;right:0;
+  height:100%;border-radius:3px 3px 0 0;
+  opacity:0.3;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,0.15) 0px,rgba(255,255,255,0.15) 1px,transparent 1px,transparent 8px);
+}
+.graph-axis{display:flex;justify-content:space-between;margin-top:4px;}
+.graph-axis span{font-size:8px;color:var(--txd);}
+.graph-empty{
+  font-size:11px;color:var(--txd);
+  text-align:center;padding:20px 0;
+  font-style:italic;
+}
 .comp-lbl{font-size:10px;color:var(--txm);}
 .suivi-graph-tabs{display:flex;gap:5px;margin-bottom:10px;}
 .sgt{flex:1;padding:6px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid rgba(255,255,255,0.1);background:transparent;color:var(--txm);font-family:inherit;text-align:center;transition:all 0.2s;}
@@ -175,7 +277,7 @@ textarea.rem::placeholder{color:var(--txd);}
 .gb.gr{background:linear-gradient(180deg,var(--r),rgba(139,0,0,0.2));}
 .gb.go{background:linear-gradient(180deg,var(--or),rgba(232,149,58,0.2));}
 .graph-labels{display:flex;justify-content:space-between;font-size:8px;color:var(--txd);margin-bottom:8px;}
-.photo-slot.sel{border:1.5px solid var(--b);background:var(--bl);}
+
 .photo-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.6px;color:var(--txm);}
 .photo-date{font-size:9px;color:var(--txd);}
 .comp-slots{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
@@ -445,8 +547,14 @@ textarea.rem::placeholder{color:var(--txd);}
         <div class="macro-row"><div><div style="font-size:12px">Glucides</div><div class="macro-bar-mini"><div class="macro-fill" style="width:65%;background:var(--r2)"></div></div></div><div style="font-size:13px;font-weight:500;color:var(--r2)" id="diet-gluc">— g</div></div>
         <div class="macro-row"><div><div style="font-size:12px">Lipides</div><div class="macro-bar-mini"><div class="macro-fill" style="width:40%;background:var(--or)"></div></div></div><div style="font-size:13px;font-weight:500;color:var(--or)" id="diet-lip">— g</div></div>
       </div>
-      <div class="card" style="margin-bottom:10px">
-        <div class="sec" style="margin-bottom:8px">Historique &amp; régularité</div>
+      <div class="suivi-block">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div>
+            <div style="font-size:13px;font-weight:500">Régularité</div>
+            <div style="font-size:10px;color:var(--txm);margin-top:1px">Suivi sur les derniers jours</div>
+          </div>
+          <i class="ti ti-chart-bar" style="font-size:18px;color:var(--txm)"></i>
+        </div>
         <div class="suivi-graph-tabs">
           <button class="sgt on" id="sgt-eau" onclick="setSuiviGraphMode('eau')"><i class="ti ti-droplet" style="font-size:11px"></i> Eau</button>
           <button class="sgt" id="sgt-sommeil" onclick="setSuiviGraphMode('sommeil')"><i class="ti ti-moon" style="font-size:11px"></i> Sommeil</button>
@@ -465,34 +573,40 @@ textarea.rem::placeholder{color:var(--txd);}
         <div class="stab" onclick="goStab(this,'st-videos')">Technique</div>
         <div class="stab" onclick="goStab(this,'st-msgs')">Messages</div>
       </div>
-      <div class="sscr on" id="st-photos">
-        <div class="sec" style="margin-bottom:8px">Sélectionne deux photos pour comparer</div>
+            <div class="sscr on" id="st-photos">
+        <!-- Grille photos -->
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:8px">Mes photos</div>
         <div class="photo-grid" id="photo-grid-cont"></div>
-        <div class="comp-wrap" style="margin-top:10px">
-          <div class="comp-side">
-            <div class="comp-frame"><i class="ti ti-photo" style="font-size:24px;color:var(--txd)" id="comp-icon-a"></i><img id="comp-img-a" style="display:none"></div>
-            <div class="comp-lbl" id="ca-lbl">Avant</div>
-          </div>
-          <div class="comp-side">
-            <div class="comp-frame"><i class="ti ti-photo" style="font-size:24px;color:var(--txd)" id="comp-icon-b"></i><img id="comp-img-b" style="display:none"></div>
-            <div class="comp-lbl" id="cb-lbl">Après</div>
-          </div>
-        </div>
-      </div>
 
-      class="sscr" id="st-mens">
-        <div class="card" style="margin-bottom:10px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.6px;color:var(--txm);margin-bottom:3px">Poids actuel</div><div style="font-size:28px;font-weight:500" id="poids-actuel">— <span style="font-size:14px;font-weight:400;color:var(--txm)">kg</span></div></div><span style="background:rgba(76,175,122,0.1);border:0.5px solid rgba(76,175,122,0.3);border-radius:20px;padding:4px 9px;font-size:11px;color:var(--gr)" id="poids-vari">—</span></div>
-          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);margin:10px 0 7px">Ajouter une pesée</div>
-          <div style="display:flex;gap:6px;margin-bottom:10px"><input type="date" id="pesee-date-app" style="flex:1;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 9px;font-size:11px;color:var(--tx);font-family:inherit;outline:none;"><input type="number" id="pesee-val-app" placeholder="kg" step="0.1" style="width:68px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 9px;font-size:11px;color:var(--tx);font-family:inherit;outline:none;text-align:center;"><button onclick="addPeseeApp()" style="padding:7px 12px;background:var(--r);color:#fff;border:none;border-radius:8px;font-size:11px;font-family:inherit;cursor:pointer">+</button></div>
-          <div id="pesees-list-app"></div>
+        <!-- Comparatif -->
+        <div class="comp-section">
+          <div class="comp-header">
+            <i class="ti ti-arrows-diff" style="font-size:14px;color:var(--txm)"></i>
+            <span class="comp-title">Comparatif</span>
+            <i class="ti ti-arrows-diff" style="font-size:14px;color:var(--txm)"></i>
+          </div>
+          <div class="comp-row">
+            <div class="comp-side">
+              <div class="comp-frame">
+                <i class="ti ti-user" style="font-size:28px;color:var(--txd)" id="comp-icon-a"></i>
+                <img id="comp-img-a" style="display:none">
+              </div>
+              <div class="comp-tag" id="ca-lbl">Photo 1</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0 2px">
+              <div style="width:1px;height:100%;background:rgba(255,255,255,0.08)"></div>
+            </div>
+            <div class="comp-side">
+              <div class="comp-frame">
+                <i class="ti ti-user" style="font-size:28px;color:var(--txd)" id="comp-icon-b"></i>
+                <img id="comp-img-b" style="display:none">
+              </div>
+              <div class="comp-tag" id="cb-lbl">Photo 2</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--txd);text-align:center;margin-top:10px">Sélectionne 2 photos pour comparer</div>
         </div>
-        <div class="sec" style="margin-bottom:8px">Saisir mes mensurations</div>
-        <div class="card"><div style="margin-bottom:10px"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Date</label><input type="date" id="mens-date-app" style="width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--tx);font-family:inherit;outline:none;"></div><div id="mens-inputs-app"></div><button onclick="saveMensApp()" style="width:100%;margin-top:9px;background:var(--r);color:#fff;border:none;border-radius:8px;padding:10px;font-size:11px;font-weight:500;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px"><i class="ti ti-plus" style="font-size:13px"></i>Enregistrer</button></div>
-        <div class="sec" style="margin-bottom:8px">Historique</div>
-        <div id="mens-hist-app" class="card" style="padding:10px 12px"></div>
-      </div>
-      <div class="sscr" id="st-videos">
+<div class="sscr" id="st-videos">
         <div style="background:var(--bl);border:0.5px solid var(--bb);border-radius:12px;padding:14px;margin-bottom:12px;"><div style="font-size:12px;font-weight:500;color:var(--b);margin-bottom:4px;display:flex;align-items:center;gap:6px"><i class="ti ti-video" style="font-size:14px"></i>Correction technique</div><div style="font-size:11px;color:var(--txm);line-height:1.5">Décris un exercice sur lequel tu veux une correction.</div></div>
         <div class="card">
           <div style="margin-bottom:8px"><label style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--txm);display:block;margin-bottom:4px">Exercice concerné</label><input id="correction-exo" placeholder="Ex : Squat barre" style="width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 11px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;"></div>
@@ -868,25 +982,39 @@ function renderSuiviGraph(){
   var cont=document.getElementById('suivi-graph-cont');if(!cont)return;
   var data=SUIVI_HISTO.slice(0,14).reverse();
   if(!data.length){
-    cont.innerHTML='<div style="font-size:11px;color:var(--txd);text-align:center;padding:20px 0">Le graphe se remplira au fil des jours</div>';
+    cont.innerHTML='<div class="graph-empty">Le graphe se remplira jour après jour 📈</div>';
     return;
   }
   var key=suiviGraphMode;
   var maxObj={eau:8,sommeil:8,pas:10000}[key]||10;
   var colorCls={eau:'',sommeil:'gr',pas:'go'}[key]||'';
   var unit={eau:'verres',sommeil:'h',pas:'pas'}[key]||'';
+  var icon={eau:'💧',sommeil:'😴',pas:'👟'}[key]||'';
   var vals=data.map(function(d){return d[key]||0;});
   var maxData=Math.max.apply(null,vals.concat([maxObj]))||1;
-  var bars=vals.map(function(v){
-    var h=Math.max(4,Math.round(v/maxData*76));
-    return'<div class="gb'+(colorCls?' '+colorCls:'')+'" style="height:'+h+'px"></div>';
+  var avg=Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length*10)/10;
+  var pctAvg=Math.min(100,Math.round(avg/maxObj*100));
+  var bars=vals.map(function(v,i){
+    var h=Math.max(3,Math.round(v/maxData*68));
+    var atGoal=v>=maxObj;
+    var dd=new Date(data[i].date);
+    var tip=(dd.getDate())+'/'+(dd.getMonth()+1)+' : '+v+' '+unit;
+    return'<div class="gb'+(colorCls?' '+colorCls:'')+'" style="height:'+h+'px'+(atGoal?';opacity:1':';opacity:0.6')+'" title="'+tip+'"><div class="gb-line"></div></div>';
   }).join('');
   var n=data.length;
   var idxs=[0,Math.floor(n/2),n-1].filter(function(x,i,a){return a.indexOf(x)===i;});
   var lbls=idxs.map(function(i){var dd=new Date(data[i].date);return'<span>'+(dd.getDate())+'/'+(dd.getMonth()+1)+'</span>';}).join('');
-  cont.innerHTML='<div class="graph-bars">'+bars+'</div>'
-    +'<div class="graph-labels">'+lbls+'</div>'
-    +'<div style="font-size:10px;color:var(--txm);text-align:center">'+n+' jours — objectif '+maxObj+' '+unit+'/j</div>';
+  cont.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+    +'<div style="font-size:11px;color:var(--txm)">Moy. <b style="color:var(--tx)">'+avg+' '+unit+'</b> / jour</div>'
+    +'<div style="font-size:11px;color:var(--txm)">Objectif <b style="color:var(--tx)">'+maxObj+' '+unit+'</b></div>'
+    +'</div>'
+    +'<div style="background:rgba(255,255,255,0.05);border-radius:4px;height:3px;margin-bottom:10px;overflow:hidden">'
+    +'<div style="height:100%;width:'+pctAvg+'%;background:var(--gr);border-radius:4px;transition:width 0.5s"></div>'
+    +'</div>'
+    +'<div class="graph-bars">'+bars+'</div>'
+    +'<div class="graph-axis">'+lbls+'</div>'
+    +'<div style="font-size:9px;color:var(--txd);text-align:center;margin-top:6px">'+icon+' '+n+' derniers jours enregistrés</div>';
 }
 
 function setSuiviGraphMode(mode){
