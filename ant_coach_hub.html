@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ANT COACH — Connexion</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--r:#8B0000;--r2:#A50000;--rl:rgba(139,0,0,0.12);--rb:rgba(139,0,0,0.28);--b:#00BFFF;--bg:#0A0A0A;--c1:#141414;--c2:#1C1C1C;--tx:#F5F5F5;--txm:#888;--txd:#444;}
+html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.box{background:var(--c1);border:0.5px solid var(--rb);border-radius:18px;padding:32px;width:100%;max-width:400px;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--r2);text-align:center;margin-bottom:4px;}
+.sub{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txm);text-align:center;margin-bottom:28px;}
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--txm);margin-bottom:5px;}
+.field input{width:100%;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:9px;padding:11px 13px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;transition:border-color 0.2s;}
+.field input:focus{border-color:var(--b);}
+.field input::placeholder{color:var(--txd);}
+.btn{width:100%;background:var(--r);color:#fff;border:none;border-radius:9px;padding:13px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;}
+.btn:hover{opacity:0.88;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+.err{background:var(--rl);border:0.5px solid var(--rb);border-radius:8px;padding:9px 12px;font-size:12px;color:#FF6B6B;margin-top:10px;text-align:center;display:none;}
+.err.show{display:block;}
+.divider{height:0.5px;background:rgba(255,255,255,0.07);margin:18px 0;}
+.back{display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;color:var(--txm);text-decoration:none;}
+.back:hover{color:var(--tx);}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">ANT COACH</div>
+  <div class="sub">Personal Training</div>
+  <div class="field">
+    <label>Adresse e-mail</label>
+    <input type="email" id="email" placeholder="ton@email.com" autocomplete="email">
+  </div>
+  <div class="field">
+    <label>Mot de passe</label>
+    <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+  </div>
+  <button class="btn" id="login-btn" onclick="doLogin()">Se connecter →</button>
+  <div class="err" id="err-msg"></div>
+  <div class="divider"></div>
+  <a href="ant_coach_landing_final.html" class="back">
+    <i class="ti ti-arrow-left" style="font-size:13px"></i>Retour à l'accueil
+  </a>
+</div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+const sb = createClient(
+  'https://uumgpbruxsxskfrvjlzt.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bWdwYnJ1eHN4c2tmcnZqbHp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMjY3ODYsImV4cCI6MjA5NzgwMjc4Nn0.T7qiBNtmGPuKhjgd0LobYbbhRz0Yffm0iZ9A8Y4pPJw'
+)
+
+// Déconnexion forcée au chargement du hub
+// Quand on arrive sur cette page on veut TOUJOURS voir le formulaire
+await sb.auth.signOut()
+
+async function redirectByRole(user) {
+  const { data: p, error } = await sb
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  console.log('Profile:', p, 'Error:', error)
+
+  const role = p?.role || 'challenger'
+  console.log('Role détecté:', role)
+
+  const map = {
+    coach:               'ant_coach_dashboard_final.html',
+    coaching_presentiel: 'ant_coach_app_complete_final.html',
+    coaching_distanciel: 'ant_coach_app_complete_final.html',
+    challenger:          'ant_coach_app_challenger.html',
+  }
+  window.location.href = map[role] || 'ant_coach_app_challenger.html'
+}
+
+window.doLogin = async function() {
+  const email = document.getElementById('email').value.trim().toLowerCase()
+  const pwd   = document.getElementById('pwd').value
+  const err   = document.getElementById('err-msg')
+  const btn   = document.getElementById('login-btn')
+
+  err.classList.remove('show')
+
+  if (!email || !pwd) {
+    err.textContent = 'Remplis tous les champs.'
+    err.classList.add('show')
+    return
+  }
+
+  btn.disabled = true
+  btn.innerHTML = '<div class="spinner"></div> Connexion...'
+
+  try {
+    // 1. Connexion
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pwd })
+    if (error) throw error
+
+    console.log('Connecté:', data.user.id, data.user.email)
+
+    // 2. Redirection selon le rôle
+    await redirectByRole(data.user)
+
+  } catch(e) {
+    console.error('Erreur login:', e)
+    err.textContent = e.message.includes('Invalid')
+      ? 'Email ou mot de passe incorrect.'
+      : e.message
+    err.classList.add('show')
+    btn.disabled = false
+    btn.innerHTML = 'Se connecter →'
+  }
+}
+</script>
+</body>
+</html>
