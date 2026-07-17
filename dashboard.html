@@ -118,6 +118,7 @@
         <input type="number" id="prog-exo-charge" class="inp" placeholder="Charge (kg)" step="0.5" style="text-align:center">
         <input type="text" id="prog-exo-note" class="inp" placeholder="Note technique">
       </div>
+      <div style="margin-bottom:8px"><input type="text" id="prog-exo-photo" class="inp" placeholder="URL photo de l'exercice (optionnel)"></div>
       <button onclick="addExoToProg()" style="width:100%;padding:9px;background:var(--ant);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px"><i class="ti ti-plus" style="font-size:13px"></i>Ajouter l'exercice</button>
       <div style="font-size:10px;color:var(--txm);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">Exercices du jour</div>
       <div id="prog-exos-list" style="min-height:40px"></div>
@@ -173,9 +174,21 @@
 
     <!-- ═ NOTES ═ -->
     <div class="pscr" id="pt-notes">
-      <div style="font-size:13px;font-weight:500;margin-bottom:14px">Notes privées (visible par Antoine uniquement)</div>
-      <textarea id="notes-privees" class="inp" rows="6" placeholder="Notes sur le client, objectifs, comportement, points de vigilance..."></textarea>
-      <button onclick="sauverNotes()" style="width:100%;margin-top:10px;padding:10px;background:var(--c2);border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--tx);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer">Sauvegarder les notes</button>
+      <div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:14px;">Notes client</div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--txm);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Note de motivation</div>
+      <textarea id="notes-motivation" class="inp" rows="3" placeholder="Message de motivation, visible dans son app..."></textarea>
+
+      <div style="font-size:11px;font-weight:600;color:var(--txm);text-transform:uppercase;letter-spacing:0.6px;margin:12px 0 6px;">🏆 Victoires du mois</div>
+      <textarea id="victoires-input" class="inp" rows="3" placeholder="Une victoire par ligne..."></textarea>
+
+      <div style="font-size:11px;font-weight:600;color:var(--txm);text-transform:uppercase;letter-spacing:0.6px;margin:12px 0 6px;">⚠️ Points de vigilance</div>
+      <textarea id="vigilance-input" class="inp" rows="3" placeholder="Un point par ligne..."></textarea>
+
+      <div style="font-size:11px;font-weight:600;color:var(--txm);text-transform:uppercase;letter-spacing:0.6px;margin:12px 0 6px;">Notes privées</div>
+      <textarea id="notes-privees" class="inp" rows="3" placeholder="Notes internes, comportement..."></textarea>
+
+      <button onclick="sauverNotesPrivees()" style="width:100%;margin-top:14px;padding:11px;background:var(--r);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer">💾 Sauvegarder</button>
     </div>
 
   </div>
