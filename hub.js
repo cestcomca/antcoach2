@@ -37,7 +37,7 @@ async function redirectByRole(user) {
   var token = session ? session.access_token : ''
   var uid = session ? session.user.id : ''
   var dest = map[role] || 'challenger.html'
-  window.location.href = dest + '?t=' + encodeURIComponent(token) + '&u=' + encodeURIComponent(uid)
+  window.location.href = dest + '?t=' + encodeURIComponent(token) + '&u=' + encodeURIComponent(uid) + '&_=' + Date.now()
 }
 
 window.doLogin = async function() {
